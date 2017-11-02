@@ -20,7 +20,7 @@
   <string id="menuLocationDelete">Delete Location</string>
   <string id="menuLocationFromGPS">From GPS</string>
   <string id="titleLocationHeight">Height</string>
-  <string id="helpLocationHeight">Specify the height (in meters, Above Ground Level) at the location</string>
+  <string id="helpLocationHeight">Specify the observer's height (in meters, Above Ground Level) at the location</string>
   <!-- Menu (location edit) -->
   <string id="menuLocationName">Name</string>
   <string id="menuLocationLatitude">Latitude</string>

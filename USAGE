@@ -10,7 +10,7 @@ SunAlmanac displays sunrise/sunset data in multiple views, which you can
 browse through thanks to the SELECT button:
  - Sunrise/Sunset and Day Length (Diff.) view:
    time of sunrise and sunset, i.e. when the center of the solar disk
-   passes the horizon, taking into account atmoshepric refraction
+   passes the horizon, taking into account atmospheric refraction
    AND
    length of the day and difference with the previous day
  - Zenith (Altitude) and Azimuth (Sunrise/Sunset) view:
@@ -43,7 +43,7 @@ You may then specify the following settings:
  - Location -> Location Source:
    specify whether to use your current GPS position as location or a preset location
  - Location -> Height:
-   specify the height (in meters, Above Ground Level) at the location
+   specify the observer's height (in meters, Above Ground Level) at the location
  - Location -> Load/Edit/Save/Delete Location:
    load/edit/save/delete preset locations (among a 10 available memory slots)
  - Date/Time -> Date Source:
