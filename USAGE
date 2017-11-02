@@ -11,6 +11,7 @@ browse through thanks to the SELECT button:
  - Sunrise/Sunset and Day Length (Diff.) view:
    time of sunrise and sunset, i.e. when the center of the solar disk
    passes the horizon, taking into account atmospheric refraction
+   (aviation SR/SS)
    AND
    length of the day and difference with the previous day
  - Zenith (Altitude) and Azimuth (Sunrise/Sunset) view:
@@ -19,14 +20,15 @@ browse through thanks to the SELECT button:
    angular azimuth - corresponding to geographic bearing - where
    the center of solar disk passes the horizon
  - Civil Dawn/Dusk and Nautical Dawn/Dusk view:
-   time of civil dawn and dusk, i.e. when the center of the solar disk
-   is 6° below the horizon
+   time of civil dawn (start) and dusk (end), i.e. when the center of
+   the solar disk is 6° below the horizon
+   (aviation HRH*)
    AND
-   time of nautical dawn and dusk, i.e. when the center of the solar disk
-   is 12° below the horizon
+   time of nautical dawn (start) and dusk (end), i.e. when the center of
+   the solar disk is 12° below the horizon
  - Astronomical Dawn/Dusk and Ecliptic Longitude/Declination view:
-   time of astronomical dawn and dusk, i.e. when the center of the solar
-   disk is 18° below the horizon
+   time of astronomical dawn (start) and dusk (end), i.e. when the center
+   of the solar disk is 18° below the horizon
    AND
    ecliptic longitude and declination (at the time of zenith)
  - Location and Height view:
