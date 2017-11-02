@@ -1,0 +1,9 @@
+<!-- -*- mode:xml; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab: -->
+<properties>
+  <!-- User preferences -->
+  <property id="userLocationAuto" type="boolean">false</property>
+  <property id="userLocationHeight" type="float">0.0</property>
+  <property id="userDateAuto" type="boolean">true</property>
+  <property id="userTimeUTC" type="boolean">false</property>
+  <property id="userBackgroundColor" type="number">0</property>
+</properties>

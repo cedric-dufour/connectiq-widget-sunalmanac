@@ -1,0 +1,6 @@
+<!-- -*- mode:xml; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab: -->
+<menu id="menuSettingsDateTime" title="@Strings.menuSettingsDateTime">
+  <menu-item id="menuDateAuto">@Strings.titleDateAuto</menu-item>
+  <menu-item id="menuDatePreset">@Strings.titleDatePreset</menu-item>
+  <menu-item id="menuTimeUTC">@Strings.titleTimeUTC</menu-item>
+</menu>

@@ -1,0 +1,71 @@
+SunAlmanac (Garmin ConnectIQ) Widget
+====================================
+Usage instructions
+
+
+Global View
+-----------
+
+SunAlmanac displays sunrise/sunset data in multiple views, which you can
+browse through thanks to the SELECT button:
+ - Sunrise/Sunset and Day Length (Diff.) view:
+   time of sunrise and sunset, i.e. when the center of the solar disk
+   passes the horizon, taking into account atmoshepric refraction
+   AND
+   length of the day and difference with the previous day
+ - Zenith (Altitude) and Azimuth (Sunrise/Sunset) view:
+   time and angular altitude of the sun at its zenith position
+   AND
+   angular azimuth - corresponding to geographic bearing - where
+   the center of solar disk passes the horizon
+ - Civil Dawn/Dusk and Nautical Dawn/Dusk view:
+   time of civil dawn and dusk, i.e. when the center of the solar disk
+   is 6° below the horizon
+   AND
+   time of nautical dawn and dusk, i.e. when the center of the solar disk
+   is 12° below the horizon
+ - Astronomical Dawn/Dusk and Ecliptic Longitude/Declination view:
+   time of astronomical dawn and dusk, i.e. when the center of the solar
+   disk is 18° below the horizon
+   AND
+   ecliptic longitude and declination (at the time of zenith)
+ - Location and Height view:
+   name and geographical coordinates of the observer's location, along
+   its height (Above Ground Level)
+
+
+Settings
+--------
+
+Enter the Settings menu by pressing the MENU button (long-pressing the UP button).
+
+You may then specify the following settings:
+ - Location -> Location Source:
+   specify whether to use your current GPS position as location or a preset location
+ - Location -> Height:
+   specify the height (in meters, Above Ground Level) at the location
+ - Location -> Load/Edit/Save/Delete Location:
+   load/edit/save/delete preset locations (among a 10 available memory slots)
+ - Date/Time -> Date Source:
+   specify whether to use your current date or a preset date
+ - Date/Time -> Preset Date:
+   specify the preset date to use
+ - Date/Time -> Timezone
+   specify whether to display the Local Time (LT) or Universal Time Coordinates (UTC/Z)
+ - Background Color
+   specify the background color
+
+
+WARNING!!! GOTCHAS!!!
+---------------------
+
+The ConnectIQ framework contains a BUG that leads to ERRONEOUS Local Time (LT)
+data for a (preset) date that has a different Daylight Saving Time (DST) value
+as the current date. This does not affect Universal Time Coordinates (UTC/Z) data.
+
+Local Time (LT) data are ALWAYS in respect with your CURRENT location/timezone,
+NEVER the one of (preset) alternate location.
+
+Computing solar events data relies on approximations and choices of algorithms
+that may not be the same as other sources of such data. This may lead to
+differences of one to two minutes, depending on the sources.
