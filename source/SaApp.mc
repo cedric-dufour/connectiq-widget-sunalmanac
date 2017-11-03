@@ -65,6 +65,10 @@ class SaApp extends App.AppBase {
     // Application settings
     $.SA_Settings = new SaSettings();
 
+    // Almanac data
+    $.SA_Almanac_today = new SaAlmanac();
+    $.SA_Almanac_yesterday = new SaAlmanac();
+
     // UI update time
     self.oUpdateTimer = null;
   }
@@ -72,14 +76,8 @@ class SaApp extends App.AppBase {
   function onStart(state) {
     //Sys.println("DEBUG: SaApp.onStart()");
 
-    // Load settings
-    self.loadSettings();
-
-    // Compute almanac data
-    var dictLocation = AppBase.getProperty("storLocPreset");
-    var fLocationHeight = AppBase.getProperty("userLocationHeight");
-    var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : AppBase.getProperty("storDatePreset");
-    self.computeAlmanac(dictLocation["name"], dictLocation["latitude"], dictLocation["longitude"], fLocationHeight, iEpochDate);
+    // Update application data
+    self.updateApp();
 
     // Start UI update timer (every multiple of 60 seconds)
     self.oUpdateTimer = new Timer.Timer();
@@ -166,11 +164,9 @@ class SaApp extends App.AppBase {
 
     // Compute almanac data
     // ... today
-    $.SA_Almanac_today = new SaAlmanac();
     $.SA_Almanac_today.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
     $.SA_Almanac_today.compute(_iEpochDate);
     // ... yesterday
-    $.SA_Almanac_yesterday = new SaAlmanac();
     $.SA_Almanac_yesterday.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
     $.SA_Almanac_yesterday.compute(_iEpochDate-86400);
   }

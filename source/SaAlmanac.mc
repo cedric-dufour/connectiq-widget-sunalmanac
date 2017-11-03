@@ -53,15 +53,15 @@ class SaAlmanac {
   // VARIABLES
   //
 
-  // Date
-  public var iEpochDate;
-  public var iEpochOffsetLT;
-
   // Location
   public var sLocationName;  // degrees
   public var dLocationLatitude;  // degrees
   public var dLocationLongitude;  // degrees
   public var fLocationHeight;  // meters
+
+  // Date
+  public var iEpochDate;
+  public var iEpochOffsetLT;
 
   // Zenith
   public var iEpochZenith;
@@ -94,7 +94,34 @@ class SaAlmanac {
 
   function initialize() {
     // Location
-    self.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0d);
+    self.sLocationName = null;
+    self.dLocationLatitude = null;
+    self.dLocationLongitude = null;
+    self.fLocationHeight = null;
+
+    // Date
+    self.iEpochDate = null;
+    self.iEpochOffsetLT = null;
+
+    // Zenith
+    self.iEpochZenith = null;
+    self.fAltitudeZenith = null;
+    self.fEclipticLongitude = null;
+    self.fDeclination = null;
+
+    // Sunrise
+    self.iEpochAstronomicalDawn = null;
+    self.iEpochNauticalDawn = null;
+    self.iEpochCivilDawn = null;
+    self.iEpochSunrise = null;
+    self.fAzimuthSunrise = null;
+
+    // Sunset
+    self.iEpochAstronomicalDusk = null;
+    self.iEpochNauticalDusk = null;
+    self.iEpochCivilDusk = null;
+    self.iEpochSunset = null;
+    self.fAzimuthSunset = null;
   }
 
   function setLocation(_sName, _dLatitude, _dLongitude, _fHeight) {
@@ -111,6 +138,12 @@ class SaAlmanac {
 
   function compute(_iEpochDate) {  // Time.today().value()
     //Sys.println(Lang.format("DEBUG: SaAlmanac.compute($1$)", [_iEpochDate]));
+
+    // Location set ?
+    if(self.dLocationLatitude == null or self.dLocationLongitude == null or self.fLocationHeight == null) {
+      //Sys.println("DEBUG: location undefined!");
+      return;
+    }
 
     // Date
     // WARNING! Gregorian.{info <-> utcInfo} does NOT detect UTC offset based on the *passed Time.Moment* but the one corresponding to the *current* date/time. BUG!!!
