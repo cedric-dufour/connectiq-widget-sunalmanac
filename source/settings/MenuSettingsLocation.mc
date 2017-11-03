@@ -42,7 +42,7 @@ class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
     }
     else if (item == :menuLocationEdit) {
       //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationEdit)");
-      Ui.pushView(new Rez.Menus.menuLocationEdit(), new MenuDelegateLocationEdit(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuLocationEdit(), new MenuDelegateLocationEdit(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationSave) {
       //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationSave)");

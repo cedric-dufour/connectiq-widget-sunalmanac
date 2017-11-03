@@ -19,7 +19,23 @@
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
-// Menu: resources/menus/menuLocationEdit.xml
+class MenuLocationEdit extends Ui.Menu {
+
+  //
+  // FUNCTIONS: Ui.Menu (override/implement)
+  //
+
+  function initialize() {
+    Menu.initialize();
+    Menu.setTitle(Ui.loadResource(Rez.Strings.menuLocationEdit));
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationName), :menuLocationName);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLatitude), :menuLocationLatitude);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLongitude), :menuLocationLongitude);
+    if($.SA_PositionLocation != null) {
+      Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationFromGPS), :menuLocationFromGPS);
+    }
+  }
+}
 
 class MenuDelegateLocationEdit extends Ui.MenuInputDelegate {
 
