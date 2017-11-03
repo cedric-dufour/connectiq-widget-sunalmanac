@@ -28,7 +28,7 @@ class PickerLocationSave extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var iMemorySize = 10;
+    var iMemorySize = 40;
     var aiMemoryKeys = new [iMemorySize];
     var asMemoryValues = new [iMemorySize];
     for(var n=0; n<iMemorySize; n++) {

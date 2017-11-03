@@ -47,7 +47,7 @@ You may then specify the following settings:
  - Location -> Height:
    specify the observer's height (in meters, Above Ground Level) at the location
  - Location -> Load/Edit/Save/Delete Location:
-   load/edit/save/delete preset locations (among a 10 available memory slots)
+   load/edit/save/delete preset locations (among a 40 available memory slots)
  - Date/Time -> Date Source:
    specify whether to use your current date or a preset date
  - Date/Time -> Preset Date:
