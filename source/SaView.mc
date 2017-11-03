@@ -24,14 +24,6 @@ using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
 //
-// CONSTANTS
-//
-
-const SA_NOVALUE_BLANK = "";
-const SA_NOVALUE_LEN3 = "---";
-
-
-//
 // GLOBALS
 //
 
@@ -44,6 +36,14 @@ var SA_ViewIndex = 0;
 //
 
 class ViewSa extends Ui.View {
+
+  //
+  // CONSTANTS
+  //
+
+  private const NOVALUE_BLANK = "";
+  private const NOVALUE_LEN3 = "---";
+
 
   //
   // VARIABLES
@@ -252,7 +252,7 @@ class ViewSa extends Ui.View {
       self.oRezValueDate.setText(Lang.format("$1$ $2$", [oDateInfo.month, oDateInfo.day.format("%d")]));
     }
     else {
-      self.oRezValueDate.setText($.SA_NOVALUE_LEN3);
+      self.oRezValueDate.setText(self.NOVALUE_LEN3);
     }
 
     // ... time
@@ -272,8 +272,8 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochSunset));
       }
       else {
-        self.oRezValueTopLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueTopRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... day length
       self.oRezLabelBottom.setText(self.sLabelDayLength);
@@ -292,23 +292,23 @@ class ViewSa extends Ui.View {
           self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms(86400 - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
         }
         else {
-          self.oRezValueBottomRight.setText($.SA_NOVALUE_LEN3);
+          self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
         }
       }
       else {
-        self.oRezValueBottomLeft.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
           self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms($.SA_Almanac_yesterday.iEpochSunrise - $.SA_Almanac_yesterday.iEpochSunset));
         }
         else {
-          self.oRezValueBottomRight.setText($.SA_NOVALUE_LEN3);
+          self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
         }
       }
       // ... clear previous view fields
-      self.oRezValueTopHigh.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueTopLow.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueBottomHigh.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueBottomLow.setText($.SA_NOVALUE_BLANK);
+      self.oRezValueTopHigh.setText(self.NOVALUE_BLANK);
+      self.oRezValueTopLow.setText(self.NOVALUE_BLANK);
+      self.oRezValueBottomHigh.setText(self.NOVALUE_BLANK);
+      self.oRezValueBottomLow.setText(self.NOVALUE_BLANK);
       break;
 
     case 1:
@@ -319,8 +319,8 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAltitudeZenith));
       }
       else {
-        self.oRezValueTopLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueTopRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... azimuth
       self.oRezLabelBottom.setText(self.sLabelAzimuth);
@@ -329,8 +329,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAzimuthSunset));
       }
       else {
-        self.oRezValueBottomLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueBottomRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
       break;
 
@@ -343,8 +343,8 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochCivilDusk));
       }
       else {
-        self.oRezValueTopLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueTopRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... nautical dawn/dusk
       self.oRezLabelBottom.setText(self.sLabelNauticalDawnDusk);
@@ -353,8 +353,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochNauticalDusk));
       }
       else {
-        self.oRezValueBottomLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueBottomRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
       break;
 
@@ -367,8 +367,8 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochAstronomicalDusk));
       }
       else {
-        self.oRezValueTopLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueTopRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... ecliptic longitude / declination
       self.oRezLabelBottom.setText(self.sLabelEcliptic);
@@ -377,8 +377,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fDeclination));
       }
       else {
-        self.oRezValueBottomLeft.setText($.SA_NOVALUE_LEN3);
-        self.oRezValueBottomRight.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
+        self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
       break;
 
@@ -390,28 +390,28 @@ class ViewSa extends Ui.View {
         self.oRezValueTopHigh.setText($.SA_Almanac_today.sLocationName);
       }
       else {
-        self.oRezValueTopHigh.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueTopHigh.setText(self.NOVALUE_LEN3);
       }
       if($.SA_Almanac_today.dLocationLatitude != null and $.SA_Almanac_today.dLocationLongitude != null) {
         self.oRezValueTopLow.setText($.SA_Almanac_today.stringLatitude($.SA_Almanac_today.dLocationLatitude));
         self.oRezValueBottomHigh.setText($.SA_Almanac_today.stringLongitude($.SA_Almanac_today.dLocationLongitude));
       }
       else {
-        self.oRezValueTopLow.setText($.SA_NOVALUE_BLANK);
-        self.oRezValueBottomHigh.setText($.SA_NOVALUE_BLANK);
+        self.oRezValueTopLow.setText(self.NOVALUE_BLANK);
+        self.oRezValueBottomHigh.setText(self.NOVALUE_BLANK);
       }
       if($.SA_Almanac_today.fLocationHeight != null) {
         self.oRezValueBottomLow.setText($.SA_Almanac_today.stringHeight($.SA_Almanac_today.fLocationHeight));
       }
       else {
-        self.oRezValueBottomLow.setText($.SA_NOVALUE_LEN3);
+        self.oRezValueBottomLow.setText(self.NOVALUE_LEN3);
       }
       self.oRezLabelBottom.setText(self.sLabelHeight);
       // ... clear previous view fields
-      self.oRezValueTopLeft.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueTopRight.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueBottomLeft.setText($.SA_NOVALUE_BLANK);
-      self.oRezValueBottomRight.setText($.SA_NOVALUE_BLANK);
+      self.oRezValueTopLeft.setText(self.NOVALUE_BLANK);
+      self.oRezValueTopRight.setText(self.NOVALUE_BLANK);
+      self.oRezValueBottomLeft.setText(self.NOVALUE_BLANK);
+      self.oRezValueBottomRight.setText(self.NOVALUE_BLANK);
       break;
 
     }
