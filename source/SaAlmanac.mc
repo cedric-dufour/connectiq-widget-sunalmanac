@@ -126,7 +126,7 @@ class SaAlmanac {
 
   function setLocation(_sName, _dLatitude, _dLongitude, _fHeight) {
     //Sys.println(Lang.format("DEBUG: SaAlmanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
-    
+
     self.sLocationName = _sName;
     self.dLocationLatitude = _dLatitude.toDouble();
     //Sys.println(Lang.format("DEBUG: latitude (l,omega) = $1$", [self.dLocationLatitude]));
@@ -174,7 +174,7 @@ class SaAlmanac {
     // ... mean solar time (J*), including leap seconds correction
     self.dJ2kMeanTime = self.dJulianDayNumber - 2451544.99992d - self.dLocationLongitude/360.0d;
     //Sys.println(Lang.format("DEBUG: mean solar time (J*) = $1$", [self.dJ2kMeanTime]));
-    
+
     // Data computation
     var dJ2kCompute;
     var adData;
@@ -353,7 +353,7 @@ class SaAlmanac {
     while(dEclipticLongitude >= 360.0d) {
       dEclipticLongitude -= 360.0d;
     }
-    var dEclipticLongitude_rad = dEclipticLongitude * self.CONVERT_DEG2RAD; 
+    var dEclipticLongitude_rad = dEclipticLongitude * self.CONVERT_DEG2RAD;
     //Sys.println(Lang.format("DEBUG: ecliptic longitude (lambda) = $1$", [dEclipticLongitude]));
 
     // ... declination (delta)
