@@ -1,2 +1,16 @@
+* 1.0.20171103a
+  - Bump location memory size up to 40 slots
+  - Do not show "From GPS" in location options if no GPS location is available
+  - Remove those wicked trailing spaces that keep creeping in...
+  - Move "public" (but specific) constants where they belong
+  - Move "private" constants where they belong
+  - Do not show any data if user has opted for GPS location but no data
+    are available yet
+  - Remove wrongly included 'bin' directory
+  - Precisions on solar event times in USAGE file
+  - Minor corrections to COPYRIGHT file
+  - Minor corrections to USAGE file
+
 * 1.0.20171102a
   - Post Tenebras Lux
+
