@@ -21,15 +21,19 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
-// Constants
-// ... default values
-const SA_SETTINGS_LOCATIONAUTO = false;
-const SA_SETTINGS_LOCATIONHEIGHT = 0.0f;
-const SA_SETTINGS_DATEAUTO = true;
-const SA_SETTINGS_TIMEUTC = false;
-const SA_SETTINGS_BACKGROUNDCOLOR = Gfx.COLOR_BLACK;
-
 class SaSettings {
+
+  //
+  // CONSTANTS
+  //
+
+  // Default values
+  private const DEFAULT_LOCATIONAUTO = false;
+  private const DEFAULT_LOCATIONHEIGHT = 0.0f;
+  private const DEFAULT_DATEAUTO = true;
+  private const DEFAULT_TIMEUTC = false;
+  private const DEFAULT_BACKGROUNDCOLOR = Gfx.COLOR_BLACK;
+
 
   //
   // VARIABLES
@@ -60,11 +64,11 @@ class SaSettings {
 
   function initialize() {
     // Settings
-    self.setLocationAuto($.SA_SETTINGS_LOCATIONAUTO);
-    self.setLocationHeight($.SA_SETTINGS_LOCATIONHEIGHT);
-    self.setDateAuto($.SA_SETTINGS_DATEAUTO);
-    self.setTimeUTC($.SA_SETTINGS_TIMEUTC);
-    self.setBackgroundColor($.SA_SETTINGS_BACKGROUNDCOLOR);
+    self.setLocationAuto(self.DEFAULT_LOCATIONAUTO);
+    self.setLocationHeight(self.DEFAULT_LOCATIONHEIGHT);
+    self.setDateAuto(self.DEFAULT_DATEAUTO);
+    self.setTimeUTC(self.DEFAULT_TIMEUTC);
+    self.setBackgroundColor(self.DEFAULT_BACKGROUNDCOLOR);
     // ... device
     self.setUnitElevation();
   }
@@ -84,7 +88,7 @@ class SaSettings {
 
   function setLocationAuto(_bLocationAuto) {
     if(_bLocationAuto == null) {
-      _bLocationAuto = $.SA_SETTINGS_LOCATIONAUTO;
+      _bLocationAuto = self.DEFAULT_LOCATIONAUTO;
     }
     self.bLocationAuto = _bLocationAuto;
   }
@@ -104,14 +108,14 @@ class SaSettings {
 
   function setDateAuto(_bDateAuto) {
     if(_bDateAuto == null) {
-      _bDateAuto = $.SA_SETTINGS_DATEAUTO;
+      _bDateAuto = self.DEFAULT_DATEAUTO;
     }
     self.bDateAuto = _bDateAuto;
   }
 
   function setTimeUTC(_bTimeUTC) {
     if(_bTimeUTC == null) {
-      _bTimeUTC = $.SA_SETTINGS_TIMEUTC;
+      _bTimeUTC = self.DEFAULT_TIMEUTC;
     }
     if(_bTimeUTC) {
       self.bTimeUTC = true;
@@ -125,7 +129,7 @@ class SaSettings {
 
   function setBackgroundColor(_iBackgroundColor) {
     if(_iBackgroundColor == null) {
-      _iBackgroundColor = $.SA_SETTINGS_BACKGROUNDCOLOR;
+      _iBackgroundColor = self.DEFAULT_BACKGROUNDCOLOR;
     }
     self.iBackgroundColor = _iBackgroundColor;
   }
