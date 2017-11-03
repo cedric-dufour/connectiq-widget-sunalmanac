@@ -20,19 +20,19 @@ using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
 //
-// CONSTANTS
-//
-
-const SA_DRAW_DIVIDER_HORIZONTAL = 1;
-const SA_DRAW_DIVIDER_VERTICAL_TOP = 2;
-const SA_DRAW_DIVIDER_VERTICAL_BOTTOM = 4;
-
-
-//
 // CLASS
 //
 
 class DrawableGlobal extends Ui.Drawable {
+
+  //
+  // CONSTANTS
+  //
+
+  public const DRAW_DIVIDER_HORIZONTAL = 1;
+  public const DRAW_DIVIDER_VERTICAL_TOP = 2;
+  public const DRAW_DIVIDER_VERTICAL_BOTTOM = 4;
+
 
   //
   // VARIABLES
@@ -77,13 +77,13 @@ class DrawableGlobal extends Ui.Drawable {
     _oDC.clear();
 
     // ... dividers
-    if(self.iDividers & SA_DRAW_DIVIDER_HORIZONTAL) {
+    if(self.iDividers & self.DRAW_DIVIDER_HORIZONTAL) {
       self.oRezDividerHorizontal.draw(_oDC);
     }
-    if(self.iDividers & SA_DRAW_DIVIDER_VERTICAL_TOP) {
+    if(self.iDividers & self.DRAW_DIVIDER_VERTICAL_TOP) {
       self.oRezDividerVerticalTop.draw(_oDC);
     }
-    if(self.iDividers & SA_DRAW_DIVIDER_VERTICAL_BOTTOM) {
+    if(self.iDividers & self.DRAW_DIVIDER_VERTICAL_BOTTOM) {
       self.oRezDividerVerticalBottom.draw(_oDC);
     }
   }

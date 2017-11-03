@@ -264,7 +264,7 @@ class ViewSa extends Ui.View {
     switch($.SA_ViewIndex) {
 
     case 0:
-      self.oRezDrawableGlobal.setDividers($.SA_DRAW_DIVIDER_HORIZONTAL | $.SA_DRAW_DIVIDER_VERTICAL_TOP | $.SA_DRAW_DIVIDER_VERTICAL_BOTTOM);
+      self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... sunrise/sunset
       self.oRezLabelTop.setText(self.sLabelSunriseSunset);
       if($.SA_Almanac_today.iEpochSunrise != null and $.SA_Almanac_today.iEpochSunset != null) {
@@ -335,7 +335,7 @@ class ViewSa extends Ui.View {
       break;
 
     case 2:
-      self.oRezDrawableGlobal.setDividers($.SA_DRAW_DIVIDER_HORIZONTAL | $.SA_DRAW_DIVIDER_VERTICAL_TOP | $.SA_DRAW_DIVIDER_VERTICAL_BOTTOM);
+      self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... civil dawn/dusk
       self.oRezLabelTop.setText(self.sLabelCivilDawnDusk);
       if($.SA_Almanac_today.iEpochCivilDawn != null and $.SA_Almanac_today.iEpochCivilDusk != null) {
@@ -359,7 +359,7 @@ class ViewSa extends Ui.View {
       break;
 
     case 3:
-      self.oRezDrawableGlobal.setDividers($.SA_DRAW_DIVIDER_HORIZONTAL | $.SA_DRAW_DIVIDER_VERTICAL_TOP | $.SA_DRAW_DIVIDER_VERTICAL_BOTTOM);
+      self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... astronomical dawn/dusk
       self.oRezLabelTop.setText(self.sLabelAstronomicalDawnDusk);
       if($.SA_Almanac_today.iEpochAstronomicalDawn != null and $.SA_Almanac_today.iEpochAstronomicalDusk != null) {
