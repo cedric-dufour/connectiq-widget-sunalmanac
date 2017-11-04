@@ -1,3 +1,7 @@
+* 1.0.20171104a
+  - Reset (blank) almanac data when user switches to auto (GPS) location
+  - Forgot about those default settings "private" constants...
+
 * 1.0.20171103a
   - Bump location memory size up to 40 slots
   - Do not show "From GPS" in location options if no GPS location is available
