@@ -93,6 +93,10 @@ class SaAlmanac {
   //
 
   function initialize() {
+    self.reset();
+  }
+
+  function reset() {
     // Location
     self.sLocationName = null;
     self.dLocationLatitude = null;

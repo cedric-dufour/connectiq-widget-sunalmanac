@@ -52,6 +52,12 @@ class PickerDelegateLocationAuto extends Ui.PickerDelegate {
   }
 
   function onAccept(_amValues) {
+    // Reset almanac data until next location event
+    if(_amValues[0]) {
+      $.SA_Almanac_today.reset();
+      $.SA_Almanac_yesterday.reset();
+    }
+
     // Set property and exit
     App.getApp().setProperty("userLocationAuto", _amValues[0]);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
