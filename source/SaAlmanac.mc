@@ -419,32 +419,31 @@ class SaAlmanac {
   }
 
   function stringTime(_iEpochTimestamp) {
-    // Keep only the time part
-    var iElapsed = _iEpochTimestamp - self.iEpochDate;
-    if(!$.SA_Settings.bTimeUTC) {
-      iElapsed += self.iEpochOffsetLT;
-    }
-    if(iElapsed >= 86400) {
-      iElapsed -= 86400;
-    }
-    else if(iElapsed < 0) {
-      iElapsed += 86400;
-    }
-
     // Components
-    var iElapsed_hour = Math.floor(iElapsed / 3600.0d).toNumber();
-    iElapsed -= iElapsed_hour * 3600;
-    var iElapsed_min = Math.round(iElapsed / 60.0d).toNumber();
-    if(iElapsed_min >= 60) {
-      iElapsed_min -= 60;
-      iElapsed_hour += 1;
-      if(iElapsed_hour >= 24) {
-        iElapsed_hour -= 24;
+    var oTime = new Time.Moment(_iEpochTimestamp);
+    var oTimeInfo;
+    if($.SA_Settings.bTimeUTC) {
+      oTimeInfo = Gregorian.utcInfo(oTime, Time.FORMAT_SHORT);
+    }
+    else {
+      oTimeInfo = Gregorian.info(oTime, Time.FORMAT_SHORT);
+    }
+    var iTime_hour = oTimeInfo.hour;
+    var iTime_min = oTimeInfo.min;
+    // ... round minutes
+    if(oTimeInfo.sec >= 30) {
+      iTime_min += 1;
+      if(iTime_min >= 60) {
+        iTime_min -= 60;
+        iTime_hour += 1;
+        if(iTime_hour >= 24) {
+          iTime_hour -= 24;
+        }
       }
     }
 
     // String
-    return Lang.format("$1$:$2$", [iElapsed_hour.format("%d"), iElapsed_min.format("%02d")]);
+    return Lang.format("$1$:$2$", [iTime_hour.format("%d"), iTime_min.format("%02d")]);
   }
 
   function stringTimeDiff_hm(_iDuration) {
