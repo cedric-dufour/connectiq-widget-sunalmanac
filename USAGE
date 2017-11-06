@@ -71,3 +71,11 @@ NEVER the one of (preset) alternate location.
 Computing solar events data relies on approximations and choices of algorithms
 that may not be the same as other sources of such data. This may lead to
 differences of one to two minutes, depending on the sources.
+
+SunAlmanac data have been verified against Switzerland Aeronautical Information
+Publications (AIP) VFG Guide's dawn/sunrise/sunset/dusk tables (RAC 1-1) for
+years 2017 and 2018, leading to:
+ - 68.46% (1999/2920) of data having a 0-minute offset
+ - 31.51% (920/2920) of data having a 1-minute offset
+ - 0.03% (1/2920) of data having a 2-minutes offset
+

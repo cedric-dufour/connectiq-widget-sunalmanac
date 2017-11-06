@@ -16,9 +16,11 @@ help:
 	@echo '  ciq-help  - display the build environment help'
 	@echo '  help      - display this help message'
 	@echo '  debug     - build the project (*.prg; including debug symbols)'
+	@echo '  unit-test - build the project (*.prg; including debug and unit tests symbols)'
 	@echo '  release   - build the project (*.prg; excluding debug symbols)'
 	@echo '  iq        - package the project (*.iq)'
 	@echo '  simulator - launch the project in the simulator'
+	@echo '  tests     - launch the project unit tests'
 	@echo '  clean     - delete all build output'
 .DEFAULT_GOAL := help
 
@@ -26,7 +28,7 @@ help:
 
 # debug
 OUTPUT_DEBUG := bin/${MY_PROJECT}.debug.prg
-${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}  
+${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -w \
 	  -o $@ \
@@ -38,9 +40,24 @@ ${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} $
 	  ${MY_SOURCES}
 debug: ${OUTPUT_DEBUG}
 
+# unit test
+OUTPUT_TEST := bin/${MY_PROJECT}.test.prg
+${OUTPUT_TEST}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
+	mkdir -p bin
+	${CIQ_MONKEYC} -w \
+	  -o $@ \
+	  -d ${CIQ_DEVICE} \
+	  -s ${CIQ_SDK} \
+	  -y ${CIQ_DEVKEY} \
+	  -m ${MY_MANIFEST} \
+	  -z $(shell echo ${MY_RESOURCES} | tr ' ' ':') \
+	  --unit-test \
+	  ${MY_SOURCES}
+unit-test: ${OUTPUT_TEST}
+
 # release
 OUTPUT_RELEASE := bin/${MY_PROJECT}.prg
-${OUTPUT_RELEASE}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}  
+${OUTPUT_RELEASE}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -w -r \
 	  -o $@ \
@@ -54,7 +71,7 @@ release: ${OUTPUT_RELEASE}
 
 # IQ
 OUTPUT_IQ := bin/${MY_PROJECT}.iq
-${OUTPUT_IQ}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}  
+${OUTPUT_IQ}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -e -w -r \
 	  -o $@ \
@@ -70,6 +87,13 @@ iq: ${OUTPUT_IQ}
 simulator: ${OUTPUT_DEBUG} | ${CIQ_SIMULATOR} ${CIQ_MONKEYDO}
 	${CIQ_SIMULATOR} & sleep 1
 	${CIQ_MONKEYDO} ${OUTPUT_DEBUG} ${CIQ_DEVICE}
+
+
+## Unit tests
+.PHONY: tests
+tests: ${OUTPUT_TEST} | ${CIQ_SIMULATOR} ${CIQ_MONKEYDO}
+	${CIQ_SIMULATOR} & sleep 1
+	${CIQ_MONKEYDO} ${OUTPUT_TEST} ${CIQ_DEVICE} -t
 
 
 ## (Un-)Install
