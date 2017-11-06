@@ -66,7 +66,7 @@ class PickerDelegateDatePreset extends Ui.PickerDelegate {
       // Yes. I know. I wish the "Invalid Value" spawned by invalid Gregorian.moment() could be catched as a exception but it can't. So let's keep this simple...
       iDay = 28;
     }
-    else if(_amValues[1] % 2 == 0 and iDay > 30) {
+    else if((_amValues[1] == 4 or _amValues[1] == 6 or _amValues[1] == 9 or _amValues[1] == 11) and iDay > 30) {
       iDay = 30;
     }
     var iEpochDate = Gregorian.moment({ :year => _amValues[0], :month => _amValues[1], :day => iDay, :hour => 0, :min => 0, :sec => 0 }).value();
