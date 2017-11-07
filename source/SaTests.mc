@@ -50,11 +50,11 @@ module SaTests {
       return -1;
     }
     if(iVerify_month != _iReference_month) {
-      _oLogger.error(Lang.format("Date (month) mismatch! Got: $1$; Expected: $2$, *$3$*, $4$, $5$:$6$", [iVerify_montth, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min]));
+      _oLogger.error(Lang.format("Date (month) mismatch! Got: $1$; Expected: $2$, *$3$*, $4$, $5$:$6$", [iVerify_month, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min]));
       return -1;
     }
     if(iVerify_day != _iReference_day) {
-      _oLogger.error(Lang.format("Date (day) mismatch! Got: $1$; Expected: $2$, $3$, *$4$*, $5$:$6$", [iVerify_year, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min]));
+      _oLogger.error(Lang.format("Date (day) mismatch! Got: $1$; Expected: $2$, $3$, *$4$*, $5$:$6$", [iVerify_day, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min]));
       return -1;
     }
 
