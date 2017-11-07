@@ -172,11 +172,19 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: local time offset = $1$", [self.iEpochOffsetLT]));
 
     // Internals
+    // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data
+    var dDeltaT = 68.8033d;  // 2017.06
     // ... julian day number (n)
-    self.dJulianDayNumber = Math.round(self.iEpochDate/86400.0d+2440587.5d);
+    self.dJulianDayNumber = Math.round((self.iEpochDate+dDeltaT)/86400.0d+2440587.5d);
     //Sys.println(Lang.format("DEBUG: julian day number (n) = $1$", [self.dJulianDayNumber]));
-    // ... mean solar time (J*), including leap seconds correction
-    self.dJ2kMeanTime = self.dJulianDayNumber - 2451544.99992d - self.dLocationLongitude/360.0d;
+    //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [dDeltaT]));
+    // ... DUT1 (UT1-UTC); http://maia.usno.navy.mil/ser7/ser7.dat
+    var dBesselianYear = 1900.0d + (self.dJulianDayNumber-2415020.31352d)/365.242198781d;
+    var dDUT21 = 0.022d*Math.sin(dBesselianYear*6.28318530718d) - 0.012d*Math.cos(dBesselianYear*6.28318530718d) - 0.006d*Math.sin(dBesselianYear*12.5663706144d) + 0.007d*Math.cos(dBesselianYear*12.5663706144d);
+    var dDUT1 = 0.2677d - 0.00106d*(self.dJulianDayNumber-2458067.5d) - dDUT21;
+    //Sys.println(Lang.format("DEBUG: DUT1 (UT1-UTC) = $1$", [dDUT1]));
+    // ... mean solar time (J*)
+    self.dJ2kMeanTime = self.dJulianDayNumber - 2451545.0d + (dDeltaT+dDUT1)/86400.0d - self.dLocationLongitude/360.0d;
     //Sys.println(Lang.format("DEBUG: mean solar time (J*) = $1$", [self.dJ2kMeanTime]));
 
     // Data computation
@@ -186,11 +194,11 @@ class SaAlmanac {
     // ... zenith
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_ZENITH, null, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_ZENITH, 90.0d, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochZenith = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochZenith = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
       self.fAltitudeZenith = adData[1].toFloat();
       self.fEclipticLongitude = adData[3].toFloat();
       self.fDeclination = adData[4].toFloat();
@@ -211,7 +219,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochSunrise = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochSunrise = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
       self.fAzimuthSunrise = adData[2].toFloat();
     }
     else {
@@ -228,7 +236,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochCivilDawn = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochCivilDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochCivilDawn = null;
@@ -242,7 +250,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochNauticalDawn = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochNauticalDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochNauticalDawn = null;
@@ -256,7 +264,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochAstronomicalDawn = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochAstronomicalDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochAstronomicalDawn = null;
@@ -270,7 +278,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochSunset = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochSunset = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
       self.fAzimuthSunset = adData[2].toFloat();
     }
     else {
@@ -287,7 +295,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochCivilDusk = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochCivilDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochCivilDusk = null;
@@ -301,7 +309,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochNauticalDusk = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochNauticalDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochNauticalDusk = null;
@@ -315,7 +323,7 @@ class SaAlmanac {
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochAstronomicalDusk = Math.round((adData[0]+10957.49992d)*86400.0d).toNumber();
+      self.iEpochAstronomicalDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
     }
     else {
       self.iEpochAstronomicalDusk = null;
@@ -325,30 +333,30 @@ class SaAlmanac {
 
   function computeIterative(_iEvent, _dHeight, _dJ2kCompute) {
     //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dHeight, _dJ2kCompute]));
+    var dJ2kCentury = _dJ2kCompute/36524.21897d;
 
     // Solar parameters
     // [ time (J2k), altitude (degree), azimuth (degree), ecliptic longitude, declination ]
     var adData = [ null, null, null, null, null ];
 
-    // ... mean solar anomaly (M)
-    var dMeanAnomaly = 357.5291d + 0.98560028d*_dJ2kCompute;
+    // ... mean solar anomaly (M); http://www.jgiesen.de/elevaz/basics/meeus.htm
+    var dMeanAnomaly = 357.5291d + 35999.05030d*dJ2kCentury;
     while(dMeanAnomaly >= 360.0d) {
       dMeanAnomaly -= 360.0d;
     }
     var dMeanAnomaly_rad = dMeanAnomaly * self.CONVERT_DEG2RAD;
     //Sys.println(Lang.format("DEBUG: mean solar anomaly (M) = $1$", [dMeanAnomaly]));
 
-    // ... center coefficient (C)
-    var dCenterCoefficient = 1.9148d*Math.sin(dMeanAnomaly_rad) + 0.02d*Math.sin(2.0d*dMeanAnomaly_rad) + 0.0003d*Math.sin(3.0d*dMeanAnomaly_rad);
+    // ... center coefficient (C); https://en.wikipedia.org/wiki/Equation_of_the_center
+    var dCenterCoefficient = 1.91464354249d*Math.sin(dMeanAnomaly_rad) + 0.0199935127925d*Math.sin(2.0d*dMeanAnomaly_rad) + 0.0002895082313d*Math.sin(3.0d*dMeanAnomaly_rad);
     //Sys.println(Lang.format("DEBUG: center coefficient (C) = $1$", [dCenterCoefficient]));
 
-    // ... ecliptic perihelion (Pi)
-    var dJ2kCentury = _dJ2kCompute/36524.22d;
-    var dEclipticPerihelion = 102.9300589d + 0.3179526*dJ2kCentury;
+    // ... ecliptic perihelion (Pi); https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf (Table 1)
+    var dEclipticPerihelion = 102.93768193d + 0.32327364*dJ2kCentury;
     //Sys.println(Lang.format("DEBUG: ecliptic perihelion (Pi) = $1$", [dEclipticPerihelion]));
 
-    // ... ecliptic obliquity (epsilon)
-    var dEclipticObliquity = 23.4393d;
+    // ... ecliptic obliquity (epsilon); https://en.wikipedia.org/wiki/Ecliptic
+    var dEclipticObliquity = 23.4392794444d - 0.0130102136111d*dJ2kCentury;
     var dEclipticObliquity_rad = dEclipticObliquity * self.CONVERT_DEG2RAD;
     //Sys.println(Lang.format("DEBUG: ecliptic obliquity (epsilon) = $1$", [dEclipticObliquity]));
 
@@ -365,8 +373,8 @@ class SaAlmanac {
     var dDeclination = dDeclination_rad * self.CONVERT_RAD2DEG;
     //Sys.println(Lang.format("DEBUG: declination (delta) = $1$", [dDeclination]));
 
-    // ... transit time
-    var dJ2kTransit = self.dJ2kMeanTime + 0.0053d*Math.sin(dMeanAnomaly_rad) - 0.0069d*Math.sin(2.0d * dEclipticLongitude_rad);
+    // ... transit time <-> equation of time; https://en.wikipedia.org/wiki/Equation_of_time
+    var dJ2kTransit = self.dJ2kMeanTime + 0.00531863988824d*Math.sin(dMeanAnomaly_rad) - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d)*Math.sin(2.0d * dEclipticLongitude_rad)/6.28318530718d;
     //Sys.println(Lang.format("DEBUG: transit time (J,transit) = $1$", [dJ2kTransit]));
     if(_iEvent == self.EVENT_ZENITH) {
       var dAltitude = 90.0d - self.dLocationLatitude + dDeclination;
