@@ -333,35 +333,51 @@ class SaAlmanac {
 
   function computeIterative(_iEvent, _dHeight, _dJ2kCompute) {
     //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dHeight, _dJ2kCompute]));
-    var dJ2kCentury = _dJ2kCompute/36524.21897d;
+    var dJ2kCentury = _dJ2kCompute/36524.2198781d;
 
-    // Solar parameters
+    // Return values
     // [ time (J2k), altitude (degree), azimuth (degree), ecliptic longitude, declination ]
     var adData = [ null, null, null, null, null ];
 
-    // ... mean solar anomaly (M); http://www.jgiesen.de/elevaz/basics/meeus.htm
-    var dMeanAnomaly = 357.5291d + 35999.05030d*dJ2kCentury;
+    // Solar parameters
+
+    // ... orbital eccentricity (e); https://en.wikipedia.org/wiki/Equation_of_time
+    var dOrbitalEccentricity = 0.016709d - 0.00004193d*dJ2kCentury - 0.000000126d*dJ2kCentury*dJ2kCentury;
+    //Sys.println(Lang.format("DEBUG: orbital eccentricity (e) = $1$", [dOrbitalEccentricity]));
+
+    // ... ecliptic obliquity (epsilon); https://en.wikipedia.org/wiki/Ecliptic
+    var dEclipticObliquity = 23.4392794444d - 0.0130102136111d*dJ2kCentury - 0.000000050861d*dJ2kCentury*dJ2kCentury;
+    var dEclipticObliquity_rad = dEclipticObliquity * self.CONVERT_DEG2RAD;
+    //Sys.println(Lang.format("DEBUG: ecliptic obliquity (epsilon) = $1$", [dEclipticObliquity]));
+
+    // ... periapsis eclipitic longitude (lambda,p); https://en.wikipedia.org/wiki/Equation_of_time
+    //var dEplicticLongitudePeriapsis = 282.93807d + 1.795d*dJ2kCentury + 0.0003025d*dJ2kCentury*dJ2kCentury;
+    //Sys.println(Lang.format("DEBUG: periapsis ecliptic longitude (lambda,p) = $1$", [dEplicticLongitudePeriapsis]));
+
+    // ... argument of perihelion (Pi); https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf (Table 1)
+    var dPerihelionArgument = 102.93768193d + 0.32327364*dJ2kCentury;
+    //Sys.println(Lang.format("DEBUG: argument of perihelion (Pi) = $1$", [dPerihelionArgument]));
+
+    // ... mean anomaly (M); http://www.jgiesen.de/elevaz/basics/meeus.htm
+    var dMeanAnomaly = 357.5291d + 35999.05030d*dJ2kCentury - 0.0001559d*dJ2kCentury*dJ2kCentury;
     while(dMeanAnomaly >= 360.0d) {
       dMeanAnomaly -= 360.0d;
     }
     var dMeanAnomaly_rad = dMeanAnomaly * self.CONVERT_DEG2RAD;
-    //Sys.println(Lang.format("DEBUG: mean solar anomaly (M) = $1$", [dMeanAnomaly]));
+    //Sys.println(Lang.format("DEBUG: mean anomaly (M) = $1$", [dMeanAnomaly]));
 
-    // ... center coefficient (C); https://en.wikipedia.org/wiki/Equation_of_the_center
-    var dCenterCoefficient = 1.91464354249d*Math.sin(dMeanAnomaly_rad) + 0.0199935127925d*Math.sin(2.0d*dMeanAnomaly_rad) + 0.0002895082313d*Math.sin(3.0d*dMeanAnomaly_rad);
-    //Sys.println(Lang.format("DEBUG: center coefficient (C) = $1$", [dCenterCoefficient]));
-
-    // ... ecliptic perihelion (Pi); https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf (Table 1)
-    var dEclipticPerihelion = 102.93768193d + 0.32327364*dJ2kCentury;
-    //Sys.println(Lang.format("DEBUG: ecliptic perihelion (Pi) = $1$", [dEclipticPerihelion]));
-
-    // ... ecliptic obliquity (epsilon); https://en.wikipedia.org/wiki/Ecliptic
-    var dEclipticObliquity = 23.4392794444d - 0.0130102136111d*dJ2kCentury;
-    var dEclipticObliquity_rad = dEclipticObliquity * self.CONVERT_DEG2RAD;
-    //Sys.println(Lang.format("DEBUG: ecliptic obliquity (epsilon) = $1$", [dEclipticObliquity]));
+    // ... center equation (C); https://en.wikipedia.org/wiki/Equation_of_the_center
+    var adOrbitalEccentricity_pow = [1.0d, 0.0d, 0.0d, 0.0d, 0.0d];
+    for(var p=1; p<=4; p++) {
+      adOrbitalEccentricity_pow[p] = adOrbitalEccentricity_pow[p-1]*dOrbitalEccentricity;
+    }
+    var dCenterEquation_rad = (2.0d*adOrbitalEccentricity_pow[1]-0.25d*adOrbitalEccentricity_pow[3])*Math.sin(dMeanAnomaly_rad) + (1.25d*adOrbitalEccentricity_pow[2]-0.458333333333d*adOrbitalEccentricity_pow[4])*Math.sin(2.0d*dMeanAnomaly_rad) + 1.08333333333d*adOrbitalEccentricity_pow[3]*Math.sin(3.0d*dMeanAnomaly_rad) + 1.07291666667d*adOrbitalEccentricity_pow[4]*Math.sin(4.0d*dMeanAnomaly_rad);
+    var dCenterEquation = dCenterEquation_rad * self.CONVERT_RAD2DEG;
+    //Sys.println(Lang.format("DEBUG: center equation (C) = $1$", [dCenterEquation]));
 
     // ... ecliptic longitude (lambda)
-    var dEclipticLongitude = dMeanAnomaly + dCenterCoefficient + dEclipticPerihelion + 180.0d;
+    //var dEclipticLongitude = dMeanAnomaly + dCenterEquation + dEplicticLongitudePeriapsis;
+    var dEclipticLongitude = dMeanAnomaly + dCenterEquation + dPerihelionArgument + 180.0d;
     while(dEclipticLongitude >= 360.0d) {
       dEclipticLongitude -= 360.0d;
     }
@@ -374,7 +390,7 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: declination (delta) = $1$", [dDeclination]));
 
     // ... transit time <-> equation of time; https://en.wikipedia.org/wiki/Equation_of_time
-    var dJ2kTransit = self.dJ2kMeanTime + 0.00531863988824d*Math.sin(dMeanAnomaly_rad) - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d)*Math.sin(2.0d * dEclipticLongitude_rad)/6.28318530718d;
+    var dJ2kTransit = self.dJ2kMeanTime + (2.0d*dOrbitalEccentricity*Math.sin(dMeanAnomaly_rad) - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d)*Math.sin(2.0d*dEclipticLongitude_rad))/6.28318530718d;
     //Sys.println(Lang.format("DEBUG: transit time (J,transit) = $1$", [dJ2kTransit]));
     if(_iEvent == self.EVENT_ZENITH) {
       var dAltitude = 90.0d - self.dLocationLatitude + dDeclination;
