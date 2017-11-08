@@ -1,3 +1,11 @@
+* 1.0.20171108a
+  - Further improved calculation accuracy
+  - Improved calculation accuracy
+  - Fix unit tests error reporting
+  - Added unit tests
+  - Format time (string) in a less error-prone way
+  - FIX: Handle invalid preset date (day) correctly
+
 * 1.0.20171104a
   - Reset (blank) almanac data when user switches to auto (GPS) location
   - Forgot about those default settings "private" constants...
