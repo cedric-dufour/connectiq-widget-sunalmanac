@@ -65,7 +65,7 @@ class SaAlmanac {
 
   // Zenith
   public var iEpochZenith;
-  public var fAltitudeZenith;  // degrees
+  public var fElevationZenith;  // degrees
   public var fEclipticLongitude;  // degrees
   public var fDeclination;  // degrees
 
@@ -109,7 +109,7 @@ class SaAlmanac {
 
     // Zenith
     self.iEpochZenith = null;
-    self.fAltitudeZenith = null;
+    self.fElevationZenith = null;
     self.fEclipticLongitude = null;
     self.fDeclination = null;
 
@@ -194,23 +194,23 @@ class SaAlmanac {
     // ... zenith
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_ZENITH, 90.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_ZENITH, null, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
       self.iEpochZenith = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-      self.fAltitudeZenith = adData[1].toFloat();
+      self.fElevationZenith = adData[1].toFloat();
       self.fEclipticLongitude = adData[3].toFloat();
       self.fDeclination = adData[4].toFloat();
     }
     else {
       self.iEpochZenith = null;
-      self.fAltitudeZenith = null;
+      self.fElevationZenith = null;
       self.fEclipticLongitude = null;
       self.fDeclination = null;
     }
     //Sys.println(Lang.format("DEBUG: zenith time = $1$", [self.iEpochZenith]));
-    //Sys.println(Lang.format("DEBUG: zenith altitude = $1$", [self.fAltitudeZenith]));
+    //Sys.println(Lang.format("DEBUG: zenith elevation = $1$", [self.fElevationZenith]));
 
     // ... sunrise (accounting for atmospheric refraction)
     dJ2kCompute = self.dJ2kMeanTime;
@@ -331,12 +331,12 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: astronomical dusk time = $1$", [self.iEpochAstronomicalDusk]));
   }
 
-  function computeIterative(_iEvent, _dHeight, _dJ2kCompute) {
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dHeight, _dJ2kCompute]));
+  function computeIterative(_iEvent, _dElevation, _dJ2kCompute) {
+    //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevation, _dJ2kCompute]));
     var dJ2kCentury = _dJ2kCompute/36524.2198781d;
 
     // Return values
-    // [ time (J2k), altitude (degree), azimuth (degree), ecliptic longitude, declination ]
+    // [ time (J2k), elevation (degree), azimuth (degree), ecliptic longitude, declination ]
     var adData = [ null, null, null, null, null ];
 
     // Solar parameters
@@ -393,12 +393,12 @@ class SaAlmanac {
     var dJ2kTransit = self.dJ2kMeanTime + (2.0d*dOrbitalEccentricity*Math.sin(dMeanAnomaly_rad) - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d)*Math.sin(2.0d*dEclipticLongitude_rad))/6.28318530718d;
     //Sys.println(Lang.format("DEBUG: transit time (J,transit) = $1$", [dJ2kTransit]));
     if(_iEvent == self.EVENT_ZENITH) {
-      var dAltitude = 90.0d - self.dLocationLatitude + dDeclination;
-      if(dAltitude > 90.0d) {
-        dAltitude = 180.0d - dAltitude;
+      var dElevation = 90.0d - self.dLocationLatitude + dDeclination;
+      if(dElevation > 90.0d) {
+        dElevation = 180.0d - dElevation;
       }
       adData[0] = dJ2kTransit;
-      adData[1] = dAltitude;
+      adData[1] = dElevation;
       adData[3] = dEclipticLongitude;
       adData[4] = dDeclination;
       return adData;
@@ -406,8 +406,8 @@ class SaAlmanac {
 
     // ... hour angle (H, omega,0)
     var dLocationLatitude_rad = self.dLocationLatitude * self.CONVERT_DEG2RAD;
-    var dAltitudeCorrection = 2.076d*Math.sqrt(self.fLocationHeight)/60.0d;
-    var dHourAngle_rad = Math.acos((Math.sin((_dHeight-dAltitudeCorrection)*self.CONVERT_DEG2RAD)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));
+    var dHeightCorrection = 2.076d*Math.sqrt(self.fLocationHeight)/60.0d;
+    var dHourAngle_rad = Math.acos((Math.sin((_dElevation-dHeightCorrection)*self.CONVERT_DEG2RAD)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));
     var dHourAngle = dHourAngle_rad * self.CONVERT_RAD2DEG;
     //Sys.println(Lang.format("DEBUG: hour angle (H, omega,0) = $1$", [dHourAngle]));
     // ... valid ?
@@ -424,7 +424,7 @@ class SaAlmanac {
     // ... sunrise time
     if(_iEvent == self.EVENT_SUNRISE) {
       adData[0] = dJ2kTransit - dHourAngle/360.0d;
-      adData[1] = _dHeight;
+      adData[1] = _dElevation;
       adData[2] = 180.0d - dAzimuthAngle;
       return adData;
     }
@@ -432,7 +432,7 @@ class SaAlmanac {
     // ... sunset time
     if(_iEvent == self.EVENT_SUNSET) {
       adData[0] = dJ2kTransit + dHourAngle/360.0d;
-      adData[1] = _dHeight;
+      adData[1] = _dElevation;
       adData[2] = 180.0d + dAzimuthAngle;
       return adData;
     }

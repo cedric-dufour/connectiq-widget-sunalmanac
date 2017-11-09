@@ -286,7 +286,7 @@ class ViewSa extends Ui.View {
           self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
         }
       }
-      else if($.SA_Almanac_today.fAltitudeZenith != null and $.SA_Almanac_today.fAltitudeZenith >= 0.0d) {
+      else if($.SA_Almanac_today.fElevationZenith != null and $.SA_Almanac_today.fElevationZenith >= 0.0d) {
         self.oRezValueBottomLeft.setText("24h");
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
           self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms(86400 - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
@@ -314,9 +314,9 @@ class ViewSa extends Ui.View {
     case 1:
       // ... zenith
       self.oRezLabelTop.setText(self.sLabelZenith);
-      if($.SA_Almanac_today.iEpochZenith != null and $.SA_Almanac_today.fAltitudeZenith != null) {
+      if($.SA_Almanac_today.iEpochZenith != null and $.SA_Almanac_today.fElevationZenith != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochZenith));
-        self.oRezValueTopRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAltitudeZenith));
+        self.oRezValueTopRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fElevationZenith));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);

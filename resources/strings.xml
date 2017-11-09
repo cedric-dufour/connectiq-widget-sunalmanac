@@ -47,7 +47,7 @@
   <!-- Layouts -->
   <string id="labelSunriseSunset">Sunrise/Sunset</string>
   <string id="labelDayLength">Day Length (Diff.)</string>
-  <string id="labelZenith">Zenith (Altitude)</string>
+  <string id="labelZenith">Zenith (Elevation)</string>
   <string id="labelAzimuth">Azimuth (Rise/Set)</string>
   <string id="labelCivilDawnDusk">Civil Dawn/Dusk</string>
   <string id="labelNauticalDawnDusk">Nautic. Dawn/Dusk</string>
