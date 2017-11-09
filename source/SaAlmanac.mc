@@ -36,10 +36,17 @@ class SaAlmanac {
   // CONSTANTS
   //
 
+  // Event angles
+  public const ANGLE_RISESET = -0.83d;
+  public const ANGLE_CIVIL = -6.0d;
+  public const ANGLE_NAUTICAL = -12.0d;
+  public const ANGLE_ASTRONOMICAL = -18.0d;
+
   // Event types
-  private const EVENT_ZENITH = 0;
-  private const EVENT_SUNRISE = 1;
-  private const EVENT_SUNSET = 2;
+  private const EVENT_TRANSIT = 0;
+  private const EVENT_NOW = 1;
+  private const EVENT_SUNRISE = 2;
+  private const EVENT_SUNSET = 3;
 
   // Units conversion
   private const CONVERT_DEG2RAD = 0.01745329252d;
@@ -63,11 +70,16 @@ class SaAlmanac {
   public var iEpochDate;
   public var iEpochOffsetLT;
 
-  // Zenith
-  public var iEpochZenith;
-  public var fElevationZenith;  // degrees
+  // Transit
+  public var iEpochTransit;
+  public var fElevationTransit;  // degrees
   public var fEclipticLongitude;  // degrees
   public var fDeclination;  // degrees
+
+  // Current
+  public var iEpochCurrent;
+  public var fElevationCurrent;  // degrees
+  public var fAzimuthCurrent;  // degrees
 
   // Sunrise
   public var iEpochAstronomicalDawn;
@@ -107,11 +119,16 @@ class SaAlmanac {
     self.iEpochDate = null;
     self.iEpochOffsetLT = null;
 
-    // Zenith
-    self.iEpochZenith = null;
-    self.fElevationZenith = null;
+    // Transit
+    self.iEpochTransit = null;
+    self.fElevationTransit = null;
     self.fEclipticLongitude = null;
     self.fDeclination = null;
+
+    // Current
+    self.iEpochCurrent = null;
+    self.fElevationCurrent = null;
+    self.fAzimuthCurrent = null;
 
     // Sunrise
     self.iEpochAstronomicalDawn = null;
@@ -191,31 +208,46 @@ class SaAlmanac {
     var dJ2kCompute;
     var adData;
 
-    // ... zenith
+    // ... transit
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_ZENITH, null, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_TRANSIT, null, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
-      self.iEpochZenith = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-      self.fElevationZenith = adData[1].toFloat();
+      self.iEpochTransit = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
+      self.fElevationTransit = adData[1].toFloat();
       self.fEclipticLongitude = adData[3].toFloat();
       self.fDeclination = adData[4].toFloat();
     }
     else {
-      self.iEpochZenith = null;
-      self.fElevationZenith = null;
+      self.iEpochTransit = null;
+      self.fElevationTransit = null;
       self.fEclipticLongitude = null;
       self.fDeclination = null;
     }
-    //Sys.println(Lang.format("DEBUG: zenith time = $1$", [self.iEpochZenith]));
-    //Sys.println(Lang.format("DEBUG: zenith elevation = $1$", [self.fElevationZenith]));
+    //Sys.println(Lang.format("DEBUG: transit time = $1$", [self.iEpochTransit]));
+    //Sys.println(Lang.format("DEBUG: transit elevation = $1$", [self.fElevationTransit]));
+
+    // ... current
+    var iOffsetCurrent = Time.now().value() - self.iEpochDate;
+    if(iOffsetCurrent >= 0 and iOffsetCurrent < 86000 and self.iEpochTransit != null) {
+      self.iEpochCurrent = self.iEpochDate + iOffsetCurrent;
+      var dJ2kCurrent = (self.iEpochCurrent.toDouble()+dDeltaT+dDUT1)/86400.0d-10957.5d;
+      adData = self.computeIterative(self.EVENT_NOW, null, dJ2kCurrent);
+      self.fElevationCurrent = adData[1];
+      self.fAzimuthCurrent = adData[2];
+    }
+    else {
+      self.iEpochCurrent = null;
+      self.fElevationCurrent = null;
+      self.fAzimuthCurrent = null;
+    }
 
     // ... sunrise (accounting for atmospheric refraction)
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, -0.83d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_RISESET, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -232,7 +264,7 @@ class SaAlmanac {
     // ... civil dawn
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, -6.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_CIVIL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -246,7 +278,7 @@ class SaAlmanac {
     // ... nautical dawn
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, -12.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_NAUTICAL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -260,7 +292,7 @@ class SaAlmanac {
     // ... astronomical dawn
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, -18.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_ASTRONOMICAL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -274,7 +306,7 @@ class SaAlmanac {
     // ... sunset (accounting for atmospheric refraction)
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, -0.83d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_RISESET, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -291,7 +323,7 @@ class SaAlmanac {
     // ... civil dusk
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, -6.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_CIVIL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -305,7 +337,7 @@ class SaAlmanac {
     // ... nautical dusk
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, -12.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_NAUTICAL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -319,7 +351,7 @@ class SaAlmanac {
     // ... astronomical dusk
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, -18.0d, dJ2kCompute);
+      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_ASTRONOMICAL, dJ2kCompute);
       dJ2kCompute = adData[0];
     }
     if(adData[0] != null) {
@@ -331,8 +363,8 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: astronomical dusk time = $1$", [self.iEpochAstronomicalDusk]));
   }
 
-  function computeIterative(_iEvent, _dElevation, _dJ2kCompute) {
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevation, _dJ2kCompute]));
+  function computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute) {
+    //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
     var dJ2kCentury = _dJ2kCompute/36524.2198781d;
 
     // Return values
@@ -392,57 +424,88 @@ class SaAlmanac {
     // ... transit time <-> equation of time; https://en.wikipedia.org/wiki/Equation_of_time
     var dJ2kTransit = self.dJ2kMeanTime + (2.0d*dOrbitalEccentricity*Math.sin(dMeanAnomaly_rad) - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d)*Math.sin(2.0d*dEclipticLongitude_rad))/6.28318530718d;
     //Sys.println(Lang.format("DEBUG: transit time (J,transit) = $1$", [dJ2kTransit]));
-    if(_iEvent == self.EVENT_ZENITH) {
-      var dElevation = 90.0d - self.dLocationLatitude + dDeclination;
-      if(dElevation > 90.0d) {
-        dElevation = 180.0d - dElevation;
+
+    // Computation finalization
+    var dLocationLatitude_rad = self.dLocationLatitude * self.CONVERT_DEG2RAD;
+    var dHeightCorrection = 2.076d*Math.sqrt(self.fLocationHeight)/60.0d;
+    var dHeightCorrection_rad = dHeightCorrection * self.CONVERT_RAD2DEG;
+    var dHourAngle;
+    var dHourAngle_rad;
+    var dElevationAngle;
+    var dElevationAngle_rad;
+    var dAzimuthAngle;
+    var dAzimuthAngle_rad;
+    var dJ2kEvent;
+
+    // Transit
+    if(_iEvent == self.EVENT_TRANSIT) {
+      // ... elevation angle (alpha)
+      dElevationAngle = 90.0d - self.dLocationLatitude + dDeclination;
+      if(dElevationAngle > 90.0d) {
+        dElevationAngle = 180.0d - dElevationAngle;
       }
+      //Sys.println(Lang.format("DEBUG: elevation angle (alpha) = $1$", [dElevationAngle]));
+
+      // ... azimuth angle (A)
+      dAzimuthAngle = self.dLocationLatitude > dDeclination ? 180.0d : 0.0d;
+      //Sys.println(Lang.format("DEBUG: azimuth angle (A) = $1$", [dAzimuthAngle]));
+
       adData[0] = dJ2kTransit;
-      adData[1] = dElevation;
+      adData[1] = dElevationAngle;
+      adData[2] = dAzimuthAngle;
       adData[3] = dEclipticLongitude;
       adData[4] = dDeclination;
       return adData;
     }
 
-    // ... hour angle (H, omega,0)
-    var dLocationLatitude_rad = self.dLocationLatitude * self.CONVERT_DEG2RAD;
-    var dHeightCorrection = 2.076d*Math.sqrt(self.fLocationHeight)/60.0d;
-    var dHourAngle_rad = Math.acos((Math.sin((_dElevation-dHeightCorrection)*self.CONVERT_DEG2RAD)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));
-    var dHourAngle = dHourAngle_rad * self.CONVERT_RAD2DEG;
-    //Sys.println(Lang.format("DEBUG: hour angle (H, omega,0) = $1$", [dHourAngle]));
-    // ... valid ?
-    if(!(dHourAngle_rad >= 0.0d and dHourAngle_rad <= Math.PI)) {  // == NaN does NOT work; BUG?
-      //Sys.println("DEBUG: no such solar event!");
-      return adData;  // null
+    // Current
+    if(_iEvent == self.EVENT_NOW) {
+      dJ2kEvent = _dJ2kCompute;
+
+      // ... hour angle (h)
+      dHourAngle_rad = (self.iEpochCurrent - self.iEpochTransit).toDouble()/86400.0d*6.28318530718d;
+      dHourAngle = dHourAngle_rad * self.CONVERT_RAD2DEG;
+      //Sys.println(Lang.format("DEBUG: hour angle (H, omega,0) = $1$", [dHourAngle]));
+
+      // ... elevation angle (alpha)
+      dElevationAngle_rad = Math.asin(Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad)+Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)*Math.cos(dHourAngle_rad))+dHeightCorrection;
+      dElevationAngle = dElevationAngle_rad * self.CONVERT_RAD2DEG;
+      //Sys.println(Lang.format("DEBUG: elevation angle (alpha) = $1$", [dElevationAngle]));
+    }
+
+    // Sunrise/Sunset
+    else {
+      dElevationAngle = _dElevationAngle;
+
+      // ... hour angle (H, omega,0)
+      dHourAngle_rad = Math.acos((Math.sin(_dElevationAngle*self.CONVERT_DEG2RAD-dHeightCorrection_rad)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));  // always positive
+      if(!(dHourAngle_rad >= 0.0d and dHourAngle_rad <= Math.PI)) {  // == NaN does NOT work; BUG?
+        //Sys.println("DEBUG: no such solar event!");
+        return adData;  // null
+      }
+      if(_iEvent == self.EVENT_SUNRISE) {
+        dHourAngle_rad = -dHourAngle_rad;
+      }
+      dHourAngle = dHourAngle_rad * self.CONVERT_RAD2DEG;
+      //Sys.println(Lang.format("DEBUG: hour angle (H, omega,0) = $1$", [dHourAngle]));
+
+      // ... event time
+      dJ2kEvent = dJ2kTransit + dHourAngle/360.0d;
     }
 
     // ... azimuth angle (A)
-    var dAzimuthAngle_rad = Math.atan2(Math.sin(dHourAngle_rad), Math.cos(dHourAngle_rad)*Math.sin(dLocationLatitude_rad) - Math.tan(dDeclination_rad)*Math.cos(dLocationLatitude_rad));
-    var dAzimuthAngle = dAzimuthAngle_rad * self.CONVERT_RAD2DEG;
+    dAzimuthAngle_rad = Math.atan2(Math.sin(dHourAngle_rad), Math.cos(dHourAngle_rad)*Math.sin(dLocationLatitude_rad) - Math.tan(dDeclination_rad)*Math.cos(dLocationLatitude_rad));
+    dAzimuthAngle = dAzimuthAngle_rad * self.CONVERT_RAD2DEG;
+    dAzimuthAngle = 180.0d + dAzimuthAngle;
     //Sys.println(Lang.format("DEBUG: azimuth angle (A) = $1$", [dAzimuthAngle]));
 
-    // ... sunrise time
-    if(_iEvent == self.EVENT_SUNRISE) {
-      adData[0] = dJ2kTransit - dHourAngle/360.0d;
-      adData[1] = _dElevation;
-      adData[2] = 180.0d - dAzimuthAngle;
-      return adData;
-    }
-
-    // ... sunset time
-    if(_iEvent == self.EVENT_SUNSET) {
-      adData[0] = dJ2kTransit + dHourAngle/360.0d;
-      adData[1] = _dElevation;
-      adData[2] = 180.0d + dAzimuthAngle;
-      return adData;
-    }
-
-    // ... WTF !?!
+    adData[0] = dJ2kEvent;
+    adData[1] = dElevationAngle;
+    adData[2] = dAzimuthAngle;
     return adData;
-
   }
 
-  function stringTime(_iEpochTimestamp) {
+  function stringTime(_iEpochTimestamp, _bRoundUp) {
     // Components
     var oTime = new Time.Moment(_iEpochTimestamp);
     var oTimeInfo;
@@ -454,8 +517,8 @@ class SaAlmanac {
     }
     var iTime_hour = oTimeInfo.hour;
     var iTime_min = oTimeInfo.min;
-    // ... round minutes
-    if(oTimeInfo.sec >= 30) {
+    // ... round minutes up
+    if(_bRoundUp and oTimeInfo.sec >= 30) {
       iTime_min += 1;
       if(iTime_min >= 60) {
         iTime_min -= 60;

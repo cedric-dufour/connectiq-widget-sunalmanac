@@ -14,11 +14,6 @@ browse through thanks to the SELECT button:
    (aviation SR/SS)
    AND
    length of the day and difference with the previous day
- - Zenith (Altitude) and Azimuth (Sunrise/Sunset) view:
-   time and angular altitude of the sun at its zenith position
-   AND
-   angular azimuth - corresponding to geographic bearing - where
-   the center of solar disk passes the horizon
  - Civil Dawn/Dusk and Nautical Dawn/Dusk view:
    time of civil dawn (start) and dusk (end), i.e. when the center of
    the solar disk is 6° below the horizon
@@ -30,7 +25,14 @@ browse through thanks to the SELECT button:
    time of astronomical dawn (start) and dusk (end), i.e. when the center
    of the solar disk is 18° below the horizon
    AND
-   ecliptic longitude and declination (at the time of zenith)
+   ecliptic longitude and declination (at the time of meridian transit)
+ - Noon/Elevation and Azimuth Sunrise/Sunset view:
+   time and angular elevation of the sun at its meridian transit position
+   AND
+   angular azimuth - corresponding to geographic bearing - where
+   the center of solar disk passes the horizon
+ - Now Azimuth/Elevation view:
+   current time along the current sun angular azimuth and elevation
  - Location and Height view:
    name and geographical coordinates of the observer's location, along
    its height (Above Ground Level)

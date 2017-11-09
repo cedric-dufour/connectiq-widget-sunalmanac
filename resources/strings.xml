@@ -47,16 +47,23 @@
   <!-- Layouts -->
   <string id="labelSunriseSunset">Sunrise/Sunset</string>
   <string id="labelDayLength">Day Length (Diff.)</string>
-  <string id="labelZenith">Zenith (Elevation)</string>
-  <string id="labelAzimuth">Azimuth (Rise/Set)</string>
   <string id="labelCivilDawnDusk">Civil Dawn/Dusk</string>
-  <string id="labelNauticalDawnDusk">Nautic. Dawn/Dusk</string>
-  <string id="labelAstronomicalDawnDusk">Astron. Dawn/Dusk</string>
+  <string id="labelNauticalDawnDusk">Naut. Dawn/Dusk</string>
+  <string id="labelAstronomicalDawnDusk">Astro. Dawn/Dusk</string>
   <string id="labelEcliptic">Ecliptic Lon./Decl.</string>
+  <string id="labelAzimuth">Azimuth Rise/Set</string>
+  <string id="labelTransit">Noon/Elevation</string>
+  <string id="labelCurrentTop">Now</string>
+  <string id="labelCurrentBottom">Azimuth/Elevation</string>
   <string id="labelLocation">Location</string>
   <string id="labelHeight">Height</string>
   <!-- Values -->
   <string id="valueLocationGPS">GPS</string>
+  <string id="valuePhaseDay">Day</string>
+  <string id="valuePhaseCivil">Civil</string>
+  <string id="valuePhaseNautical">Naut.</string>
+  <string id="valuePhaseAstronomical">Astro.</string>
+  <string id="valuePhaseNight">Night</string>
   <!-- Units -->
   <string id="unitTimeLT">LT</string>
   <string id="unitTimeUTC">Z</string>
