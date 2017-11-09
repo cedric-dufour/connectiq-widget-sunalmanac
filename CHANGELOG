@@ -1,3 +1,8 @@
+* 1.0.20171109a
+  - Added support for DescentMk1, Fenix5 and Forerunner 935 devices
+  - Added current sun angular azimuth and elevation view
+  - Use proper solar/astronomical terms
+
 * 1.0.20171108a
   - Further improved calculation accuracy
   - Improved calculation accuracy
