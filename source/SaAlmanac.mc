@@ -37,7 +37,7 @@ class SaAlmanac {
   //
 
   // Event angles
-  public const ANGLE_RISESET = -0.83d;
+  public const ANGLE_RISESET = -0.83d;  // accounting for atmospheric refraction
   public const ANGLE_CIVIL = -6.0d;
   public const ANGLE_NAUTICAL = -12.0d;
   public const ANGLE_ASTRONOMICAL = -18.0d;
@@ -191,10 +191,10 @@ class SaAlmanac {
     // Internals
     // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data
     var dDeltaT = 68.8033d;  // 2017.06
+    //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [dDeltaT]));
     // ... julian day number (n)
     self.dJulianDayNumber = Math.round((self.iEpochDate+dDeltaT)/86400.0d+2440587.5d);
     //Sys.println(Lang.format("DEBUG: julian day number (n) = $1$", [self.dJulianDayNumber]));
-    //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [dDeltaT]));
     // ... DUT1 (UT1-UTC); http://maia.usno.navy.mil/ser7/ser7.dat
     var dBesselianYear = 1900.0d + (self.dJulianDayNumber-2415020.31352d)/365.242198781d;
     var dDUT21 = 0.022d*Math.sin(dBesselianYear*6.28318530718d) - 0.012d*Math.cos(dBesselianYear*6.28318530718d) - 0.006d*Math.sin(dBesselianYear*12.5663706144d) + 0.007d*Math.cos(dBesselianYear*12.5663706144d);
@@ -244,7 +244,7 @@ class SaAlmanac {
       self.fAzimuthCurrent = null;
     }
 
-    // ... sunrise (accounting for atmospheric refraction)
+    // ... sunrise
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
       adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_RISESET, dJ2kCompute);
@@ -303,7 +303,7 @@ class SaAlmanac {
     }
     //Sys.println(Lang.format("DEBUG: astronomical dawn time = $1$", [self.iEpochAstronomicalDawn]));
 
-    // ... sunset (accounting for atmospheric refraction)
+    // ... sunset
     dJ2kCompute = self.dJ2kMeanTime;
     for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
       adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_RISESET, dJ2kCompute);
