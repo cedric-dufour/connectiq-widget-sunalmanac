@@ -427,8 +427,8 @@ class SaAlmanac {
 
     // Computation finalization
     var dLocationLatitude_rad = self.dLocationLatitude * self.CONVERT_DEG2RAD;
-    var dHeightCorrection = 2.076d*Math.sqrt(self.fLocationHeight)/60.0d;
-    var dHeightCorrection_rad = dHeightCorrection * self.CONVERT_RAD2DEG;
+    var dHeightCorrection_rad = Math.acos(6371008.8d/(6371008.8d+self.fLocationHeight));
+    var dHeightCorrection = dHeightCorrection_rad * self.CONVERT_RAD2DEG;
     var dHourAngle;
     var dHourAngle_rad;
     var dElevationAngle;
@@ -444,6 +444,7 @@ class SaAlmanac {
       if(dElevationAngle > 90.0d) {
         dElevationAngle = 180.0d - dElevationAngle;
       }
+      dElevationAngle += dHeightCorrection;
       //Sys.println(Lang.format("DEBUG: elevation angle (alpha) = $1$", [dElevationAngle]));
 
       // ... azimuth angle (A)
@@ -465,20 +466,22 @@ class SaAlmanac {
       // ... hour angle (h)
       dHourAngle_rad = (self.iEpochCurrent - self.iEpochTransit).toDouble()/86400.0d*6.28318530718d;
       dHourAngle = dHourAngle_rad * self.CONVERT_RAD2DEG;
-      //Sys.println(Lang.format("DEBUG: hour angle (H, omega,0) = $1$", [dHourAngle]));
+      //Sys.println(Lang.format("DEBUG: hour angle (h) = $1$", [dHourAngle]));
 
       // ... elevation angle (alpha)
-      dElevationAngle_rad = Math.asin(Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad)+Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)*Math.cos(dHourAngle_rad))+dHeightCorrection;
+      dElevationAngle_rad = Math.asin(Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad)+Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)*Math.cos(dHourAngle_rad))+dHeightCorrection_rad;
       dElevationAngle = dElevationAngle_rad * self.CONVERT_RAD2DEG;
       //Sys.println(Lang.format("DEBUG: elevation angle (alpha) = $1$", [dElevationAngle]));
     }
 
     // Sunrise/Sunset
     else {
+      // ... elevation angle (alpha)
       dElevationAngle = _dElevationAngle;
+      dElevationAngle_rad = dElevationAngle * self.CONVERT_DEG2RAD;
 
       // ... hour angle (H, omega,0)
-      dHourAngle_rad = Math.acos((Math.sin(_dElevationAngle*self.CONVERT_DEG2RAD-dHeightCorrection_rad)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));  // always positive
+      dHourAngle_rad = Math.acos((Math.sin(dElevationAngle_rad-dHeightCorrection_rad)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));  // always positive
       if(!(dHourAngle_rad >= 0.0d and dHourAngle_rad <= Math.PI)) {  // == NaN does NOT work; BUG?
         //Sys.println("DEBUG: no such solar event!");
         return adData;  // null
