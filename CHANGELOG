@@ -1,3 +1,7 @@
+* 1.0.20171117a
+  - FIX: (VERY) Wrong elevation angle for non-zero observer's height
+  - Minor source code comments corrections
+
 * 1.0.20171109a
   - Added support for DescentMk1, Fenix5 and Forerunner 935 devices
   - Added current sun angular azimuth and elevation view
