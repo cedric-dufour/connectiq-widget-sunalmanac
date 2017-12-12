@@ -76,9 +76,6 @@ class SaApp extends App.AppBase {
   function onStart(state) {
     //Sys.println("DEBUG: SaApp.onStart()");
 
-    // Update application data
-    self.updateApp();
-
     // Start UI update timer (every multiple of 60 seconds)
     self.oUpdateTimer = new Timer.Timer();
     var iUpdateTimerDelay = (60-Sys.getClockTime().sec)%60;
@@ -166,10 +163,10 @@ class SaApp extends App.AppBase {
     // Compute almanac data
     // ... today
     $.SA_Almanac_today.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_today.compute(_iEpochDate, _iEpochTime);
+    $.SA_Almanac_today.compute(_iEpochDate, _iEpochTime, true);
     // ... yesterday
     $.SA_Almanac_yesterday.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_yesterday.compute(_iEpochDate-86400, _iEpochTime != null ? _iEpochTime-86400 : null);
+    $.SA_Almanac_yesterday.compute(_iEpochDate-86400, _iEpochTime != null ? _iEpochTime-86400 : null, false);
   }
 
   function onLocationEvent(_oInfo) {

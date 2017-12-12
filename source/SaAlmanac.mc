@@ -53,7 +53,7 @@ class SaAlmanac {
   private const CONVERT_RAD2DEG = 57.2957795131d;
 
   // Computation
-  private const COMPUTE_ITERATIONS = 5;
+  private const COMPUTE_ITERATIONS = 2;
 
 
   //
@@ -95,6 +95,8 @@ class SaAlmanac {
   public var fAzimuthSunset;  // degrees
 
   // Internals
+  private var dDeltaT;
+  private var dDUT1;
   private var dJulianDayNumber;
   private var dJ2kMeanTime;
 
@@ -114,6 +116,11 @@ class SaAlmanac {
     self.dLocationLongitude = null;
     self.fLocationHeight = null;
 
+    // Compute data
+    self.resetCompute();
+  }
+
+  function resetCompute() {
     // Date
     self.iEpochDate = null;
 
@@ -155,7 +162,7 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: elevation = $1$", [self.fLocationHeight]));
   }
 
-  function compute(_iEpochDate, _iEpochTime) {
+  function compute(_iEpochDate, _iEpochTime, _bFullCompute) {
     //Sys.println(Lang.format("DEBUG: SaAlmanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
     // WARNING: _iEpochDate may be relative to locatime (LT) or UTC; we shall make sure we end up using the latter (UTC)!
 
@@ -164,6 +171,9 @@ class SaAlmanac {
       //Sys.println("DEBUG: location undefined!");
       return;
     }
+
+    // Reset compute data
+    self.resetCompute();
 
     // Date
     var oTime = new Time.Moment(_iEpochDate);
@@ -192,176 +202,127 @@ class SaAlmanac {
 
     // Internals
     // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data
-    var dDeltaT = 68.8033d;  // 2017.06
-    //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [dDeltaT]));
+    self.dDeltaT = 68.8033d;  // 2017.06
+    //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [self.dDeltaT]));
     // ... julian day number (n)
-    self.dJulianDayNumber = Math.round((self.iEpochDate+dDeltaT)/86400.0d+2440587.5d);
+    self.dJulianDayNumber = Math.round((self.iEpochDate+self.dDeltaT)/86400.0d+2440587.5d);
     //Sys.println(Lang.format("DEBUG: julian day number (n) = $1$", [self.dJulianDayNumber]));
     // ... DUT1 (UT1-UTC); http://maia.usno.navy.mil/ser7/ser7.dat
     var dBesselianYear = 1900.0d + (self.dJulianDayNumber-2415020.31352d)/365.242198781d;
     var dDUT21 = 0.022d*Math.sin(dBesselianYear*6.28318530718d) - 0.012d*Math.cos(dBesselianYear*6.28318530718d) - 0.006d*Math.sin(dBesselianYear*12.5663706144d) + 0.007d*Math.cos(dBesselianYear*12.5663706144d);
-    var dDUT1 = 0.2677d - 0.00106d*(self.dJulianDayNumber-2458067.5d) - dDUT21;
-    //Sys.println(Lang.format("DEBUG: DUT1 (UT1-UTC) = $1$", [dDUT1]));
+    self.dDUT1 = 0.2677d - 0.00106d*(self.dJulianDayNumber-2458067.5d) - dDUT21;
+    //Sys.println(Lang.format("DEBUG: DUT1 (UT1-UTC) = $1$", [self.dDUT1]));
     // ... mean solar time (J*)
-    self.dJ2kMeanTime = self.dJulianDayNumber - 2451545.0d + (dDeltaT+dDUT1)/86400.0d - self.dLocationLongitude/360.0d;
+    self.dJ2kMeanTime = self.dJulianDayNumber - 2451545.0d + (self.dDeltaT+self.dDUT1)/86400.0d - self.dLocationLongitude/360.0d;
     //Sys.println(Lang.format("DEBUG: mean solar time (J*) = $1$", [self.dJ2kMeanTime]));
 
     // Data computation
-    var dJ2kCompute;
     var adData;
 
     // ... transit
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_TRANSIT, null, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochTransit = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-      self.fElevationTransit = adData[1].toFloat();
-      self.fEclipticLongitude = adData[3].toFloat();
-      self.fDeclination = adData[4].toFloat();
-    }
-    else {
-      self.iEpochTransit = null;
-      self.fElevationTransit = null;
-      self.fEclipticLongitude = null;
-      self.fDeclination = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_TRANSIT, null, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochTransit = adData[0].toNumber();
+        self.fElevationTransit = adData[1].toFloat();
+        self.fEclipticLongitude = adData[3].toFloat();
+        self.fDeclination = adData[4].toFloat();
+      }
     }
     //Sys.println(Lang.format("DEBUG: transit time = $1$", [self.iEpochTransit]));
     //Sys.println(Lang.format("DEBUG: transit elevation = $1$", [self.fElevationTransit]));
 
     // ... current
-    if(_iEpochTime != null and self.iEpochTransit != null) {
+    if(_bFullCompute and _iEpochTime != null and self.iEpochTransit != null) {
       self.iEpochCurrent = _iEpochTime;
-      var dJ2kCurrent = (self.iEpochCurrent.toDouble()+dDeltaT+dDUT1)/86400.0d-10957.5d;
-      adData = self.computeIterative(self.EVENT_NOW, null, dJ2kCurrent);
-      self.fElevationCurrent = adData[1];
-      self.fAzimuthCurrent = adData[2];
-    }
-    else {
-      self.iEpochCurrent = null;
-      self.fElevationCurrent = null;
-      self.fAzimuthCurrent = null;
+      adData = self.computeIterative(self.EVENT_NOW, null, (self.iEpochCurrent.toDouble()+self.dDeltaT+self.dDUT1)/86400.0d-10957.5d);
+      self.fElevationCurrent = adData[1].toFloat();
+      self.fAzimuthCurrent = adData[2].toFloat();
     }
 
     // ... sunrise
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_RISESET, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
+    adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_RISESET, self.dJ2kMeanTime);
     if(adData[0] != null) {
-      self.iEpochSunrise = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
+      self.iEpochSunrise = adData[0].toNumber();
       self.fAzimuthSunrise = adData[2].toFloat();
-    }
-    else {
-      self.iEpochSunrise = null;
-      self.fAzimuthSunrise = null;
     }
     //Sys.println(Lang.format("DEBUG: sunrise time = $1$", [self.iEpochSunrise]));
     //Sys.println(Lang.format("DEBUG: sunrise azimuth = $1$", [self.fAzimuthSunrise]));
 
     // ... civil dawn
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_CIVIL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochCivilDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochCivilDawn = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_CIVIL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochCivilDawn = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: civil dawn time = $1$", [self.iEpochCivilDawn]));
 
     // ... nautical dawn
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_NAUTICAL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochNauticalDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochNauticalDawn = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_NAUTICAL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochNauticalDawn = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: nautical dawn time = $1$", [self.iEpochNauticalDawn]));
 
     // ... astronomical dawn
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNRISE, self.ANGLE_ASTRONOMICAL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochAstronomicalDawn = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochAstronomicalDawn = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_ASTRONOMICAL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochAstronomicalDawn = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: astronomical dawn time = $1$", [self.iEpochAstronomicalDawn]));
 
     // ... sunset
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_RISESET, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
+    adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_RISESET, self.dJ2kMeanTime);
     if(adData[0] != null) {
-      self.iEpochSunset = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
+      self.iEpochSunset = adData[0].toNumber();
       self.fAzimuthSunset = adData[2].toFloat();
-    }
-    else {
-      self.iEpochSunset = null;
-      self.fAzimuthSunset = null;
     }
     //Sys.println(Lang.format("DEBUG: sunset time = $1$", [self.iEpochSunset]));
     //Sys.println(Lang.format("DEBUG: sunset azimuth = $1$", [self.fAzimuthSunset]));
 
     // ... civil dusk
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_CIVIL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochCivilDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochCivilDusk = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_CIVIL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochCivilDusk = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: civil dusk time = $1$", [self.iEpochCivilDusk]));
 
     // ... nautical dusk
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_NAUTICAL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochNauticalDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochNauticalDusk = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_NAUTICAL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochNauticalDusk = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: nautical dusk time = $1$", [self.iEpochNauticalDusk]));
 
     // ... astronomical dusk
-    dJ2kCompute = self.dJ2kMeanTime;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and dJ2kCompute!=null; i--) {
-      adData = self.computeIterative(self.EVENT_SUNSET, self.ANGLE_ASTRONOMICAL, dJ2kCompute);
-      dJ2kCompute = adData[0];
-    }
-    if(adData[0] != null) {
-      self.iEpochAstronomicalDusk = Math.round((adData[0]+10957.5d)*86400.0d-dDeltaT-dDUT1).toNumber();
-    }
-    else {
-      self.iEpochAstronomicalDusk = null;
+    if(_bFullCompute) {
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_ASTRONOMICAL, self.dJ2kMeanTime);
+      if(adData[0] != null) {
+        self.iEpochAstronomicalDusk = adData[0].toNumber();
+      }
     }
     //Sys.println(Lang.format("DEBUG: astronomical dusk time = $1$", [self.iEpochAstronomicalDusk]));
+  }
+
+  function computeEvent(_iEvent, _dElevationAngle, _dJ2kCompute) {
+    var adData;
+    for(var i=self.COMPUTE_ITERATIONS; i>0 and _dJ2kCompute!=null; i--) {
+      adData = self.computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute);
+      _dJ2kCompute = adData[0];
+    }
+    if(adData[0] != null) {
+      adData[0] = Math.round((adData[0]+10957.5d)*86400.0d-self.dDeltaT-self.dDUT1);
+    }
+    return adData;
   }
 
   function computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute) {
