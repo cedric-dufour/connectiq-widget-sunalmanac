@@ -68,7 +68,6 @@ class SaAlmanac {
 
   // Date
   public var iEpochDate;
-  public var iEpochOffsetLT;
 
   // Transit
   public var iEpochTransit;
@@ -117,7 +116,6 @@ class SaAlmanac {
 
     // Date
     self.iEpochDate = null;
-    self.iEpochOffsetLT = null;
 
     // Transit
     self.iEpochTransit = null;
@@ -157,8 +155,9 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: elevation = $1$", [self.fLocationHeight]));
   }
 
-  function compute(_iEpochDate) {  // Time.today().value()
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.compute($1$)", [_iEpochDate]));
+  function compute(_iEpochDate, _iEpochTime) {
+    //Sys.println(Lang.format("DEBUG: SaAlmanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
+    // WARNING: _iEpochDate may be relative to locatime (LT) or UTC; we shall make sure we end up using the latter (UTC)!
 
     // Location set ?
     if(self.dLocationLatitude == null or self.dLocationLongitude == null or self.fLocationHeight == null) {
@@ -167,26 +166,29 @@ class SaAlmanac {
     }
 
     // Date
-    // WARNING! Gregorian.{info <-> utcInfo} does NOT detect UTC offset based on the *passed Time.Moment* but the one corresponding to the *current* date/time. BUG!!!
     var oTime = new Time.Moment(_iEpochDate);
     var oTimeInfo_UTC = Gregorian.utcInfo(oTime, Time.FORMAT_SHORT);
-    //Sys.println(Lang.format("DEBUG: UTC time = $1$:$2$:$3$", [oTimeInfo_UTC.hour, oTimeInfo_UTC.min, oTimeInfo_UTC.sec]));
+    var iDaySeconds_UTC = 3600*oTimeInfo_UTC.hour+60*oTimeInfo_UTC.min+oTimeInfo_UTC.sec;
+    //Sys.println(Lang.format("DEBUG: UTC time = $1$:$2$:$3$ ($4$)", [oTimeInfo_UTC.hour, oTimeInfo_UTC.min, oTimeInfo_UTC.sec, iDaySeconds_UTC]));
     var oTimeInfo_LT = Gregorian.info(oTime, Time.FORMAT_SHORT);
-    //Sys.println(Lang.format("DEBUG: LT time = $1$:$2$:$3$", [oTimeInfo_LT.hour, oTimeInfo_LT.min, oTimeInfo_LT.sec]));
-    self.iEpochOffsetLT = (3600*oTimeInfo_LT.hour+60*oTimeInfo_LT.min+oTimeInfo_LT.sec) - (3600*oTimeInfo_UTC.hour+60*oTimeInfo_UTC.min+oTimeInfo_UTC.sec);
-    if(self.iEpochOffsetLT >= 86400) {
-      self.iEpochOffsetLT -= 86400;
+    var iDaySeconds_LT = 3600*oTimeInfo_LT.hour+60*oTimeInfo_LT.min+oTimeInfo_LT.sec;
+    //Sys.println(Lang.format("DEBUG: LT time = $1$:$2$:$3$ ($4$)", [oTimeInfo_LT.hour, oTimeInfo_LT.min, oTimeInfo_LT.sec, iDaySeconds_LT]));
+    var iOffset_LT = iDaySeconds_LT - iDaySeconds_UTC;
+    if(iOffset_LT >= 43200) {
+      iOffset_LT -= 86400;
     }
-    else if(self.iEpochOffsetLT < 0) {
-      self.iEpochOffsetLT += 86400;
+    else if(iOffset_LT < -43200) {
+      iOffset_LT += 86400;
     }
-    if(oTimeInfo_UTC.hour == 0 and oTimeInfo_UTC.min == 0 and oTimeInfo_UTC.sec == 0) {
+    if(iDaySeconds_UTC == 0) {
+      // Date is UTC date (0h00 Z)
       self.iEpochDate = _iEpochDate;
     }
     else {
-      self.iEpochDate = _iEpochDate + self.iEpochOffsetLT;  // date is Local Time (0:00 LT) -> offset to obtain the true UTC date (0:00 Z)
+      // Date is Local Time (0h00 LT) -> offset to the UTC date (0h00 Z)
+      self.iEpochDate = _iEpochDate + iOffset_LT;
     }
-    //Sys.println(Lang.format("DEBUG: local time offset = $1$", [self.iEpochOffsetLT]));
+    //Sys.println(Lang.format("DEBUG: local time offset = $1$", [iOffset_LT]));
 
     // Internals
     // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data
@@ -230,9 +232,8 @@ class SaAlmanac {
     //Sys.println(Lang.format("DEBUG: transit elevation = $1$", [self.fElevationTransit]));
 
     // ... current
-    var iOffsetCurrent = Time.now().value() - self.iEpochDate;
-    if(iOffsetCurrent >= 0 and iOffsetCurrent < 86000 and self.iEpochTransit != null) {
-      self.iEpochCurrent = self.iEpochDate + iOffsetCurrent;
+    if(_iEpochTime != null and self.iEpochTransit != null) {
+      self.iEpochCurrent = _iEpochTime;
       var dJ2kCurrent = (self.iEpochCurrent.toDouble()+dDeltaT+dDUT1)/86400.0d-10957.5d;
       adData = self.computeIterative(self.EVENT_NOW, null, dJ2kCurrent);
       self.fElevationCurrent = adData[1];

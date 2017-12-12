@@ -467,7 +467,7 @@ module SaTests {
       
       // Compute almanac data
       var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oSaAlmanac.compute(iEpochDate);
+      oSaAlmanac.compute(iEpochDate, null);
     
       // Unit tests
       var iDelta;
@@ -895,7 +895,7 @@ module SaTests {
       
       // Compute almanac data
       var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oSaAlmanac.compute(iEpochDate);
+      oSaAlmanac.compute(iEpochDate, null);
     
       // Unit tests
       var iDelta;

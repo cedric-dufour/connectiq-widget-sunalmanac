@@ -130,7 +130,8 @@ class SaApp extends App.AppBase {
       var dictLocation = AppBase.getProperty("storLocPreset");
       var fLocationHeight = AppBase.getProperty("userLocationHeight");
       var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : AppBase.getProperty("storDatePreset");
-      self.computeAlmanac(dictLocation["name"], dictLocation["latitude"], dictLocation["longitude"], fLocationHeight, iEpochDate);
+      var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
+      self.computeAlmanac(dictLocation["name"], dictLocation["latitude"], dictLocation["longitude"], fLocationHeight, iEpochDate, iEpochTime);
     }
 
     // Update UI
@@ -159,16 +160,16 @@ class SaApp extends App.AppBase {
     }
   }
 
-  function computeAlmanac(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight, _iEpochDate) {
+  function computeAlmanac(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight, _iEpochDate, _iEpochTime) {
     //Sys.println("DEBUG: SaApp.computeAlmanac()");
 
     // Compute almanac data
     // ... today
     $.SA_Almanac_today.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_today.compute(_iEpochDate);
+    $.SA_Almanac_today.compute(_iEpochDate, _iEpochTime);
     // ... yesterday
     $.SA_Almanac_yesterday.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_yesterday.compute(_iEpochDate-86400);
+    $.SA_Almanac_yesterday.compute(_iEpochDate-86400, _iEpochTime != null ? _iEpochTime-86400 : null);
   }
 
   function onLocationEvent(_oInfo) {
@@ -187,7 +188,8 @@ class SaApp extends App.AppBase {
     var adLocation = _oInfo.position.toDegrees();
     var fLocationHeight = AppBase.getProperty("userLocationHeight");
     var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : AppBase.getProperty("storDatePreset");
-    self.computeAlmanac(Ui.loadResource(Rez.Strings.valueLocationGPS), adLocation[0], adLocation[1], fLocationHeight, iEpochDate);
+    var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
+    self.computeAlmanac(Ui.loadResource(Rez.Strings.valueLocationGPS), adLocation[0], adLocation[1], fLocationHeight, iEpochDate, iEpochTime);
 
     // Update UI
     self.updateUi();

@@ -264,13 +264,16 @@ class ViewSa extends Ui.View {
 
     // Set header/footer values
     var iColorText = $.SA_Settings.iBackgroundColor ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
-    var sValue;
 
     // ... date
     self.oRezValueDate.setColor($.SA_Settings.bDateAuto ? iColorText : Gfx.COLOR_LT_GRAY);
-    if($.SA_Almanac_today.iEpochDate != null) {
-      var oDate = new Time.Moment($.SA_Almanac_today.iEpochDate);
-      var oDateInfo = Gregorian.info(oDate, Time.FORMAT_MEDIUM);
+    if($.SA_Almanac_today.iEpochCurrent != null) {
+      var oDate = new Time.Moment($.SA_Almanac_today.iEpochCurrent);
+      var oDateInfo = $.SA_Settings.bTimeUTC ? Gregorian.utcInfo(oDate, Time.FORMAT_MEDIUM) : Gregorian.info(oDate, Time.FORMAT_MEDIUM);
+      self.oRezValueDate.setText(Lang.format("$1$ $2$", [oDateInfo.month, oDateInfo.day.format("%d")]));
+    }
+    else if($.SA_Almanac_today.iEpochDate != null) {
+      var oDateInfo = Gregorian.utcInfo(new Time.Moment($.SA_Almanac_today.iEpochDate), Time.FORMAT_MEDIUM);
       self.oRezValueDate.setText(Lang.format("$1$ $2$", [oDateInfo.month, oDateInfo.day.format("%d")]));
     }
     else {
