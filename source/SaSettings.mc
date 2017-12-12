@@ -95,7 +95,7 @@ class SaSettings {
 
   function setLocationHeight(_fLocationHeight) {
     if(_fLocationHeight == null) {
-      _fLocationHeight = $.GSK_SETTINGS_LOCATIONHEIGHT;
+      _fLocationHeight = self.DEFAULT_LOCATIONHEIGHT;
     }
     else if(_fLocationHeight > 9999.0f) {
       _fLocationHeight = 9999.0f;
