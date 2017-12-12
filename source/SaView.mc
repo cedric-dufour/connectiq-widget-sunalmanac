@@ -52,7 +52,7 @@ class ViewSa extends Ui.View {
   // Display mode (internal)
   private var bShow;
 
-  // Resources (to be loaded on onShow() and freed on onHide())
+  // Resources
   // ... drawable
   private var oRezDrawableGlobal;
   // ... header
@@ -73,24 +73,6 @@ class ViewSa extends Ui.View {
   private var oRezLabelBottom;
   // ... footer
   private var oRezValueTime;
-  // ... strings
-  private var sLabelSunriseSunset;
-  private var sLabelDayLength;
-  private var sLabelCivilDawnDusk;
-  private var sLabelNauticalDawnDusk;
-  private var sLabelAstronomicalDawnDusk;
-  private var sLabelEcliptic;
-  private var sLabelAzimuth;
-  private var sLabelTransit;
-  private var sLabelCurrentTop;
-  private var sLabelCurrentBottom;
-  private var sLabelLocation;
-  private var sLabelHeight;
-  private var sValuePhaseDay;
-  private var sValuePhaseCivil;
-  private var sValuePhaseNautical;
-  private var sValuePhaseAstronomical;
-  private var sValuePhaseNight;
 
 
   //
@@ -106,11 +88,6 @@ class ViewSa extends Ui.View {
 
   function onLayout(_oDC) {
     View.setLayout(Rez.Layouts.LayoutGlobal(_oDC));
-    return true;
-  }
-
-  function onShow() {
-    //Sys.println("DEBUG: ViewSa.onShow()");
 
     // Load resources
     // ... drawable
@@ -133,24 +110,13 @@ class ViewSa extends Ui.View {
     self.oRezLabelBottom = View.findDrawableById("labelBottom");
     // ... footer
     self.oRezValueTime = View.findDrawableById("valueTime");
-    // ... strings
-    self.sLabelSunriseSunset = Ui.loadResource(Rez.Strings.labelSunriseSunset);
-    self.sLabelDayLength = Ui.loadResource(Rez.Strings.labelDayLength);
-    self.sLabelCivilDawnDusk = Ui.loadResource(Rez.Strings.labelCivilDawnDusk);
-    self.sLabelNauticalDawnDusk = Ui.loadResource(Rez.Strings.labelNauticalDawnDusk);
-    self.sLabelAstronomicalDawnDusk = Ui.loadResource(Rez.Strings.labelAstronomicalDawnDusk);
-    self.sLabelEcliptic = Ui.loadResource(Rez.Strings.labelEcliptic);
-    self.sLabelAzimuth = Ui.loadResource(Rez.Strings.labelAzimuth);
-    self.sLabelTransit = Ui.loadResource(Rez.Strings.labelTransit);
-    self.sLabelCurrentTop = Ui.loadResource(Rez.Strings.labelCurrentTop);
-    self.sLabelCurrentBottom = Ui.loadResource(Rez.Strings.labelCurrentBottom);
-    self.sLabelLocation = Ui.loadResource(Rez.Strings.labelLocation);
-    self.sLabelHeight = Ui.loadResource(Rez.Strings.labelHeight);
-    self.sValuePhaseDay = Ui.loadResource(Rez.Strings.valuePhaseDay);
-    self.sValuePhaseCivil = Ui.loadResource(Rez.Strings.valuePhaseCivil);
-    self.sValuePhaseNautical = Ui.loadResource(Rez.Strings.valuePhaseNautical);
-    self.sValuePhaseAstronomical = Ui.loadResource(Rez.Strings.valuePhaseAstronomical);
-    self.sValuePhaseNight = Ui.loadResource(Rez.Strings.valuePhaseNight);
+
+    // Done
+    return true;
+  }
+
+  function onShow() {
+    //Sys.println("DEBUG: ViewSa.onShow()");
 
     // Reload settings (which may have been changed by user)
     self.reloadSettings();
@@ -195,48 +161,7 @@ class ViewSa extends Ui.View {
     //Sys.println("DEBUG: ViewSa.onHide()");
     $.SA_CurrentView = null;
     self.bShow = false;
-
-    // Free resources
-    // ... drawable
-    self.oRezDrawableGlobal = null;
-    // ... header
-    self.oRezValueDate = null;
-    // ... label
-    self.oRezLabelTop = null;
-    // ... fields (2x2)
-    self.oRezValueTopLeft = null;
-    self.oRezValueTopRight = null;
-    self.oRezValueBottomLeft = null;
-    self.oRezValueBottomRight = null;
-    // ... fields (4x1)
-    self.oRezValueTopHigh = null;
-    self.oRezValueTopLow = null;
-    self.oRezValueBottomHigh = null;
-    self.oRezValueBottomLow = null;
-    // ... label
-    self.oRezLabelBottom = null;
-    // ... footer
-    self.oRezValueTime = null;
-    // ... strings
-    self.sLabelSunriseSunset = null;
-    self.sLabelDayLength = null;
-    self.sLabelCivilDawnDusk = null;
-    self.sLabelNauticalDawnDusk = null;
-    self.sLabelAstronomicalDawnDusk = null;
-    self.sLabelEcliptic = null;
-    self.sLabelAzimuth = null;
-    self.sLabelTransit = null;
-    self.sLabelCurrentTop = null;
-    self.sLabelCurrentBottom = null;
-    self.sLabelLocation = null;
-    self.sLabelHeight = null;
-    self.sValuePhaseDay = null;
-    self.sValuePhaseCivil = null;
-    self.sValuePhaseNautical = null;
-    self.sValuePhaseAstronomical = null;
-    self.sValuePhaseNight = null;
-
-}
+  }
 
 
   //
@@ -291,7 +216,7 @@ class ViewSa extends Ui.View {
     case 0:
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... sunrise/sunset
-      self.oRezLabelTop.setText(self.sLabelSunriseSunset);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelSunriseSunset));
       if($.SA_Almanac_today.iEpochSunrise != null and $.SA_Almanac_today.iEpochSunset != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochSunrise, true));
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochSunset, true));
@@ -301,7 +226,7 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... day length
-      self.oRezLabelBottom.setText(self.sLabelDayLength);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelDayLength));
       if($.SA_Almanac_today.iEpochSunrise != null and $.SA_Almanac_today.iEpochSunset != null) {
         self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringTimeDiff_hm($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
@@ -339,7 +264,7 @@ class ViewSa extends Ui.View {
     case 1:
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... civil dawn/dusk
-      self.oRezLabelTop.setText(self.sLabelCivilDawnDusk);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCivilDawnDusk));
       if($.SA_Almanac_today.iEpochCivilDawn != null and $.SA_Almanac_today.iEpochCivilDusk != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochCivilDawn, true));
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochCivilDusk, true));
@@ -349,7 +274,7 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... nautical dawn/dusk
-      self.oRezLabelBottom.setText(self.sLabelNauticalDawnDusk);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelNauticalDawnDusk));
       if($.SA_Almanac_today.iEpochNauticalDawn != null and $.SA_Almanac_today.iEpochNauticalDusk != null) {
         self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochNauticalDawn, true));
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochNauticalDusk, true));
@@ -363,7 +288,7 @@ class ViewSa extends Ui.View {
     case 2:
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... astronomical dawn/dusk
-      self.oRezLabelTop.setText(self.sLabelAstronomicalDawnDusk);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelAstronomicalDawnDusk));
       if($.SA_Almanac_today.iEpochAstronomicalDawn != null and $.SA_Almanac_today.iEpochAstronomicalDusk != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochAstronomicalDawn, true));
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochAstronomicalDusk, true));
@@ -373,7 +298,7 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... ecliptic longitude / declination
-      self.oRezLabelBottom.setText(self.sLabelEcliptic);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelEcliptic));
       if($.SA_Almanac_today.fEclipticLongitude != null and $.SA_Almanac_today.fDeclination != null) {
         self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fEclipticLongitude));
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fDeclination));
@@ -386,7 +311,7 @@ class ViewSa extends Ui.View {
 
     case 3:
       // ... zenith
-      self.oRezLabelTop.setText(self.sLabelTransit);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelTransit));
       if($.SA_Almanac_today.iEpochTransit != null and $.SA_Almanac_today.fElevationTransit != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochTransit, true));
         self.oRezValueTopRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fElevationTransit));
@@ -396,7 +321,7 @@ class ViewSa extends Ui.View {
         self.oRezValueTopRight.setText(self.NOVALUE_LEN3);
       }
       // ... azimuth
-      self.oRezLabelBottom.setText(self.sLabelAzimuth);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelAzimuth));
       if($.SA_Almanac_today.fAzimuthSunrise != null and $.SA_Almanac_today.fAzimuthSunset != null) {
         self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAzimuthSunrise));
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAzimuthSunset));
@@ -409,23 +334,23 @@ class ViewSa extends Ui.View {
 
     case 4:
       // ... current
-      self.oRezLabelTop.setText(self.sLabelCurrentTop);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCurrentTop));
       if($.SA_Almanac_today.iEpochCurrent != null and $.SA_Almanac_today.fElevationCurrent != null and $.SA_Almanac_today.fAzimuthCurrent != null) {
         self.oRezValueTopLeft.setText($.SA_Almanac_today.stringTime($.SA_Almanac_today.iEpochCurrent, false));
         if($.SA_Almanac_today.fElevationCurrent > $.SA_Almanac_today.ANGLE_RISESET) {
-          self.oRezValueTopRight.setText(self.sValuePhaseDay);
+          self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseDay));
         }
         else if($.SA_Almanac_today.fElevationCurrent > $.SA_Almanac_today.ANGLE_CIVIL) {
-          self.oRezValueTopRight.setText(self.sValuePhaseCivil);
+          self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseCivil));
         }
         else if($.SA_Almanac_today.fElevationCurrent > $.SA_Almanac_today.ANGLE_NAUTICAL) {
-          self.oRezValueTopRight.setText(self.sValuePhaseNautical);
+          self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseNautical));
         }
         else if($.SA_Almanac_today.fElevationCurrent > $.SA_Almanac_today.ANGLE_ASTRONOMICAL) {
-          self.oRezValueTopRight.setText(self.sValuePhaseAstronomical);
+          self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseAstronomical));
         }
         else {
-          self.oRezValueTopRight.setText(self.sValuePhaseNight);
+          self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseNight));
         }
         self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fAzimuthCurrent));
         self.oRezValueBottomRight.setText($.SA_Almanac_today.stringDegree($.SA_Almanac_today.fElevationCurrent));
@@ -436,13 +361,13 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
-      self.oRezLabelBottom.setText(self.sLabelCurrentBottom);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelCurrentBottom));
       break;
 
     case 5:
       self.oRezDrawableGlobal.setDividers(0);
       // ... location
-      self.oRezLabelTop.setText(self.sLabelLocation);
+      self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelLocation));
       if($.SA_Almanac_today.sLocationName != null) {
         self.oRezValueTopHigh.setText($.SA_Almanac_today.sLocationName);
       }
@@ -463,7 +388,7 @@ class ViewSa extends Ui.View {
       else {
         self.oRezValueBottomLow.setText(self.NOVALUE_LEN3);
       }
-      self.oRezLabelBottom.setText(self.sLabelHeight);
+      self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelHeight));
       // ... clear previous view fields
       self.oRezValueTopLeft.setText(self.NOVALUE_BLANK);
       self.oRezValueTopRight.setText(self.NOVALUE_BLANK);
