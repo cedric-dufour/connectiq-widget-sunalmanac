@@ -228,18 +228,18 @@ class ViewSa extends Ui.View {
       // ... day length
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelDayLength));
       if($.SA_Almanac_today.iEpochSunrise != null and $.SA_Almanac_today.iEpochSunset != null) {
-        self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringTimeDiff_hm($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
+        self.oRezValueBottomLeft.setText($.SA_Almanac_today.stringTimeDiff_daylength($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
+          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_daydelta($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
         }
         else {
-          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
+          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_daydelta($.SA_Almanac_today.iEpochSunset - $.SA_Almanac_today.iEpochSunrise));
         }
       }
       else if($.SA_Almanac_today.fElevationTransit != null and $.SA_Almanac_today.fElevationTransit >= 0.0d) {
         self.oRezValueBottomLeft.setText("24h");
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms(86400 - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
+          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_daydelta(86400 - $.SA_Almanac_yesterday.iEpochSunset + $.SA_Almanac_yesterday.iEpochSunrise));
         }
         else {
           self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
@@ -248,7 +248,7 @@ class ViewSa extends Ui.View {
       else {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         if($.SA_Almanac_yesterday.iEpochSunrise != null and $.SA_Almanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_ms($.SA_Almanac_yesterday.iEpochSunrise - $.SA_Almanac_yesterday.iEpochSunset));
+          self.oRezValueBottomRight.setText($.SA_Almanac_today.stringTimeDiff_daydelta($.SA_Almanac_yesterday.iEpochSunrise - $.SA_Almanac_yesterday.iEpochSunset));
         }
         else {
           self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);

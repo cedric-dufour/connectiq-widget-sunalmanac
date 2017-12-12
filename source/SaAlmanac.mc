@@ -537,7 +537,7 @@ class SaAlmanac {
     return Lang.format("$1$:$2$", [iTime_hour.format("%d"), iTime_min.format("%02d")]);
   }
 
-  function stringTimeDiff_hm(_iDuration) {
+  function stringTimeDiff_daylength(_iDuration) {
     // Components
     var iDuration_sign = _iDuration < 0.0d ? -1 : 1;
     _iDuration = _iDuration.abs();
@@ -548,13 +548,12 @@ class SaAlmanac {
       iDuration_min -= 60;
       iDuration_hour += 1;
     }
-    iDuration_hour *= iDuration_sign;
 
     // String
     return Lang.format("$1$h$2$", [iDuration_hour.format("%d"), iDuration_min.format("%02d")]);
   }
 
-  function stringTimeDiff_ms(_iDuration) {
+  function stringTimeDiff_daydelta(_iDuration) {
     // Components
     var iDuration_sign = _iDuration < 0.0d ? -1 : 1;
     _iDuration = _iDuration.abs();
@@ -565,10 +564,9 @@ class SaAlmanac {
       iDuration_sec -= 60;
       iDuration_min += 1;
     }
-    iDuration_min *= iDuration_sign;
 
     // String
-    return Lang.format("$1$m$2$", [iDuration_min.format("%+d"), iDuration_sec.format("%02d")]);
+    return Lang.format("$1$$2$m$3$", [iDuration_sign < 0 ? "-" : "+", iDuration_min.format("%d"), iDuration_sec.format("%02d")]);
   }
 
   function stringDegree(_fDegree) {
