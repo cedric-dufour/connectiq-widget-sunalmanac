@@ -211,9 +211,7 @@ class ViewSa extends Ui.View {
     self.oRezValueTime.setText(Lang.format("$1$:$2$ $3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), $.SA_Settings.sUnitTime]));
 
     // Set field values
-    switch($.SA_ViewIndex) {
-
-    case 0:
+    if($.SA_ViewIndex == 0) {
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... sunrise/sunset
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelSunriseSunset));
@@ -259,9 +257,8 @@ class ViewSa extends Ui.View {
       self.oRezValueTopLow.setText(self.NOVALUE_BLANK);
       self.oRezValueBottomHigh.setText(self.NOVALUE_BLANK);
       self.oRezValueBottomLow.setText(self.NOVALUE_BLANK);
-      break;
-
-    case 1:
+    }
+    else if($.SA_ViewIndex == 1) {
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... civil dawn/dusk
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCivilDawnDusk));
@@ -283,9 +280,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
-      break;
-
-    case 2:
+    }
+    else if($.SA_ViewIndex == 2) {
       self.oRezDrawableGlobal.setDividers(DrawableGlobal.DRAW_DIVIDER_HORIZONTAL | DrawableGlobal.DRAW_DIVIDER_VERTICAL_TOP | DrawableGlobal.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... astronomical dawn/dusk
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelAstronomicalDawnDusk));
@@ -307,9 +303,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
-      break;
-
-    case 3:
+    }
+    else if($.SA_ViewIndex == 3) {
       // ... zenith
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelTransit));
       if($.SA_Almanac_today.iEpochTransit != null and $.SA_Almanac_today.fElevationTransit != null) {
@@ -330,9 +325,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
-      break;
-
-    case 4:
+    }
+    else if($.SA_ViewIndex == 4) {
       // ... current
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCurrentTop));
       if($.SA_Almanac_today.iEpochCurrent != null and $.SA_Almanac_today.fElevationCurrent != null and $.SA_Almanac_today.fAzimuthCurrent != null) {
@@ -362,9 +356,8 @@ class ViewSa extends Ui.View {
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelCurrentBottom));
-      break;
-
-    case 5:
+    }
+    else if($.SA_ViewIndex == 5) {
       self.oRezDrawableGlobal.setDividers(0);
       // ... location
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelLocation));
@@ -394,8 +387,6 @@ class ViewSa extends Ui.View {
       self.oRezValueTopRight.setText(self.NOVALUE_BLANK);
       self.oRezValueBottomLeft.setText(self.NOVALUE_BLANK);
       self.oRezValueBottomRight.setText(self.NOVALUE_BLANK);
-      break;
-
     }
   }
 
