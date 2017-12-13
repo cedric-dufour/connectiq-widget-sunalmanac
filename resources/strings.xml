@@ -9,18 +9,15 @@
   <!-- Menu (settings) -->
   <string id="menuSettings">Settings</string>
   <string id="titleBackgroundColor">Background Color</string>
-  <string id="helpBackgroundColor">Specify the background color</string>
   <!-- Menu (location) -->
   <string id="menuSettingsLocation">Location</string>
   <string id="titleLocationAuto">Location Source</string>
-  <string id="helpLocationAuto">Specify whether to use your current GPS position as location or a preset location</string>
   <string id="menuLocationLoad">Load Location</string>
   <string id="menuLocationEdit">Edit Location</string>
   <string id="menuLocationSave">Save Location</string>
   <string id="menuLocationDelete">Delete Location</string>
   <string id="menuLocationFromGPS">From GPS</string>
   <string id="titleLocationHeight">Height</string>
-  <string id="helpLocationHeight">Specify the observer's height (in meters, Above Ground Level) at the location</string>
   <!-- Menu (location edit) -->
   <string id="menuLocationName">Name</string>
   <string id="menuLocationLatitude">Latitude</string>
@@ -28,11 +25,8 @@
   <!-- Menu (date/time) -->
   <string id="menuSettingsDateTime">Date/Time</string>
   <string id="titleDateAuto">Date Source</string>
-  <string id="helpDateAuto">Specify whether to use your current date or a preset date</string>
   <string id="titleDatePreset">Preset Date</string>
-  <string id="helpDatePreset">Specify the preset date to use</string>
   <string id="titleTimeUTC">Timezone</string>
-  <string id="helpTimeUTC">Specify whether to display the Local Time (LT) or Universal Time Coordinates (UTC/Z)</string>
   <!-- Menu (about) -->
   <string id="menuSettingsAbout">About</string>
   <!-- Menu (confirm) -->
