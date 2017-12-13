@@ -54,7 +54,7 @@ class PickerLocationDelete extends Ui.Picker {
       oPattern = new PickerFactoryDictionary([null], ["-"], { :color => Gfx.COLOR_DK_GRAY });
     }
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.menuLocationDelete), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
+      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationDelete), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
       :pattern => [ oPattern ]
     });
   }

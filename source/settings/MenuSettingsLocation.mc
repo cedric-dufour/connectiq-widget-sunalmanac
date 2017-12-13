@@ -28,21 +28,21 @@ class MenuSettingsLocation extends Ui.Menu {
   (:memory_large)
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsLocation));
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettingsLocation));
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationAuto), :menuLocationAuto);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLoad), :menuLocationLoad);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationEdit), :menuLocationEdit);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationSave), :menuLocationSave);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationDelete), :menuLocationDelete);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationLoad), :menuLocationLoad);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationEdit), :menuLocationEdit);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationSave), :menuLocationSave);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationDelete), :menuLocationDelete);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationHeight), :menuLocationHeight);
   }
 
   (:memory_small)
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsLocation));
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettingsLocation));
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationAuto), :menuLocationAuto);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationEdit), :menuLocationEdit);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationEdit), :menuLocationEdit);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationHeight), :menuLocationHeight);
   }
 

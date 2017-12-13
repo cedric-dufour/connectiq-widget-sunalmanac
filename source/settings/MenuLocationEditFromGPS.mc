@@ -29,8 +29,8 @@ class MenuLocationEditFromGPS extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuConfirm));
-    Menu.addItem(Lang.format("$1$ ?", [Ui.loadResource(Rez.Strings.menuLocationFromGPS)]), :confirm);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleConfirm));
+    Menu.addItem(Lang.format("$1$ ?", [Ui.loadResource(Rez.Strings.titleLocationFromGPS)]), :confirm);
   }
 
 }

@@ -27,12 +27,12 @@ class MenuLocationEdit extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuLocationEdit));
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationName), :menuLocationName);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLatitude), :menuLocationLatitude);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLongitude), :menuLocationLongitude);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleLocationEdit));
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationName), :menuLocationName);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationLatitude), :menuLocationLatitude);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationLongitude), :menuLocationLongitude);
     if($.SA_PositionLocation != null) {
-      Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationFromGPS), :menuLocationFromGPS);
+      Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationFromGPS), :menuLocationFromGPS);
     }
   }
 }

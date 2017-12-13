@@ -50,7 +50,7 @@ class PickerLocationEditLongitude extends Ui.Picker {
     var oText_min = new Ui.Text({ :text => "min", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
     var oText_sec = new Ui.Text({ :text => "sec", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.menuLocationLongitude), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
+      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationLongitude), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
       :pattern => [ oFactory_qua, oText_qua,
                     new PickerFactoryNumber(0, 179, null), oText_deg,
                     new PickerFactoryNumber(0, 59, { :format => "%02d" }), oText_min,

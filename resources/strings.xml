@@ -7,30 +7,30 @@
   <string id="titleLicense">License</string>
   <string id="titleAuthor">Author</string>
   <!-- Menu (settings) -->
-  <string id="menuSettings">Settings</string>
+  <string id="titleSettings">Settings</string>
   <string id="titleBackgroundColor">Background Color</string>
   <!-- Menu (location) -->
-  <string id="menuSettingsLocation">Location</string>
+  <string id="titleSettingsLocation">Location</string>
   <string id="titleLocationAuto">Location Source</string>
-  <string id="menuLocationLoad">Load Location</string>
-  <string id="menuLocationEdit">Edit Location</string>
-  <string id="menuLocationSave">Save Location</string>
-  <string id="menuLocationDelete">Delete Location</string>
-  <string id="menuLocationFromGPS">From GPS</string>
+  <string id="titleLocationLoad">Load Location</string>
+  <string id="titleLocationEdit">Edit Location</string>
+  <string id="titleLocationSave">Save Location</string>
+  <string id="titleLocationDelete">Delete Location</string>
+  <string id="titleLocationFromGPS">From GPS</string>
   <string id="titleLocationHeight">Height</string>
   <!-- Menu (location edit) -->
-  <string id="menuLocationName">Name</string>
-  <string id="menuLocationLatitude">Latitude</string>
-  <string id="menuLocationLongitude">Longitude</string>
+  <string id="titleLocationName">Name</string>
+  <string id="titleLocationLatitude">Latitude</string>
+  <string id="titleLocationLongitude">Longitude</string>
   <!-- Menu (date/time) -->
-  <string id="menuSettingsDateTime">Date/Time</string>
+  <string id="titleSettingsDateTime">Date/Time</string>
   <string id="titleDateAuto">Date Source</string>
   <string id="titleDatePreset">Preset Date</string>
   <string id="titleTimeUTC">Timezone</string>
   <!-- Menu (about) -->
-  <string id="menuSettingsAbout">About</string>
+  <string id="titleSettingsAbout">About</string>
   <!-- Menu (confirm) -->
-  <string id="menuConfirm">Confirm</string>
+  <string id="titleConfirm">Confirm</string>
   <!-- Menu (values) -->
   <string id="valueAuto">Auto</string>
   <string id="valuePreset">Preset</string>

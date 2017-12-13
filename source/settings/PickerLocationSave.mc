@@ -46,7 +46,7 @@ class PickerLocationSave extends Ui.Picker {
 
     // Initialize picker
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.menuLocationSave), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
+      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationSave), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
       :pattern => [ new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, { :font => Gfx.FONT_TINY }) ]
     });
   }

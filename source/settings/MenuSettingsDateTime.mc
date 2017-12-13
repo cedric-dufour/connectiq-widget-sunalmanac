@@ -27,7 +27,7 @@ class MenuSettingsDateTime extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsDateTime));
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettingsDateTime));
     Menu.addItem(Ui.loadResource(Rez.Strings.titleDateAuto), :menuDateAuto);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleDatePreset), :menuDatePreset);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleTimeUTC), :menuTimeUTC);

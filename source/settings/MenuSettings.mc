@@ -27,11 +27,11 @@ class MenuSettings extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettings));
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsLocation), :menuSettingsLocation);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsDateTime), :menuSettingsDateTime);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettings));
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsLocation), :menuSettingsLocation);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsDateTime), :menuSettingsDateTime);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleBackgroundColor), :menuBackgroundColor);
-    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsAbout), :menuSettingsAbout);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsAbout), :menuSettingsAbout);
   }
 
 }
