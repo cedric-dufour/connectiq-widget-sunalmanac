@@ -1,3 +1,21 @@
+* 1.0.20171213a
+  - Devel: Add release project simulation target (and consolidate targets names)
+  - Minor: Consolidate string resources names
+  - Minor: Disable left-over debugging output
+  > FIX: Fenix5 and Forerunner935 no longer crash when navigating the
+         settings menus
+  - Perfs: Optimize memory usage (no location load/save/delete for small
+           memory devices)
+  - Perfs: Optimize memory usage (prefer if/else over switch/case)
+  - Perfs: Optimize memory usage (get rid of external settings)
+  - Perfs: Optimize memory usage (avoid unnecessary resources and constants)
+  - Perfs: Optimize almanac computation (reduce quantity of operations)
+  - Perfs: Retrieve drawables resources onLayout(); do not cache string
+           resources (given the UI is refreshed only every 60 seconds)
+  - FIX: Wrong day length difference sign (if difference < 1 minute)
+  - FIX: Default location height when loading user settings
+  - FIX: Current time/azimuth/elevation not displayed at some hours
+
 * 1.0.20171117a
   - FIX: (VERY) Wrong elevation angle for non-zero observer's height
   - Minor source code comments corrections
