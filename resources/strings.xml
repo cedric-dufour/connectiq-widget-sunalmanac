@@ -64,9 +64,4 @@
   <string id="valuePhaseNautical">Naut.</string>
   <string id="valuePhaseAstronomical">Astro.</string>
   <string id="valuePhaseNight">Night</string>
-  <!-- Units -->
-  <string id="unitTimeLT">LT</string>
-  <string id="unitTimeUTC">Z</string>
-  <string id="unitElevationMetric">m</string>
-  <string id="unitElevationStatute">ft</string>
 </strings>

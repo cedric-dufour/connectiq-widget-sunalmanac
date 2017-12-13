@@ -24,18 +24,6 @@ using Toybox.WatchUi as Ui;
 class SaSettings {
 
   //
-  // CONSTANTS
-  //
-
-  // Default values
-  private const DEFAULT_LOCATIONAUTO = false;
-  private const DEFAULT_LOCATIONHEIGHT = 0.0f;
-  private const DEFAULT_DATEAUTO = true;
-  private const DEFAULT_TIMEUTC = false;
-  private const DEFAULT_BACKGROUNDCOLOR = Gfx.COLOR_BLACK;
-
-
-  //
   // VARIABLES
   //
 
@@ -62,17 +50,6 @@ class SaSettings {
   // FUNCTIONS: self
   //
 
-  function initialize() {
-    // Settings
-    self.setLocationAuto(self.DEFAULT_LOCATIONAUTO);
-    self.setLocationHeight(self.DEFAULT_LOCATIONHEIGHT);
-    self.setDateAuto(self.DEFAULT_DATEAUTO);
-    self.setTimeUTC(self.DEFAULT_TIMEUTC);
-    self.setBackgroundColor(self.DEFAULT_BACKGROUNDCOLOR);
-    // ... device
-    self.setUnitElevation();
-  }
-
   function load() {
     var oApplication = App.getApp();
 
@@ -88,14 +65,14 @@ class SaSettings {
 
   function setLocationAuto(_bLocationAuto) {
     if(_bLocationAuto == null) {
-      _bLocationAuto = self.DEFAULT_LOCATIONAUTO;
+      _bLocationAuto = false;
     }
     self.bLocationAuto = _bLocationAuto;
   }
 
   function setLocationHeight(_fLocationHeight) {
     if(_fLocationHeight == null) {
-      _fLocationHeight = self.DEFAULT_LOCATIONHEIGHT;
+      _fLocationHeight = 0.0f;
     }
     else if(_fLocationHeight > 9999.0f) {
       _fLocationHeight = 9999.0f;
@@ -108,28 +85,28 @@ class SaSettings {
 
   function setDateAuto(_bDateAuto) {
     if(_bDateAuto == null) {
-      _bDateAuto = self.DEFAULT_DATEAUTO;
+      _bDateAuto = true;
     }
     self.bDateAuto = _bDateAuto;
   }
 
   function setTimeUTC(_bTimeUTC) {
     if(_bTimeUTC == null) {
-      _bTimeUTC = self.DEFAULT_TIMEUTC;
+      _bTimeUTC = false;
     }
     if(_bTimeUTC) {
       self.bTimeUTC = true;
-      self.sUnitTime = Ui.loadResource(Rez.Strings.unitTimeUTC);
+      self.sUnitTime = "Z";
     }
     else {
       self.bTimeUTC = false;
-      self.sUnitTime = Ui.loadResource(Rez.Strings.unitTimeLT);
+      self.sUnitTime = "LT";
     }
   }
 
   function setBackgroundColor(_iBackgroundColor) {
     if(_iBackgroundColor == null) {
-      _iBackgroundColor = self.DEFAULT_BACKGROUNDCOLOR;
+      _iBackgroundColor = Gfx.COLOR_BLACK;
     }
     self.iBackgroundColor = _iBackgroundColor;
   }
@@ -144,12 +121,12 @@ class SaSettings {
     }
     if(self.iUnitElevation == Sys.UNIT_STATUTE) {  // ... statute
       // ... [ft]
-      self.sUnitElevation = Ui.loadResource(Rez.Strings.unitElevationStatute);
+      self.sUnitElevation = "ft";
       self.fUnitElevationConstant = 3.280839895f;  // ... m -> ft
     }
     else {  // ... metric
       // ... [m]
-      self.sUnitElevation = Ui.loadResource(Rez.Strings.unitElevationMetric);
+      self.sUnitElevation = "m";
       self.fUnitElevationConstant = 1.0f;  // ... m -> m
     }
   }
