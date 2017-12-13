@@ -170,7 +170,7 @@ class SaApp extends App.AppBase {
   }
 
   function onLocationEvent(_oInfo) {
-    Sys.println("DEBUG: SaApp.onLocationEvent()");
+    //Sys.println("DEBUG: SaApp.onLocationEvent()");
     if(!$.SA_Settings.bLocationAuto) {
       return;  // should one have changed his mind while waiting for GPS fix
     }
