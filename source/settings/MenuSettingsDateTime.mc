@@ -19,7 +19,21 @@
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
-// Menu: resources/menus/menuSettingsDateTime.xml
+class MenuSettingsDateTime extends Ui.Menu {
+
+  //
+  // FUNCTIONS: Ui.Menu (override/implement)
+  //
+
+  function initialize() {
+    Menu.initialize();
+    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsDateTime));
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleDateAuto), :menuDateAuto);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleDatePreset), :menuDatePreset);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleTimeUTC), :menuTimeUTC);
+  }
+
+}
 
 class MenuDelegateSettingsDateTime extends Ui.MenuInputDelegate {
 

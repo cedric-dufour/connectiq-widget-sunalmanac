@@ -20,6 +20,7 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
+(:memory_large)
 class PickerLocationDelete extends Ui.Picker {
 
   //
@@ -60,6 +61,7 @@ class PickerLocationDelete extends Ui.Picker {
 
 }
 
+(:memory_large)
 class PickerDelegateLocationDelete extends Ui.PickerDelegate {
 
   //

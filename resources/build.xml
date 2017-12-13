@@ -8,4 +8,7 @@
   <exclude annotation="layout_218x218"/>
   <exclude annotation="layout_240x240"/>
   <exclude annotation="layout_240x400"/>
+  <!-- exclude all codes variant by default -->
+  <exclude annotation="memory_small"/>
+  <exclude annotation="memory_large"/>
 </build>

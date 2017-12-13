@@ -20,6 +20,7 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
+(:memory_large)
 class PickerLocationSave extends Ui.Picker {
 
   //
@@ -52,6 +53,7 @@ class PickerLocationSave extends Ui.Picker {
 
 }
 
+(:memory_large)
 class PickerDelegateLocationSave extends Ui.PickerDelegate {
 
   //

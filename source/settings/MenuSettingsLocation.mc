@@ -19,7 +19,34 @@
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
-// Menu: resources/menus/menuSettingsLocation.xml
+class MenuSettingsLocation extends Ui.Menu {
+
+  //
+  // FUNCTIONS: Ui.Menu (override/implement)
+  //
+
+  (:memory_large)
+  function initialize() {
+    Menu.initialize();
+    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsLocation));
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationAuto), :menuLocationAuto);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationLoad), :menuLocationLoad);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationEdit), :menuLocationEdit);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationSave), :menuLocationSave);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationDelete), :menuLocationDelete);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationHeight), :menuLocationHeight);
+  }
+
+  (:memory_small)
+  function initialize() {
+    Menu.initialize();
+    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettingsLocation));
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationAuto), :menuLocationAuto);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuLocationEdit), :menuLocationEdit);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationHeight), :menuLocationHeight);
+  }
+
+}
 
 class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
 
@@ -31,6 +58,7 @@ class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
     MenuInputDelegate.initialize();
   }
 
+  (:memory_large)
   function onMenuItem(item) {
     if (item == :menuLocationAuto) {
       //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
@@ -51,6 +79,22 @@ class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
     else if (item == :menuLocationDelete) {
       //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationDelete)");
       Ui.pushView(new PickerLocationDelete(), new PickerDelegateLocationDelete(), Ui.SLIDE_IMMEDIATE);
+    }
+    else if (item == :menuLocationHeight) {
+      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationHeight(), new PickerDelegateLocationHeight(), Ui.SLIDE_IMMEDIATE);
+    }
+  }
+
+  (:memory_small)
+  function onMenuItem(item) {
+    if (item == :menuLocationAuto) {
+      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationAuto(), new PickerDelegateLocationAuto(), Ui.SLIDE_IMMEDIATE);
+    }
+    else if (item == :menuLocationEdit) {
+      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationEdit)");
+      Ui.pushView(new MenuLocationEdit(), new MenuDelegateLocationEdit(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationHeight) {
       //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");

@@ -400,7 +400,7 @@ class ViewDelegateSa extends Ui.BehaviorDelegate {
 
   function onMenu() {
     //Sys.println("DEBUG: ViewDelegateSa.onMenu()");
-    Ui.pushView(new Rez.Menus.menuSettings(), new MenuDelegateSettings(), Ui.SLIDE_IMMEDIATE);
+    Ui.pushView(new MenuSettings(), new MenuDelegateSettings(), Ui.SLIDE_IMMEDIATE);
     return true;
   }
 

@@ -19,7 +19,22 @@
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
-// Menu: resources/menus/menuSettings.xml
+class MenuSettings extends Ui.Menu {
+
+  //
+  // FUNCTIONS: Ui.Menu (override/implement)
+  //
+
+  function initialize() {
+    Menu.initialize();
+    Menu.setTitle(Ui.loadResource(Rez.Strings.menuSettings));
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsLocation), :menuSettingsLocation);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsDateTime), :menuSettingsDateTime);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleBackgroundColor), :menuBackgroundColor);
+    Menu.addItem(Ui.loadResource(Rez.Strings.menuSettingsAbout), :menuSettingsAbout);
+  }
+
+}
 
 class MenuDelegateSettings extends Ui.MenuInputDelegate {
 
@@ -34,11 +49,11 @@ class MenuDelegateSettings extends Ui.MenuInputDelegate {
   function onMenuItem(item) {
     if (item == :menuSettingsLocation) {
       //Sys.println("DEBUG: MenuDelegateSettings.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new Rez.Menus.menuSettingsLocation(), new MenuDelegateSettingsLocation(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuSettingsLocation(), new MenuDelegateSettingsLocation(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuSettingsDateTime) {
       //Sys.println("DEBUG: MenuDelegateSettings.onMenuItem(:menuSettingsDateTime)");
-      Ui.pushView(new Rez.Menus.menuSettingsDateTime(), new MenuDelegateSettingsDateTime(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuSettingsDateTime(), new MenuDelegateSettingsDateTime(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuBackgroundColor) {
       //Sys.println("DEBUG: MenuDelegateSettings.onMenuItem(:menuBackgroundColor)");
