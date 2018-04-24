@@ -4,7 +4,7 @@ include Makefile.ciq
 
 ## Project resources
 MY_PROJECT := SunAlmanac
-MY_MANIFEST := manifest.xml
+MY_JUNGLES := ./monkey.jungle
 MY_RESOURCES := $(shell find -L resources* -name '*.xml')
 MY_SOURCES := $(shell find -L source -name '*.mc')
 
@@ -19,7 +19,7 @@ help:
 	@echo '  debug       - build the project (*.prg; including debug symbols)'
 	@echo '  release     - build the project (*.prg; excluding debug symbols)'
 	@echo '  iq          - package the project (*.iq)'
-	@echo '  run-test    - launch the project unit tests'
+	@echo '  run-tests   - launch the project unit tests'
 	@echo '  run-debug   - launch the project in the simulator (debug version)'
 	@echo '  run-release - launch the project in the simulator (release version)'
 	@echo '  clean       - delete all build output'
@@ -29,7 +29,7 @@ help:
 ## Build
 
 # test
-OUTPUT_TEST := bin/${MY_PROJECT}.test.prg
+OUTPUT_TEST := ./bin/${MY_PROJECT}.test.prg
 ${OUTPUT_TEST}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -w \
@@ -37,14 +37,12 @@ ${OUTPUT_TEST}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${
 	  -d ${CIQ_DEVICE} \
 	  -s ${CIQ_SDK} \
 	  -y ${CIQ_DEVKEY} \
-	  -m ${MY_MANIFEST} \
-	  -z $(shell echo ${MY_RESOURCES} | tr ' ' ':') \
-	  --unit-test \
-	  ${MY_SOURCES}
+	  -f ${MY_JUNGLES} \
+	  --unit-test
 test: ${OUTPUT_TEST}
 
 # debug
-OUTPUT_DEBUG := bin/${MY_PROJECT}.debug.prg
+OUTPUT_DEBUG := ./bin/${MY_PROJECT}.debug.prg
 ${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -w \
@@ -52,13 +50,11 @@ ${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} $
 	  -d ${CIQ_DEVICE} \
 	  -s ${CIQ_SDK} \
 	  -y ${CIQ_DEVKEY} \
-	  -m ${MY_MANIFEST} \
-	  -z $(shell echo ${MY_RESOURCES} | tr ' ' ':') \
-	  ${MY_SOURCES}
+	  -f ${MY_JUNGLES}
 debug: ${OUTPUT_DEBUG}
 
 # release
-OUTPUT_RELEASE := bin/${MY_PROJECT}.prg
+OUTPUT_RELEASE := ./bin/${MY_PROJECT}.prg
 ${OUTPUT_RELEASE}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -w -r \
@@ -66,21 +62,17 @@ ${OUTPUT_RELEASE}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC}
 	  -d ${CIQ_DEVICE} \
 	  -s ${CIQ_SDK} \
 	  -y ${CIQ_DEVKEY} \
-	  -m ${MY_MANIFEST} \
-	  -z $(shell echo ${MY_RESOURCES} | tr ' ' ':') \
-	  ${MY_SOURCES}
+	  -f ${MY_JUNGLES}
 release: ${OUTPUT_RELEASE}
 
 # IQ
-OUTPUT_IQ := bin/${MY_PROJECT}.iq
+OUTPUT_IQ := ./bin/${MY_PROJECT}.iq
 ${OUTPUT_IQ}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
 	${CIQ_MONKEYC} -e -w -r \
 	  -o $@ \
 	  -y ${CIQ_DEVKEY} \
-	  -m ${MY_MANIFEST} \
-	  -z $(shell echo ${MY_RESOURCES} | tr ' ' ':') \
-	  ${MY_SOURCES}
+	  -f ${MY_JUNGLES}
 iq: ${OUTPUT_IQ}
 
 
