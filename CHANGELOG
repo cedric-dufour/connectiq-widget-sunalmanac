@@ -1,3 +1,7 @@
+* 1.1.20180426a
+  - Devel: Switched build system to Jungle file (SDK >= 2.4.0)
+  - SDK 2.4.x: Switch data storage from Object Store to Application.Storage
+
 * 1.0.20171213a
   - Devel: Add release project simulation target (and consolidate targets names)
   - Minor: Consolidate string resources names
