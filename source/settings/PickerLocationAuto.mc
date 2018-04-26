@@ -28,7 +28,7 @@ class PickerLocationAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bLocationAuto = App.getApp().getProperty("userLocationAuto");
+    var bLocationAuto = App.Properties.getValue("userLocationAuto");
 
     // Initialize picker
     var oFactory = new PickerFactoryDictionary([true, false], [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)], null);
@@ -59,7 +59,7 @@ class PickerDelegateLocationAuto extends Ui.PickerDelegate {
     }
 
     // Set property and exit
-    App.getApp().setProperty("userLocationAuto", _amValues[0]);
+    App.Properties.setValue("userLocationAuto", _amValues[0]);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
   }
 

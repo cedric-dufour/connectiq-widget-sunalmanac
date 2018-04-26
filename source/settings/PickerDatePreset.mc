@@ -30,7 +30,7 @@ class PickerDatePreset extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var iEpochDate = App.getApp().getProperty("storDatePreset");
+    var iEpochDate = App.Storage.getValue("storDatePreset");
 
     // Slipt components
     var oDate = new Time.Moment(iEpochDate);
@@ -72,7 +72,7 @@ class PickerDelegateDatePreset extends Ui.PickerDelegate {
     var iEpochDate = Gregorian.moment({ :year => _amValues[0], :month => _amValues[1], :day => iDay, :hour => 0, :min => 0, :sec => 0 }).value();
 
     // Set property and exit
-    App.getApp().setProperty("storDatePreset", iEpochDate);
+    App.Storage.setValue("storDatePreset", iEpochDate);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
   }
 

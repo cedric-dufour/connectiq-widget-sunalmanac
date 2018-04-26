@@ -29,7 +29,7 @@ class PickerLocationHeight extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var fHeight = App.getApp().getProperty("userLocationHeight");
+    var fHeight = App.Properties.getValue("userLocationHeight");
 
     // Use settings-specified elevation unit (NB: always use metric units internally)
     fHeight = fHeight * $.SA_Settings.fUnitElevationConstant;  // ... from meters
@@ -85,7 +85,7 @@ class PickerDelegateLocationHeight extends Ui.PickerDelegate {
     fHeight = fHeight / $.SA_Settings.fUnitElevationConstant;  // ... to meters
 
     // Set property and exit
-    App.getApp().setProperty("userLocationHeight", fHeight);
+    App.Properties.setValue("userLocationHeight", fHeight);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
   }
 

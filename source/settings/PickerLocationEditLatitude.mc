@@ -28,7 +28,7 @@ class PickerLocationEditLatitude extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var dictLocation = App.getApp().getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
     var fLatitude = dictLocation != null ? dictLocation["latitude"] : 0.0f;
 
     // Split components
@@ -76,7 +76,7 @@ class PickerDelegateLocationEditLatitude extends Ui.PickerDelegate {
     var fLatitude = _amValues[0] * (_amValues[2] + _amValues[4]/60.0f + _amValues[6]/3600.0f);
 
     // Update/create location (dictionary)
-    var dictLocation = App.getApp().getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
     if(dictLocation != null) {
       dictLocation["latitude"] = fLatitude;
     }
@@ -85,7 +85,7 @@ class PickerDelegateLocationEditLatitude extends Ui.PickerDelegate {
     }
 
     // Set property and exit
-    App.getApp().setProperty("storLocPreset", dictLocation);
+    App.Storage.setValue("storLocPreset", dictLocation);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
   }
 

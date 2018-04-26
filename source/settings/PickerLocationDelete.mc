@@ -29,13 +29,12 @@ class PickerLocationDelete extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var iMemorySize = 40;
-    var aiMemoryKeys = new [iMemorySize];
-    var asMemoryValues = new [iMemorySize];
+    var aiMemoryKeys = new [$.SA_STORAGE_SLOTS];
+    var asMemoryValues = new [$.SA_STORAGE_SLOTS];
     var iMemoryUsed = 0;
-    for(var n=0; n<iMemorySize; n++) {
+    for(var n=0; n<$.SA_STORAGE_SLOTS; n++) {
       var s = n.format("%02d");
-      var dictLocation = App.getApp().getProperty("storLoc"+s);
+      var dictLocation = App.Storage.getValue("storLoc"+s);
       if(dictLocation != null) {
         aiMemoryKeys[iMemoryUsed] = n;
         asMemoryValues[iMemoryUsed] = Lang.format("[$1$]\n$2$", [s, dictLocation["name"]]);
@@ -76,7 +75,7 @@ class PickerDelegateLocationDelete extends Ui.PickerDelegate {
     // Delete property (location memory)
     if(_amValues[0] != null) {
       var s = _amValues[0].format("%02d");
-      App.getApp().deleteProperty("storLoc"+s);
+      App.Storage.deleteValue("storLoc"+s);
     }
 
     // Exit

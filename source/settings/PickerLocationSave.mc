@@ -29,13 +29,12 @@ class PickerLocationSave extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var iMemorySize = 40;
-    var aiMemoryKeys = new [iMemorySize];
-    var asMemoryValues = new [iMemorySize];
-    for(var n=0; n<iMemorySize; n++) {
+    var aiMemoryKeys = new [$.SA_STORAGE_SLOTS];
+    var asMemoryValues = new [$.SA_STORAGE_SLOTS];
+    for(var n=0; n<$.SA_STORAGE_SLOTS; n++) {
       aiMemoryKeys[n] = n;
       var s = n.format("%02d");
-      var dictLocation = App.getApp().getProperty("storLoc"+s);
+      var dictLocation = App.Storage.getValue("storLoc"+s);
       if(dictLocation != null) {
         asMemoryValues[n] = Lang.format("[$1$]\n$2$", [s, dictLocation["name"]]);
       }
@@ -66,12 +65,12 @@ class PickerDelegateLocationSave extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Save location
-    var dictLocation = App.getApp().getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
     if(dictLocation != null) {
       // Set property (location memory)
       // WARNING: We MUST store a new (different) dictionary instance (deep copy)!
       var s = _amValues[0].format("%02d");
-      App.getApp().setProperty("storLoc"+s, SaUtils.copy(dictLocation));
+      App.Storage.setValue("storLoc"+s, SaUtils.copy(dictLocation));
     }
 
     // Exit

@@ -49,14 +49,14 @@ class MenuDelegateLocationEditFromGPS extends Ui.MenuInputDelegate {
     if (item == :confirm and $.SA_PositionLocation != null) {
       // Update location (dictionary) with current location
       var adLocation = $.SA_PositionLocation.toDegrees();
-      var dictLocation = App.getApp().getProperty("storLocPreset");
+      var dictLocation = App.Storage.getValue("storLocPreset");
       if(dictLocation == null) {
         dictLocation = { "name" => "----", "latitude" => 0.0f, "longitude" => 0.0f };
       }
       dictLocation["name"] = Ui.loadResource(Rez.Strings.valueLocationGPS);
       dictLocation["latitude"] = adLocation[0];
       dictLocation["longitude"] = adLocation[1];
-      App.getApp().setProperty("storLocPreset", dictLocation);
+      App.Storage.setValue("storLocPreset", dictLocation);
     }
   }
 

@@ -28,7 +28,7 @@ class PickerLocationEditName extends Ui.TextPicker {
 
   function initialize() {
     // Get property
-    var dictLocation = App.getApp().getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
 
     // Initialize picker
     TextPicker.initialize(dictLocation != null ? dictLocation["name"] : "");
@@ -48,7 +48,7 @@ class PickerDelegateLocationEditName extends Ui.TextPickerDelegate {
 
   function onTextEntered(_sText, _bChanged) {
     // Update/create location (dictionary)
-    var dictLocation = App.getApp().getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
     if(dictLocation != null) {
       dictLocation["name"] = _sText;
     }
@@ -57,7 +57,7 @@ class PickerDelegateLocationEditName extends Ui.TextPickerDelegate {
     }
 
     // Set property and exit
-    App.getApp().setProperty("storLocPreset", dictLocation);
+    App.Storage.setValue("storLocPreset", dictLocation);
   }
 
   function onCancel() {

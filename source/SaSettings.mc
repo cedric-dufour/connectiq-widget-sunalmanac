@@ -51,14 +51,12 @@ class SaSettings {
   //
 
   function load() {
-    var oApplication = App.getApp();
-
     // Settings
-    self.setLocationAuto(oApplication.getProperty("userLocationAuto"));
-    self.setLocationHeight(oApplication.getProperty("userLocationHeight"));
-    self.setDateAuto(oApplication.getProperty("userDateAuto"));
-    self.setTimeUTC(oApplication.getProperty("userTimeUTC"));
-    self.setBackgroundColor(oApplication.getProperty("userBackgroundColor"));
+    self.setLocationAuto(App.Properties.getValue("userLocationAuto"));
+    self.setLocationHeight(App.Properties.getValue("userLocationHeight"));
+    self.setDateAuto(App.Properties.getValue("userDateAuto"));
+    self.setTimeUTC(App.Properties.getValue("userTimeUTC"));
+    self.setBackgroundColor(App.Properties.getValue("userBackgroundColor"));
     // ... device
     self.setUnitElevation();
   }

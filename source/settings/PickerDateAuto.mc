@@ -28,7 +28,7 @@ class PickerDateAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bDateAuto = App.getApp().getProperty("userDateAuto");
+    var bDateAuto = App.Properties.getValue("userDateAuto");
 
     // Initialize picker
     var oFactory = new PickerFactoryDictionary([true, false], [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)], null);
@@ -53,7 +53,7 @@ class PickerDelegateDateAuto extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.getApp().setProperty("userDateAuto", _amValues[0]);
+    App.Properties.setValue("userDateAuto", _amValues[0]);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
   }
 

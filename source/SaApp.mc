@@ -42,6 +42,14 @@ var SA_CurrentView = null;
 
 
 //
+// CONSTANTS
+//
+
+// Storage slots
+const SA_STORAGE_SLOTS = 100;
+
+
+//
 // CLASS
 //
 
@@ -75,6 +83,9 @@ class SaApp extends App.AppBase {
 
   function onStart(state) {
     //Sys.println("DEBUG: SaApp.onStart()");
+
+    // Upgrade
+    self.upgradeSdk();
 
     // Start UI update timer (every multiple of 60 seconds)
     self.oUpdateTimer = new Timer.Timer();
@@ -113,6 +124,39 @@ class SaApp extends App.AppBase {
   // FUNCTIONS: self
   //
 
+  function upgradeSdk() {
+    //Sys.println("DEBUG: SaApp.upgradeSdk()");
+
+    // Migrate data from Object Store to Application.Storage (SDK >= 2.4.0)
+    // TODO: Delete after December 1st, 2018
+
+    // ... location
+    if(AppBase.getProperty("storLocPreset") != null) {
+      // ... preset
+      Sys.println("DEBUG[upgrade]: Migrating 'storLocPreset'");
+      App.Storage.setValue("storLocPreset", AppBase.getProperty("storLocPreset"));
+      AppBase.deleteProperty("storLocPreset");
+      // ... storage slots
+      for(var n=0; n<$.SA_STORAGE_SLOTS; n++) {
+        var s = n.format("%02d");
+        var dictLocation = AppBase.getProperty("storLoc"+s);
+        if(dictLocation != null) {
+          Sys.println("DEBUG[upgrade]: Migrating 'storLoc"+s+"'");
+          App.Storage.setValue("storLoc"+s, dictLocation);
+          AppBase.deleteProperty("storLoc"+s);
+        }
+      }
+    }
+
+    // ... date
+    if(AppBase.getProperty("storDatePreset") != null) {
+      // ... preset
+      Sys.println("DEBUG[upgrade]: Migrating 'storDatePreset'");
+      App.Storage.setValue("storDatePreset", AppBase.getProperty("storDatePreset"));
+      AppBase.deleteProperty("storDatePreset");
+    }
+  }
+
   function updateApp() {
     //Sys.println("DEBUG: SaApp.updateApp()");
 
@@ -124,9 +168,9 @@ class SaApp extends App.AppBase {
       Pos.enableLocationEvents(Pos.LOCATION_ONE_SHOT, method(:onLocationEvent));
     }
     else {
-      var dictLocation = AppBase.getProperty("storLocPreset");
-      var fLocationHeight = AppBase.getProperty("userLocationHeight");
-      var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : AppBase.getProperty("storDatePreset");
+      var dictLocation = App.Storage.getValue("storLocPreset");
+      var fLocationHeight = App.Properties.getValue("userLocationHeight");
+      var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
       var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
       self.computeAlmanac(dictLocation["name"], dictLocation["latitude"], dictLocation["longitude"], fLocationHeight, iEpochDate, iEpochTime);
     }
@@ -142,18 +186,18 @@ class SaApp extends App.AppBase {
     $.SA_Settings.load();
 
     // ... location
-    var dictLocation = AppBase.getProperty("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset");
     if(dictLocation == null) {
       // Sun Almanac was born in Switzerland; use "Old" Bern Observatory coordinates ;-)
       dictLocation = { "name" => "CH/Bern", "latitude" => 46.9524055555556d, "longitude" => 7.43958333333333d };
-      AppBase.setProperty("storLocPreset", dictLocation);
+      App.Storage.setValue("storLocPreset", dictLocation);
     }
 
     // ... date
-    var iEpochDate = AppBase.getProperty("storDatePreset");
+    var iEpochDate = App.Storage.getValue("storDatePreset");
     if(iEpochDate == null) {
       iEpochDate = Time.today().value();
-      AppBase.setProperty("storDatePreset", iEpochDate);
+      App.Storage.setValue("storDatePreset", iEpochDate);
     }
   }
 
@@ -183,8 +227,8 @@ class SaApp extends App.AppBase {
 
     // Update almanac data
     var adLocation = _oInfo.position.toDegrees();
-    var fLocationHeight = AppBase.getProperty("userLocationHeight");
-    var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : AppBase.getProperty("storDatePreset");
+    var fLocationHeight = App.Properties.getValue("userLocationHeight");
+    var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
     var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
     self.computeAlmanac(Ui.loadResource(Rez.Strings.valueLocationGPS), adLocation[0], adLocation[1], fLocationHeight, iEpochDate, iEpochTime);
 
