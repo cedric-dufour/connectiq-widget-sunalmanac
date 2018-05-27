@@ -1,3 +1,6 @@
+* 1.1.20180527a
+  - Added support for Forerunner 645 (Music) devices
+
 * 1.1.20180426a
   - Devel: Switched build system to Jungle file (SDK >= 2.4.0)
   - SDK 2.4.x: Switch data storage from Object Store to Application.Storage
