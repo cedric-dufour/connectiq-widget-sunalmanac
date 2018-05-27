@@ -2,9 +2,11 @@
     <iq:application entry="SaApp" id="e430adc22607bf7cbe35700565c4d980" launcherIcon="@Drawables.AppIcon" minSdkVersion="2.1.0" name="@Strings.AppName" type="widget">
         <iq:products>
             <iq:product id="d2charlie"/>
-            <iq:product id="fenix5x"/>
             <iq:product id="descentmk1"/>
             <iq:product id="fenix5"/>
+            <iq:product id="fenix5x"/>
+            <iq:product id="fr645"/>
+            <iq:product id="fr645m"/>
             <iq:product id="fr935"/>
         </iq:products>
         <iq:permissions>
