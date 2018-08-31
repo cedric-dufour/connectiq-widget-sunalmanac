@@ -1,3 +1,9 @@
+* 1.1.20180831a
+  - Devel: update INSTALL file
+  - Add DONATE file, for all those eager to show their appreciation of open source and free software
+  - Devel: update default (d2charlie) CIQ target version to be compatible with SDK 3.0.2
+  - Devel: added support for D2 Delta and Fenix5* Plus series
+
 * 1.1.20180527a
   - Added support for Forerunner 645 (Music) devices
 
