@@ -6,9 +6,15 @@ project.manifest = manifest.xml
 base.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x240;layout_240x400;memory_small;memory_large
 # ... per (supported) device
 d2charlie.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
+d2delta.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
+d2deltapx.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
+d2deltas.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
 descentmk1.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
 fenix5.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_large
+fenix5plus.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
+fenix5splus.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
 fenix5x.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
+fenix5xplus.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_small
 fr935.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_large
 fr645.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_large
 fr645m.excludeAnnotations = layout_148x205;layout_200x265;layout_205x148;layout_215x180;layout_218x218;layout_240x400;memory_large
