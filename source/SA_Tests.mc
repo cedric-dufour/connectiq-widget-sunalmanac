@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -21,7 +21,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 
 (:test)
-module SaTests {
+module SA_Tests {
   
   function verifyTimeLT(_oLogger, _iEpochTimestamp, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min) {
     // Components
@@ -451,8 +451,8 @@ module SaTests {
                          [ 2017, 12, 31, 741, 816, 1651, 1726 ] ];
 
     // Sun Almanac computation object
-    var oSaAlmanac = new SaAlmanac();
-    oSaAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
+    var oAlmanac = new SA_Almanac();
+    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
 
     // Loop through reference data
     var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
@@ -467,7 +467,7 @@ module SaTests {
       
       // Compute almanac data
       var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oSaAlmanac.compute(iEpochDate, null, true);
+      oAlmanac.compute(iEpochDate, null, true);
     
       // Unit tests
       var iDelta;
@@ -476,22 +476,22 @@ module SaTests {
       // ... civil dawn
       iReference_min = iReference_dawn % 100;
       iReference_hour = (iReference_dawn - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... sunrise
       iReference_min = iReference_sunrise % 100;
       iReference_hour = (iReference_sunrise - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... sunset
       iReference_min = iReference_sunset % 100;
       iReference_hour = (iReference_sunset - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... civil dusk
       iReference_min = iReference_dusk % 100;
       iReference_hour = (iReference_dusk - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
     }
 
@@ -879,8 +879,8 @@ module SaTests {
                          [ 2018, 12, 31, 741, 816, 1651, 1726 ] ];
 
     // Sun Almanac computation object
-    var oSaAlmanac = new SaAlmanac();
-    oSaAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
+    var oAlmanac = new SA_Almanac();
+    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
 
     // Loop through reference data
     var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
@@ -895,7 +895,7 @@ module SaTests {
       
       // Compute almanac data
       var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oSaAlmanac.compute(iEpochDate, null, true);
+      oAlmanac.compute(iEpochDate, null, true);
     
       // Unit tests
       var iDelta;
@@ -904,22 +904,22 @@ module SaTests {
       // ... civil dawn
       iReference_min = iReference_dawn % 100;
       iReference_hour = (iReference_dawn - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... sunrise
       iReference_min = iReference_sunrise % 100;
       iReference_hour = (iReference_sunrise - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... sunset
       iReference_min = iReference_sunset % 100;
       iReference_hour = (iReference_sunset - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
       // ... civil dusk
       iReference_min = iReference_dusk % 100;
       iReference_hour = (iReference_dusk - iReference_min)/100;
-      iDelta = SaTests.verifyTimeLT(_oLogger, oSaAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      iDelta = SA_Tests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
       aiError[iDelta+1] += 1;
     }
 

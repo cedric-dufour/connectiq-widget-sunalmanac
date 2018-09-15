@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -18,7 +18,7 @@
 
 using Toybox.Lang;
 
-module SaUtils {
+module LangUtils {
 
   // Deep-copy the given object
   function copy(_oObject) {
@@ -27,7 +27,7 @@ module SaUtils {
       var iSize = _oObject.size();
       oCopy = new [iSize];
       for(var i=0; i<iSize; i++) {
-        oCopy[i] = SaUtils.copy(_oObject[i]);
+        oCopy[i] = LangUtils.copy(_oObject[i]);
       }
     }
     else if(_oObject instanceof Lang.Dictionary) {
@@ -36,7 +36,7 @@ module SaUtils {
       oCopy = {};
       for(var i=0; i<iSize; i++) {
         var mKey = amKeys[i];
-        oCopy.put(mKey, SaUtils.copy(_oObject.get(mKey)));
+        oCopy.put(mKey, LangUtils.copy(_oObject.get(mKey)));
       }
     }
     else if(_oObject instanceof Lang.Exception) {

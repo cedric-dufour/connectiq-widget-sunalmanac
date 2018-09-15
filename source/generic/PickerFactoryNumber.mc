@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -19,14 +19,15 @@
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
-class PickerFactoryDictionary extends Ui.PickerFactory {
+class PickerFactoryNumber extends Ui.PickerFactory {
 
   //
   // VARIABLES
   //
 
-  private var amKeys;
-  private var amValues;
+  private var iNumberMinimum;
+  private var iNumberMaximum;
+  private var sFormat;
   private var amSettingsKeys;
   private var amSettingsValues;
 
@@ -34,15 +35,23 @@ class PickerFactoryDictionary extends Ui.PickerFactory {
   // FUNCTIONS: Ui.PickerFactory (override/implement)
   //
 
-  function initialize(_amKeys, _amValues, _dictSettings) {
+  function initialize(_iNumberMinimum, _iNumberMaximum, _dictSettings) {
     PickerFactory.initialize();
-    self.amKeys = _amKeys;
-    self.amValues = _amValues;
+    self.iNumberMinimum = _iNumberMinimum;
+    self.iNumberMaximum = _iNumberMaximum;
     if(_dictSettings != null) {
+      self.sFormat = _dictSettings.get(:format);
+      if(self.sFormat == null) {
+        self.sFormat = "%d";
+      }
+      else {
+        _dictSettings.remove(:format);
+      }
       self.amSettingsKeys = _dictSettings.keys();
       self.amSettingsValues = _dictSettings.values();
     }
     else {
+      self.sFormat = "%d";
       self.amSettingsKeys = null;
       self.amSettingsValues = null;
     }
@@ -50,7 +59,7 @@ class PickerFactoryDictionary extends Ui.PickerFactory {
 
   function getDrawable(_iItem, _bSelected) {
     var dictSettings = {
-      :text => self.amValues[_iItem],
+      :text => self.getValue(_iItem).format(self.sFormat),
       :locX => Ui.LAYOUT_HALIGN_CENTER,
       :locY => Ui.LAYOUT_VALIGN_CENTER,
       :color => _bSelected ? Gfx.COLOR_WHITE : Gfx.COLOR_DK_GRAY
@@ -64,11 +73,11 @@ class PickerFactoryDictionary extends Ui.PickerFactory {
   }
 
   function getValue(_iItem) {
-    return self.amKeys[_iItem];
+    return self.iNumberMinimum+_iItem;
   }
 
   function getSize() {
-    return self.amKeys.size();
+    return self.iNumberMaximum-self.iNumberMinimum+1;
   }
 
 
@@ -76,12 +85,8 @@ class PickerFactoryDictionary extends Ui.PickerFactory {
   // FUNCTIONS: self
   //
 
-  function indexOfKey(_mKey) {
-    return self.amKeys.indexOf(_mKey);
-  }
-
-  function indexOfValue(_mValue) {
-    return self.amValues.indexOf(_mValue);
+  function indexOf(_iNumber) {
+    return _iNumber-self.iNumberMinimum;
   }
 
 }

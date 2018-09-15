@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -54,8 +54,8 @@ class PickerDelegateLocationAuto extends Ui.PickerDelegate {
   function onAccept(_amValues) {
     // Reset almanac data until next location event
     if(_amValues[0]) {
-      $.SA_Almanac_today.reset();
-      $.SA_Almanac_yesterday.reset();
+      $.SA_oAlmanac_today.reset();
+      $.SA_oAlmanac_yesterday.reset();
     }
 
     // Set property and exit

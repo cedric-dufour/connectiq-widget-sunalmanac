@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -28,17 +28,17 @@ using Toybox.WatchUi as Ui;
 //
 
 // Application settings
-var SA_Settings = null;
+var SA_oSettings = null;
 
 // (Last) position location
-var SA_PositionLocation = null;
+var SA_oPositionLocation = null;
 
 // Almanac data
-var SA_Almanac_today = null;
-var SA_Almanac_yesterday = null;
+var SA_oAlmanac_today = null;
+var SA_oAlmanac_yesterday = null;
 
 // Current view
-var SA_CurrentView = null;
+var SA_oCurrentView = null;
 
 
 //
@@ -53,7 +53,7 @@ const SA_STORAGE_SLOTS = 100;
 // CLASS
 //
 
-class SaApp extends App.AppBase {
+class SA_App extends App.AppBase {
 
   //
   // VARIABLES
@@ -71,18 +71,18 @@ class SaApp extends App.AppBase {
     AppBase.initialize();
 
     // Application settings
-    $.SA_Settings = new SaSettings();
+    $.SA_oSettings = new SA_Settings();
 
     // Almanac data
-    $.SA_Almanac_today = new SaAlmanac();
-    $.SA_Almanac_yesterday = new SaAlmanac();
+    $.SA_oAlmanac_today = new SA_Almanac();
+    $.SA_oAlmanac_yesterday = new SA_Almanac();
 
     // UI update time
     self.oUpdateTimer = null;
   }
 
   function onStart(state) {
-    //Sys.println("DEBUG: SaApp.onStart()");
+    //Sys.println("DEBUG: SA_App.onStart()");
 
     // Upgrade
     self.upgradeSdk();
@@ -99,7 +99,7 @@ class SaApp extends App.AppBase {
   }
 
   function onStop(state) {
-    //Sys.println("DEBUG: SaApp.onStop()");
+    //Sys.println("DEBUG: SA_App.onStop()");
 
     // Stop UI update timer
     if(self.oUpdateTimer != null) {
@@ -109,13 +109,13 @@ class SaApp extends App.AppBase {
   }
 
   function getInitialView() {
-    //Sys.println("DEBUG: SaApp.getInitialView()");
+    //Sys.println("DEBUG: SA_App.getInitialView()");
 
-    return [new ViewSa(), new ViewDelegateSa()];
+    return [new SA_View(), new SA_ViewDelegate()];
   }
 
   function onSettingsChanged() {
-    //Sys.println("DEBUG: SaApp.onSettingsChanged()");
+    //Sys.println("DEBUG: SA_App.onSettingsChanged()");
     self.updateApp();
   }
 
@@ -125,7 +125,7 @@ class SaApp extends App.AppBase {
   //
 
   function upgradeSdk() {
-    //Sys.println("DEBUG: SaApp.upgradeSdk()");
+    //Sys.println("DEBUG: SA_App.upgradeSdk()");
 
     // Migrate data from Object Store to Application.Storage (SDK >= 2.4.0)
     // TODO: Delete after December 1st, 2018
@@ -158,20 +158,20 @@ class SaApp extends App.AppBase {
   }
 
   function updateApp() {
-    //Sys.println("DEBUG: SaApp.updateApp()");
+    //Sys.println("DEBUG: SA_App.updateApp()");
 
     // Load settings
     self.loadSettings();
 
     // Use GPS position
-    if($.SA_Settings.bLocationAuto) {
+    if($.SA_oSettings.bLocationAuto) {
       Pos.enableLocationEvents(Pos.LOCATION_ONE_SHOT, method(:onLocationEvent));
     }
     else {
       var dictLocation = App.Storage.getValue("storLocPreset");
       var fLocationHeight = App.Properties.getValue("userLocationHeight");
-      var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
-      var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
+      var iEpochDate = $.SA_oSettings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
+      var iEpochTime = $.SA_oSettings.bDateAuto ? Time.now().value() : null;
       self.computeAlmanac(dictLocation["name"], dictLocation["latitude"], dictLocation["longitude"], fLocationHeight, iEpochDate, iEpochTime);
     }
 
@@ -180,10 +180,10 @@ class SaApp extends App.AppBase {
   }
 
   function loadSettings() {
-    //Sys.println("DEBUG: SaApp.loadSettings()");
+    //Sys.println("DEBUG: SA_App.loadSettings()");
 
     // Load settings
-    $.SA_Settings.load();
+    $.SA_oSettings.load();
 
     // ... location
     var dictLocation = App.Storage.getValue("storLocPreset");
@@ -202,20 +202,20 @@ class SaApp extends App.AppBase {
   }
 
   function computeAlmanac(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight, _iEpochDate, _iEpochTime) {
-    //Sys.println("DEBUG: SaApp.computeAlmanac()");
+    //Sys.println("DEBUG: SA_App.computeAlmanac()");
 
     // Compute almanac data
     // ... today
-    $.SA_Almanac_today.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_today.compute(_iEpochDate, _iEpochTime, true);
+    $.SA_oAlmanac_today.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
+    $.SA_oAlmanac_today.compute(_iEpochDate, _iEpochTime, true);
     // ... yesterday
-    $.SA_Almanac_yesterday.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
-    $.SA_Almanac_yesterday.compute(_iEpochDate-86400, _iEpochTime != null ? _iEpochTime-86400 : null, false);
+    $.SA_oAlmanac_yesterday.setLocation(_sLocationName, _fLocationLatitude, _fLocationLongitude, _fLocationHeight);
+    $.SA_oAlmanac_yesterday.compute(_iEpochDate-86400, _iEpochTime != null ? _iEpochTime-86400 : null, false);
   }
 
   function onLocationEvent(_oInfo) {
-    //Sys.println("DEBUG: SaApp.onLocationEvent()");
-    if(!$.SA_Settings.bLocationAuto) {
+    //Sys.println("DEBUG: SA_App.onLocationEvent()");
+    if(!$.SA_oSettings.bLocationAuto) {
       return;  // should one have changed his mind while waiting for GPS fix
     }
     if(!(_oInfo has :position)) {
@@ -223,13 +223,13 @@ class SaApp extends App.AppBase {
     }
 
     // Save position
-    $.SA_PositionLocation = _oInfo.position;
+    $.SA_oPositionLocation = _oInfo.position;
 
     // Update almanac data
     var adLocation = _oInfo.position.toDegrees();
     var fLocationHeight = App.Properties.getValue("userLocationHeight");
-    var iEpochDate = $.SA_Settings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
-    var iEpochTime = $.SA_Settings.bDateAuto ? Time.now().value() : null;
+    var iEpochDate = $.SA_oSettings.bDateAuto ? Time.today().value() : App.Storage.getValue("storDatePreset");
+    var iEpochTime = $.SA_oSettings.bDateAuto ? Time.now().value() : null;
     self.computeAlmanac(Ui.loadResource(Rez.Strings.valueLocationGPS), adLocation[0], adLocation[1], fLocationHeight, iEpochDate, iEpochTime);
 
     // Update UI
@@ -237,23 +237,23 @@ class SaApp extends App.AppBase {
   }
 
   function onUpdateTimer_init() {
-    //Sys.println("DEBUG: SaApp.onUpdateTimer_init()");
+    //Sys.println("DEBUG: SA_App.onUpdateTimer_init()");
     self.onUpdateTimer();
     self.oUpdateTimer = new Timer.Timer();
     self.oUpdateTimer.start(method(:onUpdateTimer), 60000, true);
   }
 
   function onUpdateTimer() {
-    //Sys.println("DEBUG: SaApp.onUpdateTimer()");
+    //Sys.println("DEBUG: SA_App.onUpdateTimer()");
     self.updateUi();
   }
 
   function updateUi() {
-    //Sys.println("DEBUG: SaApp.updateUi()");
+    //Sys.println("DEBUG: SA_App.updateUi()");
 
     // Update UI
-    if($.SA_CurrentView != null) {
-      $.SA_CurrentView.updateUi();
+    if($.SA_oCurrentView != null) {
+      $.SA_oCurrentView.updateUi();
     }
   }
 

@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -82,7 +82,7 @@ class PickerDelegateLocationLoad extends Ui.PickerDelegate {
 
       // Set property
       // WARNING: We MUST store a new (different) dictionary instance (deep copy)!
-      App.Storage.setValue("storLocPreset", SaUtils.copy(dictLocation));
+      App.Storage.setValue("storLocPreset", LangUtils.copy(dictLocation));
     }
 
     // Exit

@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -30,7 +30,7 @@ using Toybox.Time.Gregorian;
 // CLASS
 //
 
-class SaAlmanac {
+class SA_Almanac {
 
   //
   // CONSTANTS
@@ -151,7 +151,7 @@ class SaAlmanac {
   }
 
   function setLocation(_sName, _dLatitude, _dLongitude, _fHeight) {
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
+    //Sys.println(Lang.format("DEBUG: SA_Almanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
 
     self.sLocationName = _sName;
     self.dLocationLatitude = _dLatitude.toDouble();
@@ -163,7 +163,7 @@ class SaAlmanac {
   }
 
   function compute(_iEpochDate, _iEpochTime, _bFullCompute) {
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
+    //Sys.println(Lang.format("DEBUG: SA_Almanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
     // WARNING: _iEpochDate may be relative to locatime (LT) or UTC; we shall make sure we end up using the latter (UTC)!
 
     // Location set ?
@@ -326,7 +326,7 @@ class SaAlmanac {
   }
 
   function computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute) {
-    //Sys.println(Lang.format("DEBUG: SaAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
+    //Sys.println(Lang.format("DEBUG: SA_Almanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
     var dJ2kCentury = _dJ2kCompute/36524.2198781d;
 
     // Return values
@@ -468,109 +468,6 @@ class SaAlmanac {
     adData[1] = dElevationAngle;
     adData[2] = dAzimuthAngle;
     return adData;
-  }
-
-  function stringTime(_iEpochTimestamp, _bRoundUp) {
-    // Components
-    var oTime = new Time.Moment(_iEpochTimestamp);
-    var oTimeInfo;
-    if($.SA_Settings.bTimeUTC) {
-      oTimeInfo = Gregorian.utcInfo(oTime, Time.FORMAT_SHORT);
-    }
-    else {
-      oTimeInfo = Gregorian.info(oTime, Time.FORMAT_SHORT);
-    }
-    var iTime_hour = oTimeInfo.hour;
-    var iTime_min = oTimeInfo.min;
-    // ... round minutes up
-    if(_bRoundUp and oTimeInfo.sec >= 30) {
-      iTime_min += 1;
-      if(iTime_min >= 60) {
-        iTime_min -= 60;
-        iTime_hour += 1;
-        if(iTime_hour >= 24) {
-          iTime_hour -= 24;
-        }
-      }
-    }
-
-    // String
-    return Lang.format("$1$:$2$", [iTime_hour.format("%d"), iTime_min.format("%02d")]);
-  }
-
-  function stringTimeDiff_daylength(_iDuration) {
-    // Components
-    var iDuration_sign = _iDuration < 0.0d ? -1 : 1;
-    _iDuration = _iDuration.abs();
-    var iDuration_hour = Math.floor(_iDuration / 3600.0d).toNumber();
-    _iDuration -= iDuration_hour * 3600;
-    var iDuration_min = Math.round(_iDuration / 60.0d).toNumber();
-    if(iDuration_min >= 60) {
-      iDuration_min -= 60;
-      iDuration_hour += 1;
-    }
-
-    // String
-    return Lang.format("$1$h$2$", [iDuration_hour.format("%d"), iDuration_min.format("%02d")]);
-  }
-
-  function stringTimeDiff_daydelta(_iDuration) {
-    // Components
-    var iDuration_sign = _iDuration < 0.0d ? -1 : 1;
-    _iDuration = _iDuration.abs();
-    var iDuration_min = Math.floor(_iDuration / 60.0d).toNumber();
-    _iDuration -= iDuration_min * 60;
-    var iDuration_sec = Math.round(_iDuration).toNumber();
-    if(iDuration_sec >= 60) {
-      iDuration_sec -= 60;
-      iDuration_min += 1;
-    }
-
-    // String
-    return Lang.format("$1$$2$m$3$", [iDuration_sign < 0 ? "-" : "+", iDuration_min.format("%d"), iDuration_sec.format("%02d")]);
-  }
-
-  function stringDegree(_fDegree) {
-    return Lang.format("$1$°", [_fDegree.format("%.1f")]);
-  }
-
-  function stringLatitude(_dLatitude) {
-    // Split components
-    var iLatitude_qua = _dLatitude < 0.0d ? -1 : 1;
-    _dLatitude = _dLatitude.abs();
-    var iLatitude_deg = _dLatitude.toNumber();
-    _dLatitude = (_dLatitude - iLatitude_deg) * 60.0d;
-    var iLatitude_min = _dLatitude.toNumber();
-    _dLatitude = (_dLatitude - iLatitude_min) * 60.0d + 0.5d;
-    var iLatitude_sec = _dLatitude.toNumber();
-    if(iLatitude_sec >= 60) {
-      iLatitude_sec = 59;
-    }
-
-    // String
-    return Lang.format("$1$°$2$'$3$\" $4$", [iLatitude_deg.format("%d"), iLatitude_min.format("%02d"), iLatitude_sec.format("%02d"), iLatitude_qua < 0 ? "S" : "N"]);
-  }
-
-  function stringLongitude(_dLongitude) {
-    // Split components
-    var iLongitude_qua = _dLongitude < 0.0d ? -1 : 1;
-    _dLongitude = _dLongitude.abs();
-    var iLongitude_deg = _dLongitude.toNumber();
-    _dLongitude = (_dLongitude - iLongitude_deg) * 60.0d;
-    var iLongitude_min = _dLongitude.toNumber();
-    _dLongitude = (_dLongitude - iLongitude_min) * 60.0d + 0.5d;
-    var iLongitude_sec = _dLongitude.toNumber();
-    if(iLongitude_sec >= 60) {
-      iLongitude_sec = 59;
-    }
-
-    // String
-    return Lang.format("$1$°$2$'$3$\" $4$", [iLongitude_deg.format("%d"), iLongitude_min.format("%02d"), iLongitude_sec.format("%02d"), iLongitude_qua < 0 ? "W" : "E"]);
-  }
-
-  function stringHeight(_fHeight) {
-    var fValue = _fHeight * $.SA_Settings.fUnitElevationConstant;
-    return Lang.format("$1$ $2$", [fValue.format("%d"), $.SA_Settings.sUnitElevation]);
   }
 
 }

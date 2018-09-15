@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -31,7 +31,7 @@ class MenuLocationEdit extends Ui.Menu {
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationName), :menuLocationName);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationLatitude), :menuLocationLatitude);
     Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationLongitude), :menuLocationLongitude);
-    if($.SA_PositionLocation != null) {
+    if($.SA_oPositionLocation != null) {
       Menu.addItem(Ui.loadResource(Rez.Strings.titleLocationFromGPS), :menuLocationFromGPS);
     }
   }

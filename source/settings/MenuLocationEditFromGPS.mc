@@ -1,7 +1,7 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
 // Sun Almanac (SunAlmanac)
-// Copyright (C) 2017 Cedric Dufour <http://cedric.dufour.name>
+// Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
 // Sun Almanac (SunAlmanac) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
@@ -46,9 +46,9 @@ class MenuDelegateLocationEditFromGPS extends Ui.MenuInputDelegate {
   }
 
   function onMenuItem(item) {
-    if (item == :confirm and $.SA_PositionLocation != null) {
+    if (item == :confirm and $.SA_oPositionLocation != null) {
       // Update location (dictionary) with current location
-      var adLocation = $.SA_PositionLocation.toDegrees();
+      var adLocation = $.SA_oPositionLocation.toDegrees();
       var dictLocation = App.Storage.getValue("storLocPreset");
       if(dictLocation == null) {
         dictLocation = { "name" => "----", "latitude" => 0.0f, "longitude" => 0.0f };
