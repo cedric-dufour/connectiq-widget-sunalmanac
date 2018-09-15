@@ -20,43 +20,16 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
-class PickerLocationEditLatitude extends Ui.Picker {
+class PickerLocationEditLatitude extends PickerGenericLatitude {
 
   //
-  // FUNCTIONS: Ui.Picker (override/implement)
+  // FUNCTIONS: PickerGenericLatitude (override/implement)
   //
 
   function initialize() {
-    // Get property
     var dictLocation = App.Storage.getValue("storLocPreset");
     var fLatitude = dictLocation != null ? dictLocation["latitude"] : 0.0f;
-
-    // Split components
-    var iLatitude_qua = fLatitude < 0.0f ? -1 : 1;
-    fLatitude = fLatitude.abs();
-    var iLatitude_deg = fLatitude.toNumber();
-    fLatitude = (fLatitude - iLatitude_deg) * 60.0f;
-    var iLatitude_min = fLatitude.toNumber();
-    fLatitude = (fLatitude - iLatitude_min) * 60.0f + 0.5f;
-    var iLatitude_sec = fLatitude.toNumber();
-    if(iLatitude_sec >= 60) {
-      iLatitude_sec = 59;
-    }
-
-    // Initialize picker
-    var oFactory_qua = new PickerFactoryDictionary([1, -1], ["N", "S"], null);
-    var oText_qua = new Ui.Text({ :text => "N/S", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
-    var oText_deg = new Ui.Text({ :text => "deg", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
-    var oText_min = new Ui.Text({ :text => "min", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
-    var oText_sec = new Ui.Text({ :text => "sec", :font => Gfx.FONT_TINY, :locX => Ui.LAYOUT_HALIGN_CENTER, :locY => Ui.LAYOUT_VALIGN_CENTER, :color => Gfx.COLOR_LT_GRAY });
-    Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationLatitude), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oFactory_qua, oText_qua,
-                    new PickerFactoryNumber(0, 89, null), oText_deg,
-                    new PickerFactoryNumber(0, 59, { :format => "%02d" }), oText_min,
-                    new PickerFactoryNumber(0, 59, { :format => "%02d" }), oText_sec ],
-      :defaults => [ oFactory_qua.indexOfKey(iLatitude_qua), 0, iLatitude_deg, 0, iLatitude_min, 0, iLatitude_sec, 0 ]
-    });
+    PickerGenericLatitude.initialize(Ui.loadResource(Rez.Strings.titleLocationLatitude), fLatitude);
   }
 
 }
@@ -64,7 +37,7 @@ class PickerLocationEditLatitude extends Ui.Picker {
 class PickerDelegateLocationEditLatitude extends Ui.PickerDelegate {
 
   //
-  // FUNCTIONS: Ui.Picker (override/implement)
+  // FUNCTIONS: Ui.PickerDelegate (override/implement)
   //
 
   function initialize() {
@@ -73,7 +46,7 @@ class PickerDelegateLocationEditLatitude extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Assemble components
-    var fLatitude = _amValues[0] * (_amValues[2] + _amValues[4]/60.0f + _amValues[6]/3600.0f);
+    var fLatitude = PickerGenericLatitude.getValue(_amValues);
 
     // Update/create location (dictionary)
     var dictLocation = App.Storage.getValue("storLocPreset");

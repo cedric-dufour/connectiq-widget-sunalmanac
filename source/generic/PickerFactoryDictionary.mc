@@ -1,15 +1,15 @@
 // -*- mode:java; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
-// Sun Almanac (SunAlmanac)
+// Generic ConnectIQ Helpers/Resources (CIQ Helpers)
 // Copyright (C) 2017-2018 Cedric Dufour <http://cedric.dufour.name>
 //
-// Sun Almanac (SunAlmanac) is free software:
+// Generic ConnectIQ Helpers/Resources (CIQ Helpers) is free software:
 // you can redistribute it and/or modify it under the terms of the GNU General
 // Public License as published by the Free Software Foundation, Version 3.
 //
-// Sun Almanac (SunAlmanac) is distributed in the hope that it will be
-// useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// Generic ConnectIQ Helpers/Resources (CIQ Helpers) is distributed in the hope
+// that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 //
 // See the GNU General Public License for more details.
 //
