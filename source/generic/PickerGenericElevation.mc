@@ -73,7 +73,7 @@ class PickerGenericElevation extends Ui.Picker {
 
     // Split components
     var amValues = new [5];
-    amValues[0] = _fValue < 0.0f ? -1 : 1;
+    amValues[0] = _fValue < 0.0f ? 0 : 1;
     _fValue = _fValue.abs() + 0.05f;
     amValues[4] = _fValue.toNumber() % 10;
     _fValue = _fValue / 10.0f;
