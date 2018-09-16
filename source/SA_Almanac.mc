@@ -202,15 +202,15 @@ class SA_Almanac {
 
     // Internals
     // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data
-    self.dDeltaT = 68.8033d;  // 2017.06
+    self.dDeltaT = 68.9677d;  // 2018.01 (checked 2018.09)
     //Sys.println(Lang.format("DEBUG: Delta-T (TT-UT1) = $1$", [self.dDeltaT]));
     // ... julian day number (n)
     self.dJulianDayNumber = Math.round((self.iEpochDate+self.dDeltaT)/86400.0d+2440587.5d);
     //Sys.println(Lang.format("DEBUG: julian day number (n) = $1$", [self.dJulianDayNumber]));
     // ... DUT1 (UT1-UTC); http://maia.usno.navy.mil/ser7/ser7.dat
     var dBesselianYear = 1900.0d + (self.dJulianDayNumber-2415020.31352d)/365.242198781d;
-    var dDUT21 = 0.022d*Math.sin(dBesselianYear*6.28318530718d) - 0.012d*Math.cos(dBesselianYear*6.28318530718d) - 0.006d*Math.sin(dBesselianYear*12.5663706144d) + 0.007d*Math.cos(dBesselianYear*12.5663706144d);
-    self.dDUT1 = 0.2677d - 0.00106d*(self.dJulianDayNumber-2458067.5d) - dDUT21;
+    var dDUT21 = 0.022d*Math.sin(dBesselianYear*6.28318530718d) - 0.012d*Math.cos(dBesselianYear*6.28318530718d) - 0.006d*Math.sin(dBesselianYear*12.5663706144d) + 0.007d*Math.cos(dBesselianYear*12.5663706144d);  // 2018.09
+    self.dDUT1 = 0.0201d - 0.00067d*(self.dJulianDayNumber-2458382.5d) - dDUT21;  // 2018.09
     //Sys.println(Lang.format("DEBUG: DUT1 (UT1-UTC) = $1$", [self.dDUT1]));
     // ... mean solar time (J*)
     self.dJ2kMeanTime = self.dJulianDayNumber - 2451545.0d + (self.dDeltaT+self.dDUT1)/86400.0d - self.dLocationLongitude/360.0d;
