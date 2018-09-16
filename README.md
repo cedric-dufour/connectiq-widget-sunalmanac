@@ -3,7 +3,7 @@ SunAlmanac (Garmin ConnectIQ) Widget
 Sunrise/Sunset data for Garmin ConnectIQ devices
 
 
-   ![SunAlmanac-Overview](/SunAlmanac-Overview.jpg)
+   ![SunAlmanac-Overview](SunAlmanac-Overview.jpg)
 
 
 SunAlmanac is a Garmin ConnectIQ Widget that displays sunrise/sunset data:
