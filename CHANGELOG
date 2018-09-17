@@ -1,3 +1,12 @@
+* 1.1.20180917a
+  - FIX: crash when editing negative elevation
+  - Updated IERS parameters as of September 2018
+  - Devel: minor code refactoring/cleanup
+  - Devel: further code refactoring/cleanup (use generic helpers whenever possible)
+  - Devel: updated RELEASE manifest file
+  - Devel: vectorized launcher icon
+  - Devel: fix overview image path in README file
+
 * 1.1.20180831a
   - Devel: update INSTALL file
   - Add DONATE file, for all those eager to show their appreciation of open source and free software
