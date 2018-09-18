@@ -35,7 +35,7 @@ class MenuLocationEditFromGPS extends Ui.Menu {
 
 }
 
-class MenuDelegateLocationEditFromGPS extends Ui.MenuInputDelegate {
+class MenuLocationEditFromGPSDelegate extends Ui.MenuInputDelegate {
 
   //
   // FUNCTIONS: Ui.MenuInputDelegate (override/implement)

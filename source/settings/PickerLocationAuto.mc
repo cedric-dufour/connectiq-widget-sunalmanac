@@ -41,10 +41,10 @@ class PickerLocationAuto extends Ui.Picker {
 
 }
 
-class PickerDelegateLocationAuto extends Ui.PickerDelegate {
+class PickerLocationAutoDelegate extends Ui.PickerDelegate {
 
   //
-  // FUNCTIONS: Ui.Picker (override/implement)
+  // FUNCTIONS: Ui.PickerDelegate (override/implement)
   //
 
   function initialize() {

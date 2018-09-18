@@ -36,7 +36,7 @@ class PickerLocationEditName extends Ui.TextPicker {
 
 }
 
-class PickerDelegateLocationEditName extends Ui.TextPickerDelegate {
+class PickerLocationEditNameDelegate extends Ui.TextPickerDelegate {
 
   //
   // FUNCTIONS: Ui.PickerDelegate (override/implement)

@@ -35,7 +35,7 @@ class MenuSettingsDateTime extends Ui.Menu {
 
 }
 
-class MenuDelegateSettingsDateTime extends Ui.MenuInputDelegate {
+class MenuSettingsDateTimeDelegate extends Ui.MenuInputDelegate {
 
   //
   // FUNCTIONS: Ui.MenuInputDelegate (override/implement)
@@ -47,16 +47,16 @@ class MenuDelegateSettingsDateTime extends Ui.MenuInputDelegate {
 
   function onMenuItem(item) {
     if (item == :menuDateAuto) {
-      //Sys.println("DEBUG: MenuDelegateSettingsDateTime.onMenuItem(:menuSettingsDateTime)");
-      Ui.pushView(new PickerDateAuto(), new PickerDelegateDateAuto(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuSettingsDateTime)");
+      Ui.pushView(new PickerDateAuto(), new PickerDateAutoDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuDatePreset) {
-      //Sys.println("DEBUG: MenuDelegateSettingsDateTime.onMenuItem(:menuDatePreset)");
-      Ui.pushView(new PickerDatePreset(), new PickerDelegateDatePreset(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuDatePreset)");
+      Ui.pushView(new PickerDatePreset(), new PickerDatePresetDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuTimeUTC) {
-      //Sys.println("DEBUG: MenuDelegateSettingsDateTime.onMenuItem(:menuTimeUTC)");
-      Ui.pushView(new PickerTimeUTC(), new PickerDelegateTimeUTC(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuTimeUTC)");
+      Ui.pushView(new PickerTimeUTC(), new PickerTimeUTCDelegate(), Ui.SLIDE_IMMEDIATE);
     }
   }
 

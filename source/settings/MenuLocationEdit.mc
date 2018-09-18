@@ -37,7 +37,7 @@ class MenuLocationEdit extends Ui.Menu {
   }
 }
 
-class MenuDelegateLocationEdit extends Ui.MenuInputDelegate {
+class MenuLocationEditDelegate extends Ui.MenuInputDelegate {
 
   //
   // FUNCTIONS: Ui.MenuInputDelegate (override/implement)
@@ -49,20 +49,20 @@ class MenuDelegateLocationEdit extends Ui.MenuInputDelegate {
 
   function onMenuItem(item) {
     if (item == :menuLocationName) {
-      //Sys.println("DEBUG: MenuDelegateLocationEdit.onMenuItem(:menuLocationName)");
-      Ui.pushView(new PickerLocationEditName(), new PickerDelegateLocationEditName(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuLocationEditDelegate.onMenuItem(:menuLocationName)");
+      Ui.pushView(new PickerLocationEditName(), new PickerLocationEditNameDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationLatitude) {
-      //Sys.println("DEBUG: MenuDelegateLocationEdit.onMenuItem(:menuLocationLatitude)");
-      Ui.pushView(new PickerLocationEditLatitude(), new PickerDelegateLocationEditLatitude(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuLocationEditDelegate.onMenuItem(:menuLocationLatitude)");
+      Ui.pushView(new PickerLocationEditLatitude(), new PickerLocationEditLatitudeDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationLongitude) {
-      //Sys.println("DEBUG: MenuDelegateLocationEdit.onMenuItem(:menuLocationLongitude)");
-      Ui.pushView(new PickerLocationEditLongitude(), new PickerDelegateLocationEditLongitude(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuLocationEditDelegate.onMenuItem(:menuLocationLongitude)");
+      Ui.pushView(new PickerLocationEditLongitude(), new PickerLocationEditLongitudeDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationFromGPS) {
-      //Sys.println("DEBUG: MenuDelegateLocationEdit.onMenuItem(:menuLocationFromGPS)");
-      Ui.pushView(new MenuLocationEditFromGPS(), new MenuDelegateLocationEditFromGPS(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuLocationEditDelegate.onMenuItem(:menuLocationFromGPS)");
+      Ui.pushView(new MenuLocationEditFromGPS(), new MenuLocationEditFromGPSDelegate(), Ui.SLIDE_IMMEDIATE);
     }
   }
 

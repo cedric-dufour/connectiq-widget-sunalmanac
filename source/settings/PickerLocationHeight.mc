@@ -33,7 +33,7 @@ class PickerLocationHeight extends PickerGenericElevation {
 
 }
 
-class PickerDelegateLocationHeight extends Ui.PickerDelegate {
+class PickerLocationHeightDelegate extends Ui.PickerDelegate {
 
   //
   // FUNCTIONS: Ui.PickerDelegate (override/implement)

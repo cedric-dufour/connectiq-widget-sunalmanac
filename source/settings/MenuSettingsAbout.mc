@@ -35,7 +35,7 @@ class MenuSettingsAbout extends Ui.Menu {
 
 }
 
-class MenuDelegateSettingsAbout extends Ui.MenuInputDelegate {
+class MenuSettingsAboutDelegate extends Ui.MenuInputDelegate {
 
   //
   // FUNCTIONS: Ui.MenuInputDelegate (override/implement)

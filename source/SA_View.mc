@@ -497,13 +497,17 @@ class SA_View extends Ui.View {
 
 class SA_ViewDelegate extends Ui.BehaviorDelegate {
 
+  //
+  // FUNCTIONS: Ui.BehaviorDelegate (override/implement)
+  //
+
   function initialize() {
     BehaviorDelegate.initialize();
   }
 
   function onMenu() {
     //Sys.println("DEBUG: SA_ViewDelegate.onMenu()");
-    Ui.pushView(new MenuSettings(), new MenuDelegateSettings(), Ui.SLIDE_IMMEDIATE);
+    Ui.pushView(new MenuSettings(), new MenuSettingsDelegate(), Ui.SLIDE_IMMEDIATE);
     return true;
   }
 

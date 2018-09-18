@@ -34,7 +34,7 @@ class PickerLocationEditLatitude extends PickerGenericLatitude {
 
 }
 
-class PickerDelegateLocationEditLatitude extends Ui.PickerDelegate {
+class PickerLocationEditLatitudeDelegate extends Ui.PickerDelegate {
 
   //
   // FUNCTIONS: Ui.PickerDelegate (override/implement)

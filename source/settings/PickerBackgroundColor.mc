@@ -41,10 +41,10 @@ class PickerBackgroundColor extends Ui.Picker {
 
 }
 
-class PickerDelegateBackgroundColor extends Ui.PickerDelegate {
+class PickerBackgroundColorDelegate extends Ui.PickerDelegate {
 
   //
-  // FUNCTIONS: Ui.Picker (override/implement)
+  // FUNCTIONS: Ui.PickerDelegate (override/implement)
   //
 
   function initialize() {

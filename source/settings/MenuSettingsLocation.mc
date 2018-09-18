@@ -48,7 +48,7 @@ class MenuSettingsLocation extends Ui.Menu {
 
 }
 
-class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
+class MenuSettingsLocationDelegate extends Ui.MenuInputDelegate {
 
   //
   // FUNCTIONS: Ui.MenuInputDelegate (override/implement)
@@ -61,44 +61,44 @@ class MenuDelegateSettingsLocation extends Ui.MenuInputDelegate {
   (:memory_large)
   function onMenuItem(item) {
     if (item == :menuLocationAuto) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new PickerLocationAuto(), new PickerDelegateLocationAuto(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationAuto(), new PickerLocationAutoDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationLoad) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationLoad)");
-      Ui.pushView(new PickerLocationLoad(), new PickerDelegateLocationLoad(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuLocationLoad)");
+      Ui.pushView(new PickerLocationLoad(), new PickerLocationLoadDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationEdit) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationEdit)");
-      Ui.pushView(new MenuLocationEdit(), new MenuDelegateLocationEdit(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuLocationEdit)");
+      Ui.pushView(new MenuLocationEdit(), new MenuLocationEditDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationSave) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationSave)");
-      Ui.pushView(new PickerLocationSave(), new PickerDelegateLocationSave(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuLocationSave)");
+      Ui.pushView(new PickerLocationSave(), new PickerLocationSaveDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationDelete) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationDelete)");
-      Ui.pushView(new PickerLocationDelete(), new PickerDelegateLocationDelete(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuLocationDelete)");
+      Ui.pushView(new PickerLocationDelete(), new PickerLocationDeleteDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationHeight) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new PickerLocationHeight(), new PickerDelegateLocationHeight(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationHeight(), new PickerLocationHeightDelegate(), Ui.SLIDE_IMMEDIATE);
     }
   }
 
   (:memory_small)
   function onMenuItem(item) {
     if (item == :menuLocationAuto) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new PickerLocationAuto(), new PickerDelegateLocationAuto(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationAuto(), new PickerLocationAutoDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationEdit) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuLocationEdit)");
-      Ui.pushView(new MenuLocationEdit(), new MenuDelegateLocationEdit(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuLocationEdit)");
+      Ui.pushView(new MenuLocationEdit(), new MenuLocationEditDelegate(), Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuLocationHeight) {
-      //Sys.println("DEBUG: MenuDelegateSettingsLocation.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new PickerLocationHeight(), new PickerDelegateLocationHeight(), Ui.SLIDE_IMMEDIATE);
+      //Sys.println("DEBUG: MenuSettingsLocationDelegate.onMenuItem(:menuSettingsLocation)");
+      Ui.pushView(new PickerLocationHeight(), new PickerLocationHeightDelegate(), Ui.SLIDE_IMMEDIATE);
     }
   }
 

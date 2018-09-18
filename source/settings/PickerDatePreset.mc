@@ -49,10 +49,10 @@ class PickerDatePreset extends Ui.Picker {
 
 }
 
-class PickerDelegateDatePreset extends Ui.PickerDelegate {
+class PickerDatePresetDelegate extends Ui.PickerDelegate {
 
   //
-  // FUNCTIONS: Ui.Picker (override/implement)
+  // FUNCTIONS: Ui.PickerDelegate (override/implement)
   //
 
   function initialize() {
