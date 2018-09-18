@@ -42,7 +42,7 @@ class PickerGenericLongitude extends Ui.Picker {
     // Initialize picker
     var oFactory_qua = new PickerFactoryDictionary([1, -1], ["E", "W"], null);
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationLongitude), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
+      :title => new Ui.Text({ :text => _sTitle, :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
       :pattern => [ oFactory_qua,
                     new PickerFactoryNumber(0, 179, { :langFormat => "$1$°" }),
                     new PickerFactoryNumber(0, 59, { :langFormat => "$1$'", :format => "%02d" }),

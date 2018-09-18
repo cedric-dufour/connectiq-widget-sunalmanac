@@ -46,18 +46,21 @@ class PickerGenericElevation extends Ui.Picker {
 
     // Use user-specified elevation unit (NB: metric units are always used internally)
     var sUnit;
+    var iMaxSignificant;
     if(_iUnit == Sys.UNIT_STATUTE) {
       sUnit = "ft";
+      iMaxSignificant = 31;
       _fValue /= 0.3048f;  // ... from meters
-      if(_fValue > 29999.0f) {
-        _fValue = 29999.0f;
+      if(_fValue > 31999.0f) {
+        _fValue = 31999.0f;
       }
-      else if(_fValue < -29999.0f) {
-        _fValue = -29999.0f;
+      else if(_fValue < -31999.0f) {
+        _fValue = -31999.0f;
       }
     }
     else {
       sUnit = "m";
+      iMaxSignificant = 9;
       if(_fValue > 9999.0f) {
         _fValue = 9999.0f;
       }
@@ -65,10 +68,8 @@ class PickerGenericElevation extends Ui.Picker {
         _fValue = -9999.0f;
       }
     }
-    if(!_bAllowNegative) {
-      if(_fValue < 0.0f) {
-        _fValue = 0.0f;
-      }
+    if(!_bAllowNegative and _fValue < 0.0f) {
+      _fValue = 0.0f;
     }
 
     // Split components
@@ -87,7 +88,7 @@ class PickerGenericElevation extends Ui.Picker {
     Picker.initialize({
       :title => new Ui.Text({ :text => Lang.format("$1$ [$2$]", [_sTitle, sUnit]), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
       :pattern => [ _bAllowNegative ? new PickerFactoryDictionary([-1, 1], ["-", "+"], null) : new Ui.Text({}),
-                    new PickerFactoryNumber(0, _iUnit == Sys.UNIT_STATUTE ? 29 : 9, { :langFormat => "$1$ '" }),
+                    new PickerFactoryNumber(0, iMaxSignificant, { :langFormat => "$1$ '" }),
                     new PickerFactoryNumber(0, 9, null),
                     new PickerFactoryNumber(0, 9, null),
                     new PickerFactoryNumber(0, 9, null) ],
