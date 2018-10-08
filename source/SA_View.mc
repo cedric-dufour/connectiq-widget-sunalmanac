@@ -490,7 +490,7 @@ class SA_View extends Ui.View {
 
   function stringHeight(_fHeight) {
     var fValue = _fHeight * $.SA_oSettings.fUnitElevationConstant;
-    return Lang.format("$1$ $2$", [fValue.format("%d"), $.SA_oSettings.sUnitElevation]);
+    return Lang.format("$1$ $2$", [fValue.format("%.0f"), $.SA_oSettings.sUnitElevation]);
   }
 
 }
