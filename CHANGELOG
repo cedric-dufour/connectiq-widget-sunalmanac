@@ -1,3 +1,7 @@
+* 1.1.20181215a:
+  - MOD: Moved Noon/Zenith view into second position
+  - Updated IERS parameters as of December 2018
+
 * 1.1.20180917a
   - FIX: crash when editing negative elevation
   - Updated IERS parameters as of September 2018
