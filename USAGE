@@ -76,6 +76,6 @@ differences of one to two minutes, depending on the sources.
 
 SunAlmanac data have been verified against Switzerland Aeronautical Information
 Publications (AIP) VFG Guide's dawn/sunrise/sunset/dusk tables (RAC 1-1) for
-years 2017 and 2018, leading to:
- - 83% (2425/2920) of data having a 0-minute offset
- - 17% (495/2920) of data having a 1-minute offset
+years 2017 to 2019, leading to:
+ - 83% (3620/4380) of data having a 0-minute offset
+ - 17% (760/4380) of data having a 1-minute offset
