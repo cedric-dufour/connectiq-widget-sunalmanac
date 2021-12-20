@@ -28,14 +28,14 @@ using Toybox.WatchUi as Ui;
 //
 
 // Current view index
-var SA_iViewIndex = 0;
+var iMyViewIndex = 0;
 
 
 //
 // CLASS
 //
 
-class SA_View extends Ui.View {
+class MyView extends Ui.View {
 
   //
   // CONSTANTS
@@ -87,11 +87,11 @@ class SA_View extends Ui.View {
   }
 
   function onLayout(_oDC) {
-    View.setLayout(Rez.Layouts.SA_Layout(_oDC));
+    View.setLayout(Rez.Layouts.MyLayout(_oDC));
 
     // Load resources
     // ... drawable
-    self.oRezDrawable = View.findDrawableById("SA_Drawable");
+    self.oRezDrawable = View.findDrawableById("MyDrawable");
     // ... header
     self.oRezValueDate = View.findDrawableById("valueDate");
     // ... label
@@ -116,15 +116,15 @@ class SA_View extends Ui.View {
   }
 
   function onShow() {
-    //Sys.println("DEBUG: SA_View.onShow()");
+    //Sys.println("DEBUG: MyView.onShow()");
 
     // Reload settings (which may have been changed by user)
     self.reloadSettings();
 
     // Set colors
-    var iColorText = $.SA_oSettings.iBackgroundColor ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
+    var iColorText = $.oMySettings.iBackgroundColor ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
     // ... background
-    self.oRezDrawable.setColorBackground($.SA_oSettings.iBackgroundColor);
+    self.oRezDrawable.setColorBackground($.oMySettings.iBackgroundColor);
     // ... date
     // -> depends on settings
     // ... fields (2x2)
@@ -142,12 +142,12 @@ class SA_View extends Ui.View {
 
     // Done
     self.bShow = true;
-    $.SA_oCurrentView = self;
+    $.oMyView = self;
     return true;
   }
 
   function onUpdate(_oDC) {
-    //Sys.println("DEBUG: SA_View.onUpdate()");
+    //Sys.println("DEBUG: MyView.onUpdate()");
 
     // Update layout
     self.updateLayout();
@@ -158,8 +158,8 @@ class SA_View extends Ui.View {
   }
 
   function onHide() {
-    //Sys.println("DEBUG: SA_View.onHide()");
-    $.SA_oCurrentView = null;
+    //Sys.println("DEBUG: MyView.onHide()");
+    $.oMyView = null;
     self.bShow = false;
   }
 
@@ -169,14 +169,14 @@ class SA_View extends Ui.View {
   //
 
   function reloadSettings() {
-    //Sys.println("DEBUG: SA_View.reloadSettings()");
+    //Sys.println("DEBUG: MyView.reloadSettings()");
 
     // Update application state
     App.getApp().updateApp();
   }
 
   function updateUi() {
-    //Sys.println("DEBUG: SA_View.updateUi()");
+    //Sys.println("DEBUG: MyView.updateUi()");
 
     // Request UI update
     if(self.bShow) {
@@ -185,20 +185,20 @@ class SA_View extends Ui.View {
   }
 
   function updateLayout() {
-    //Sys.println("DEBUG: SA_View.updateLayout()");
+    //Sys.println("DEBUG: MyView.updateLayout()");
 
     // Set header/footer values
-    var iColorText = $.SA_oSettings.iBackgroundColor ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
+    var iColorText = $.oMySettings.iBackgroundColor ? Gfx.COLOR_BLACK : Gfx.COLOR_WHITE;
 
     // ... date
-    self.oRezValueDate.setColor($.SA_oSettings.bDateAuto ? iColorText : Gfx.COLOR_LT_GRAY);
-    if($.SA_oAlmanac_today.iEpochCurrent != null) {
-      var oDate = new Time.Moment($.SA_oAlmanac_today.iEpochCurrent);
-      var oDateInfo = $.SA_oSettings.bTimeUTC ? Gregorian.utcInfo(oDate, Time.FORMAT_MEDIUM) : Gregorian.info(oDate, Time.FORMAT_MEDIUM);
+    self.oRezValueDate.setColor($.oMySettings.bDateAuto ? iColorText : Gfx.COLOR_LT_GRAY);
+    if($.oMyAlmanac_today.iEpochCurrent != null) {
+      var oDate = new Time.Moment($.oMyAlmanac_today.iEpochCurrent);
+      var oDateInfo = $.oMySettings.bTimeUTC ? Gregorian.utcInfo(oDate, Time.FORMAT_MEDIUM) : Gregorian.info(oDate, Time.FORMAT_MEDIUM);
       self.oRezValueDate.setText(Lang.format("$1$ $2$", [oDateInfo.month, oDateInfo.day.format("%d")]));
     }
-    else if($.SA_oAlmanac_today.iEpochDate != null) {
-      var oDateInfo = Gregorian.utcInfo(new Time.Moment($.SA_oAlmanac_today.iEpochDate), Time.FORMAT_MEDIUM);
+    else if($.oMyAlmanac_today.iEpochDate != null) {
+      var oDateInfo = Gregorian.utcInfo(new Time.Moment($.oMyAlmanac_today.iEpochDate), Time.FORMAT_MEDIUM);
       self.oRezValueDate.setText(Lang.format("$1$ $2$", [oDateInfo.month, oDateInfo.day.format("%d")]));
     }
     else {
@@ -207,17 +207,17 @@ class SA_View extends Ui.View {
 
     // ... time
     var oTimeNow = Time.now();
-    var oTimeInfo = $.SA_oSettings.bTimeUTC ? Gregorian.utcInfo(oTimeNow, Time.FORMAT_SHORT) : Gregorian.info(oTimeNow, Time.FORMAT_SHORT);
-    self.oRezValueTime.setText(Lang.format("$1$:$2$ $3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), $.SA_oSettings.sUnitTime]));
+    var oTimeInfo = $.oMySettings.bTimeUTC ? Gregorian.utcInfo(oTimeNow, Time.FORMAT_SHORT) : Gregorian.info(oTimeNow, Time.FORMAT_SHORT);
+    self.oRezValueTime.setText(Lang.format("$1$:$2$ $3$", [oTimeInfo.hour.format("%02d"), oTimeInfo.min.format("%02d"), $.oMySettings.sUnitTime]));
 
     // Set field values
-    if($.SA_iViewIndex == 0) {
-      self.oRezDrawable.setDividers(SA_Drawable.DRAW_DIVIDER_HORIZONTAL | SA_Drawable.DRAW_DIVIDER_VERTICAL_TOP | SA_Drawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
+    if($.iMyViewIndex == 0) {
+      self.oRezDrawable.setDividers(MyDrawable.DRAW_DIVIDER_HORIZONTAL | MyDrawable.DRAW_DIVIDER_VERTICAL_TOP | MyDrawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... sunrise/sunset
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelSunriseSunset));
-      if($.SA_oAlmanac_today.iEpochSunrise != null and $.SA_oAlmanac_today.iEpochSunset != null) {
-        self.oRezValueTopLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochSunrise, true));
-        self.oRezValueTopRight.setText(self.stringTime($.SA_oAlmanac_today.iEpochSunset, true));
+      if($.oMyAlmanac_today.iEpochSunrise != null and $.oMyAlmanac_today.iEpochSunset != null) {
+        self.oRezValueTopLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochSunrise, true));
+        self.oRezValueTopRight.setText(self.stringTime($.oMyAlmanac_today.iEpochSunset, true));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
@@ -225,19 +225,19 @@ class SA_View extends Ui.View {
       }
       // ... day length
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelDayLength));
-      if($.SA_oAlmanac_today.iEpochSunrise != null and $.SA_oAlmanac_today.iEpochSunset != null) {
-        self.oRezValueBottomLeft.setText(self.stringTimeDiff_daylength($.SA_oAlmanac_today.iEpochSunset - $.SA_oAlmanac_today.iEpochSunrise));
-        if($.SA_oAlmanac_yesterday.iEpochSunrise != null and $.SA_oAlmanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.SA_oAlmanac_today.iEpochSunset - $.SA_oAlmanac_today.iEpochSunrise - $.SA_oAlmanac_yesterday.iEpochSunset + $.SA_oAlmanac_yesterday.iEpochSunrise));
+      if($.oMyAlmanac_today.iEpochSunrise != null and $.oMyAlmanac_today.iEpochSunset != null) {
+        self.oRezValueBottomLeft.setText(self.stringTimeDiff_daylength($.oMyAlmanac_today.iEpochSunset - $.oMyAlmanac_today.iEpochSunrise));
+        if($.oMyAlmanac_yesterday.iEpochSunrise != null and $.oMyAlmanac_yesterday.iEpochSunset != null) {
+          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.oMyAlmanac_today.iEpochSunset - $.oMyAlmanac_today.iEpochSunrise - $.oMyAlmanac_yesterday.iEpochSunset + $.oMyAlmanac_yesterday.iEpochSunrise));
         }
         else {
-          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.SA_oAlmanac_today.iEpochSunset - $.SA_oAlmanac_today.iEpochSunrise));
+          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.oMyAlmanac_today.iEpochSunset - $.oMyAlmanac_today.iEpochSunrise));
         }
       }
-      else if($.SA_oAlmanac_today.fElevationTransit != null and $.SA_oAlmanac_today.fElevationTransit >= 0.0d) {
+      else if($.oMyAlmanac_today.fElevationTransit != null and $.oMyAlmanac_today.fElevationTransit >= 0.0d) {
         self.oRezValueBottomLeft.setText("24h");
-        if($.SA_oAlmanac_yesterday.iEpochSunrise != null and $.SA_oAlmanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta(86400 - $.SA_oAlmanac_yesterday.iEpochSunset + $.SA_oAlmanac_yesterday.iEpochSunrise));
+        if($.oMyAlmanac_yesterday.iEpochSunrise != null and $.oMyAlmanac_yesterday.iEpochSunset != null) {
+          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta(86400 - $.oMyAlmanac_yesterday.iEpochSunset + $.oMyAlmanac_yesterday.iEpochSunrise));
         }
         else {
           self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
@@ -245,8 +245,8 @@ class SA_View extends Ui.View {
       }
       else {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
-        if($.SA_oAlmanac_yesterday.iEpochSunrise != null and $.SA_oAlmanac_yesterday.iEpochSunset != null) {
-          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.SA_oAlmanac_yesterday.iEpochSunrise - $.SA_oAlmanac_yesterday.iEpochSunset));
+        if($.oMyAlmanac_yesterday.iEpochSunrise != null and $.oMyAlmanac_yesterday.iEpochSunset != null) {
+          self.oRezValueBottomRight.setText(self.stringTimeDiff_daydelta($.oMyAlmanac_yesterday.iEpochSunrise - $.oMyAlmanac_yesterday.iEpochSunset));
         }
         else {
           self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
@@ -258,12 +258,12 @@ class SA_View extends Ui.View {
       self.oRezValueBottomHigh.setText(self.NOVALUE_BLANK);
       self.oRezValueBottomLow.setText(self.NOVALUE_BLANK);
     }
-    else if($.SA_iViewIndex == 1) {
+    else if($.iMyViewIndex == 1) {
       // ... zenith
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelTransit));
-      if($.SA_oAlmanac_today.iEpochTransit != null and $.SA_oAlmanac_today.fElevationTransit != null) {
-        self.oRezValueTopLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochTransit, true));
-        self.oRezValueTopRight.setText(self.stringDegree($.SA_oAlmanac_today.fElevationTransit));
+      if($.oMyAlmanac_today.iEpochTransit != null and $.oMyAlmanac_today.fElevationTransit != null) {
+        self.oRezValueTopLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochTransit, true));
+        self.oRezValueTopRight.setText(self.stringDegree($.oMyAlmanac_today.fElevationTransit));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
@@ -271,22 +271,22 @@ class SA_View extends Ui.View {
       }
       // ... azimuth
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelAzimuth));
-      if($.SA_oAlmanac_today.fAzimuthSunrise != null and $.SA_oAlmanac_today.fAzimuthSunset != null) {
-        self.oRezValueBottomLeft.setText(self.stringDegree($.SA_oAlmanac_today.fAzimuthSunrise));
-        self.oRezValueBottomRight.setText(self.stringDegree($.SA_oAlmanac_today.fAzimuthSunset));
+      if($.oMyAlmanac_today.fAzimuthSunrise != null and $.oMyAlmanac_today.fAzimuthSunset != null) {
+        self.oRezValueBottomLeft.setText(self.stringDegree($.oMyAlmanac_today.fAzimuthSunrise));
+        self.oRezValueBottomRight.setText(self.stringDegree($.oMyAlmanac_today.fAzimuthSunset));
       }
       else {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
     }
-    else if($.SA_iViewIndex == 2) {
-      self.oRezDrawable.setDividers(SA_Drawable.DRAW_DIVIDER_HORIZONTAL | SA_Drawable.DRAW_DIVIDER_VERTICAL_TOP | SA_Drawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
+    else if($.iMyViewIndex == 2) {
+      self.oRezDrawable.setDividers(MyDrawable.DRAW_DIVIDER_HORIZONTAL | MyDrawable.DRAW_DIVIDER_VERTICAL_TOP | MyDrawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... civil dawn/dusk
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCivilDawnDusk));
-      if($.SA_oAlmanac_today.iEpochCivilDawn != null and $.SA_oAlmanac_today.iEpochCivilDusk != null) {
-        self.oRezValueTopLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochCivilDawn, true));
-        self.oRezValueTopRight.setText(self.stringTime($.SA_oAlmanac_today.iEpochCivilDusk, true));
+      if($.oMyAlmanac_today.iEpochCivilDawn != null and $.oMyAlmanac_today.iEpochCivilDusk != null) {
+        self.oRezValueTopLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochCivilDawn, true));
+        self.oRezValueTopRight.setText(self.stringTime($.oMyAlmanac_today.iEpochCivilDusk, true));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
@@ -294,22 +294,22 @@ class SA_View extends Ui.View {
       }
       // ... nautical dawn/dusk
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelNauticalDawnDusk));
-      if($.SA_oAlmanac_today.iEpochNauticalDawn != null and $.SA_oAlmanac_today.iEpochNauticalDusk != null) {
-        self.oRezValueBottomLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochNauticalDawn, true));
-        self.oRezValueBottomRight.setText(self.stringTime($.SA_oAlmanac_today.iEpochNauticalDusk, true));
+      if($.oMyAlmanac_today.iEpochNauticalDawn != null and $.oMyAlmanac_today.iEpochNauticalDusk != null) {
+        self.oRezValueBottomLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochNauticalDawn, true));
+        self.oRezValueBottomRight.setText(self.stringTime($.oMyAlmanac_today.iEpochNauticalDusk, true));
       }
       else {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
     }
-    else if($.SA_iViewIndex == 3) {
-      self.oRezDrawable.setDividers(SA_Drawable.DRAW_DIVIDER_HORIZONTAL | SA_Drawable.DRAW_DIVIDER_VERTICAL_TOP | SA_Drawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
+    else if($.iMyViewIndex == 3) {
+      self.oRezDrawable.setDividers(MyDrawable.DRAW_DIVIDER_HORIZONTAL | MyDrawable.DRAW_DIVIDER_VERTICAL_TOP | MyDrawable.DRAW_DIVIDER_VERTICAL_BOTTOM);
       // ... astronomical dawn/dusk
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelAstronomicalDawnDusk));
-      if($.SA_oAlmanac_today.iEpochAstronomicalDawn != null and $.SA_oAlmanac_today.iEpochAstronomicalDusk != null) {
-        self.oRezValueTopLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochAstronomicalDawn, true));
-        self.oRezValueTopRight.setText(self.stringTime($.SA_oAlmanac_today.iEpochAstronomicalDusk, true));
+      if($.oMyAlmanac_today.iEpochAstronomicalDawn != null and $.oMyAlmanac_today.iEpochAstronomicalDusk != null) {
+        self.oRezValueTopLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochAstronomicalDawn, true));
+        self.oRezValueTopRight.setText(self.stringTime($.oMyAlmanac_today.iEpochAstronomicalDusk, true));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
@@ -317,37 +317,37 @@ class SA_View extends Ui.View {
       }
       // ... ecliptic longitude / declination
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelEcliptic));
-      if($.SA_oAlmanac_today.fEclipticLongitude != null and $.SA_oAlmanac_today.fDeclination != null) {
-        self.oRezValueBottomLeft.setText(self.stringDegree($.SA_oAlmanac_today.fEclipticLongitude));
-        self.oRezValueBottomRight.setText(self.stringDegree($.SA_oAlmanac_today.fDeclination));
+      if($.oMyAlmanac_today.fEclipticLongitude != null and $.oMyAlmanac_today.fDeclination != null) {
+        self.oRezValueBottomLeft.setText(self.stringDegree($.oMyAlmanac_today.fEclipticLongitude));
+        self.oRezValueBottomRight.setText(self.stringDegree($.oMyAlmanac_today.fDeclination));
       }
       else {
         self.oRezValueBottomLeft.setText(self.NOVALUE_LEN3);
         self.oRezValueBottomRight.setText(self.NOVALUE_LEN3);
       }
     }
-    else if($.SA_iViewIndex == 4) {
+    else if($.iMyViewIndex == 4) {
       // ... current
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelCurrentTop));
-      if($.SA_oAlmanac_today.iEpochCurrent != null and $.SA_oAlmanac_today.fElevationCurrent != null and $.SA_oAlmanac_today.fAzimuthCurrent != null) {
-        self.oRezValueTopLeft.setText(self.stringTime($.SA_oAlmanac_today.iEpochCurrent, false));
-        if($.SA_oAlmanac_today.fElevationCurrent > $.SA_oAlmanac_today.ANGLE_RISESET) {
+      if($.oMyAlmanac_today.iEpochCurrent != null and $.oMyAlmanac_today.fElevationCurrent != null and $.oMyAlmanac_today.fAzimuthCurrent != null) {
+        self.oRezValueTopLeft.setText(self.stringTime($.oMyAlmanac_today.iEpochCurrent, false));
+        if($.oMyAlmanac_today.fElevationCurrent > $.oMyAlmanac_today.ANGLE_RISESET) {
           self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseDay));
         }
-        else if($.SA_oAlmanac_today.fElevationCurrent > $.SA_oAlmanac_today.ANGLE_CIVIL) {
+        else if($.oMyAlmanac_today.fElevationCurrent > $.oMyAlmanac_today.ANGLE_CIVIL) {
           self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseCivil));
         }
-        else if($.SA_oAlmanac_today.fElevationCurrent > $.SA_oAlmanac_today.ANGLE_NAUTICAL) {
+        else if($.oMyAlmanac_today.fElevationCurrent > $.oMyAlmanac_today.ANGLE_NAUTICAL) {
           self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseNautical));
         }
-        else if($.SA_oAlmanac_today.fElevationCurrent > $.SA_oAlmanac_today.ANGLE_ASTRONOMICAL) {
+        else if($.oMyAlmanac_today.fElevationCurrent > $.oMyAlmanac_today.ANGLE_ASTRONOMICAL) {
           self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseAstronomical));
         }
         else {
           self.oRezValueTopRight.setText(Ui.loadResource(Rez.Strings.valuePhaseNight));
         }
-        self.oRezValueBottomLeft.setText(self.stringDegree($.SA_oAlmanac_today.fAzimuthCurrent));
-        self.oRezValueBottomRight.setText(self.stringDegree($.SA_oAlmanac_today.fElevationCurrent));
+        self.oRezValueBottomLeft.setText(self.stringDegree($.oMyAlmanac_today.fAzimuthCurrent));
+        self.oRezValueBottomRight.setText(self.stringDegree($.oMyAlmanac_today.fElevationCurrent));
       }
       else {
         self.oRezValueTopLeft.setText(self.NOVALUE_LEN3);
@@ -357,26 +357,26 @@ class SA_View extends Ui.View {
       }
       self.oRezLabelBottom.setText(Ui.loadResource(Rez.Strings.labelCurrentBottom));
     }
-    else if($.SA_iViewIndex == 5) {
+    else if($.iMyViewIndex == 5) {
       self.oRezDrawable.setDividers(0);
       // ... location
       self.oRezLabelTop.setText(Ui.loadResource(Rez.Strings.labelLocation));
-      if($.SA_oAlmanac_today.sLocationName != null) {
-        self.oRezValueTopHigh.setText($.SA_oAlmanac_today.sLocationName);
+      if($.oMyAlmanac_today.sLocationName != null) {
+        self.oRezValueTopHigh.setText($.oMyAlmanac_today.sLocationName);
       }
       else {
         self.oRezValueTopHigh.setText(self.NOVALUE_LEN3);
       }
-      if($.SA_oAlmanac_today.dLocationLatitude != null and $.SA_oAlmanac_today.dLocationLongitude != null) {
-        self.oRezValueTopLow.setText(self.stringLatitude($.SA_oAlmanac_today.dLocationLatitude));
-        self.oRezValueBottomHigh.setText(self.stringLongitude($.SA_oAlmanac_today.dLocationLongitude));
+      if($.oMyAlmanac_today.dLocationLatitude != null and $.oMyAlmanac_today.dLocationLongitude != null) {
+        self.oRezValueTopLow.setText(self.stringLatitude($.oMyAlmanac_today.dLocationLatitude));
+        self.oRezValueBottomHigh.setText(self.stringLongitude($.oMyAlmanac_today.dLocationLongitude));
       }
       else {
         self.oRezValueTopLow.setText(self.NOVALUE_BLANK);
         self.oRezValueBottomHigh.setText(self.NOVALUE_BLANK);
       }
-      if($.SA_oAlmanac_today.fLocationHeight != null) {
-        self.oRezValueBottomLow.setText(self.stringHeight($.SA_oAlmanac_today.fLocationHeight));
+      if($.oMyAlmanac_today.fLocationHeight != null) {
+        self.oRezValueBottomLow.setText(self.stringHeight($.oMyAlmanac_today.fLocationHeight));
       }
       else {
         self.oRezValueBottomLow.setText(self.NOVALUE_LEN3);
@@ -394,7 +394,7 @@ class SA_View extends Ui.View {
     // Components
     var oTime = new Time.Moment(_iEpochTimestamp);
     var oTimeInfo;
-    if($.SA_oSettings.bTimeUTC) {
+    if($.oMySettings.bTimeUTC) {
       oTimeInfo = Gregorian.utcInfo(oTime, Time.FORMAT_SHORT);
     }
     else {
@@ -489,13 +489,13 @@ class SA_View extends Ui.View {
   }
 
   function stringHeight(_fHeight) {
-    var fValue = _fHeight * $.SA_oSettings.fUnitElevationConstant;
-    return Lang.format("$1$ $2$", [fValue.format("%.0f"), $.SA_oSettings.sUnitElevation]);
+    var fValue = _fHeight * $.oMySettings.fUnitElevationConstant;
+    return Lang.format("$1$ $2$", [fValue.format("%.0f"), $.oMySettings.sUnitElevation]);
   }
 
 }
 
-class SA_ViewDelegate extends Ui.BehaviorDelegate {
+class MyViewDelegate extends Ui.BehaviorDelegate {
 
   //
   // FUNCTIONS: Ui.BehaviorDelegate (override/implement)
@@ -506,14 +506,14 @@ class SA_ViewDelegate extends Ui.BehaviorDelegate {
   }
 
   function onMenu() {
-    //Sys.println("DEBUG: SA_ViewDelegate.onMenu()");
+    //Sys.println("DEBUG: MyViewDelegate.onMenu()");
     Ui.pushView(new MenuSettings(), new MenuSettingsDelegate(), Ui.SLIDE_IMMEDIATE);
     return true;
   }
 
   function onSelect() {
-    //Sys.println("DEBUG: SA_ViewDelegate.onSelect()");
-    $.SA_iViewIndex = ( $.SA_iViewIndex + 1 ) % 6;
+    //Sys.println("DEBUG: MyViewDelegate.onSelect()");
+    $.iMyViewIndex = ( $.iMyViewIndex + 1 ) % 6;
     Ui.requestUpdate();
     return true;
   }

@@ -54,8 +54,8 @@ class PickerLocationAutoDelegate extends Ui.PickerDelegate {
   function onAccept(_amValues) {
     // Reset almanac data until next location event
     if(_amValues[0]) {
-      $.SA_oAlmanac_today.reset();
-      $.SA_oAlmanac_yesterday.reset();
+      $.oMyAlmanac_today.reset();
+      $.oMyAlmanac_yesterday.reset();
     }
 
     // Set property and exit

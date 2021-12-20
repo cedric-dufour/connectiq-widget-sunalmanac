@@ -23,7 +23,7 @@ using Toybox.WatchUi as Ui;
 // CLASS
 //
 
-class SA_Drawable extends Ui.Drawable {
+class MyDrawable extends Ui.Drawable {
 
   //
   // CONSTANTS
@@ -55,7 +55,7 @@ class SA_Drawable extends Ui.Drawable {
   //
 
   function initialize() {
-    Drawable.initialize({ :identifier => "SA_Drawable" });
+    Drawable.initialize({ :identifier => "MyDrawable" });
 
     // Resources
     self.oRezDividerHorizontal = new Rez.Drawables.drawDividerHorizontal();

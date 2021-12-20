@@ -46,9 +46,9 @@ class MenuLocationEditFromGPSDelegate extends Ui.MenuInputDelegate {
   }
 
   function onMenuItem(item) {
-    if (item == :confirm and $.SA_oPositionLocation != null) {
+    if (item == :confirm and $.oMyPositionLocation != null) {
       // Update location (dictionary) with current location
-      var adLocation = $.SA_oPositionLocation.toDegrees();
+      var adLocation = $.oMyPositionLocation.toDegrees();
       var dictLocation = App.Storage.getValue("storLocPreset");
       if(dictLocation == null) {
         dictLocation = { "name" => "----", "latitude" => 0.0f, "longitude" => 0.0f };

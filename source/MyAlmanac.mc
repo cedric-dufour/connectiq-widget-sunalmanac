@@ -30,7 +30,7 @@ using Toybox.Time.Gregorian;
 // CLASS
 //
 
-class SA_Almanac {
+class MyAlmanac {
 
   //
   // CONSTANTS
@@ -151,7 +151,7 @@ class SA_Almanac {
   }
 
   function setLocation(_sName, _dLatitude, _dLongitude, _fHeight) {
-    //Sys.println(Lang.format("DEBUG: SA_Almanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
+    //Sys.println(Lang.format("DEBUG: MyAlmanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
 
     self.sLocationName = _sName;
     self.dLocationLatitude = _dLatitude.toDouble();
@@ -163,7 +163,7 @@ class SA_Almanac {
   }
 
   function compute(_iEpochDate, _iEpochTime, _bFullCompute) {
-    //Sys.println(Lang.format("DEBUG: SA_Almanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
+    //Sys.println(Lang.format("DEBUG: MyAlmanac.compute($1$, $2$)", [_iEpochDate, _iEpochTime]));
     // WARNING: _iEpochDate may be relative to locatime (LT) or UTC; we shall make sure we end up using the latter (UTC)!
 
     // Location set ?
@@ -326,7 +326,7 @@ class SA_Almanac {
   }
 
   function computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute) {
-    //Sys.println(Lang.format("DEBUG: SA_Almanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
+    //Sys.println(Lang.format("DEBUG: MyAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
     var dJ2kCentury = _dJ2kCompute/36524.2198781d;
 
     // Return values

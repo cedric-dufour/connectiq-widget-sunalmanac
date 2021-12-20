@@ -29,11 +29,11 @@ class PickerLocationLoad extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var aiMemoryKeys = new [$.SA_STORAGE_SLOTS];
-    var asMemoryValues = new [$.SA_STORAGE_SLOTS];
-    var afMemoryDistances = new [$.SA_STORAGE_SLOTS];
+    var aiMemoryKeys = new [$.MY_STORAGE_SLOTS];
+    var asMemoryValues = new [$.MY_STORAGE_SLOTS];
+    var afMemoryDistances = new [$.MY_STORAGE_SLOTS];
     var iMemoryUsed = 0;
-    for(var n=0; n<$.SA_STORAGE_SLOTS; n++) {
+    for(var n=0; n<$.MY_STORAGE_SLOTS; n++) {
       var s = n.format("%02d");
       var dictLocation = App.Storage.getValue("storLoc"+s);
       if(dictLocation != null) {

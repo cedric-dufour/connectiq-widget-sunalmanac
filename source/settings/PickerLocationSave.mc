@@ -29,9 +29,9 @@ class PickerLocationSave extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var aiMemoryKeys = new [$.SA_STORAGE_SLOTS];
-    var asMemoryValues = new [$.SA_STORAGE_SLOTS];
-    for(var n=0; n<$.SA_STORAGE_SLOTS; n++) {
+    var aiMemoryKeys = new [$.MY_STORAGE_SLOTS];
+    var asMemoryValues = new [$.MY_STORAGE_SLOTS];
+    for(var n=0; n<$.MY_STORAGE_SLOTS; n++) {
       aiMemoryKeys[n] = n;
       var s = n.format("%02d");
       var dictLocation = App.Storage.getValue("storLoc"+s);
