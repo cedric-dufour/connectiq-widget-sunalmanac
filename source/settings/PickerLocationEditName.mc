@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -28,10 +29,10 @@ class PickerLocationEditName extends Ui.TextPicker {
 
   function initialize() {
     // Get property
-    var dictLocation = App.Storage.getValue("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
 
     // Initialize picker
-    TextPicker.initialize(dictLocation != null ? dictLocation["name"] : "");
+    TextPicker.initialize(dictLocation != null ? dictLocation["name"] as String : "");
   }
 
 }
@@ -48,20 +49,22 @@ class PickerLocationEditNameDelegate extends Ui.TextPickerDelegate {
 
   function onTextEntered(_sText, _bChanged) {
     // Update/create location (dictionary)
-    var dictLocation = App.Storage.getValue("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
     if(dictLocation != null) {
       dictLocation["name"] = _sText;
     }
     else {
-      dictLocation = { "name" => _sText, "latitude" => 0.0f, "longitude" => 0.0f };
+      dictLocation = {"name" => _sText, "latitude" => 0.0d, "longitude" => 0.0d};
     }
 
     // Set property and exit
-    App.Storage.setValue("storLocPreset", dictLocation);
+    App.Storage.setValue("storLocPreset", dictLocation as App.PropertyValueType);
+    return true;
   }
 
   function onCancel() {
     // Exit
+    return true;
   }
 
 }

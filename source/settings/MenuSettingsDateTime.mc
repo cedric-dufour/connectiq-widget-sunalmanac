@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
@@ -27,10 +28,10 @@ class MenuSettingsDateTime extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettingsDateTime));
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleDateAuto), :menuDateAuto);
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleDatePreset), :menuDatePreset);
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleTimeUTC), :menuTimeUTC);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettingsDateTime) as String);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleDateAuto) as String, :menuDateAuto);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleDatePreset) as String, :menuDatePreset);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleTimeUTC) as String, :menuTimeUTC);
   }
 
 }
@@ -48,15 +49,21 @@ class MenuSettingsDateTimeDelegate extends Ui.MenuInputDelegate {
   function onMenuItem(item) {
     if (item == :menuDateAuto) {
       //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuSettingsDateTime)");
-      Ui.pushView(new PickerDateAuto(), new PickerDateAutoDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new PickerDateAuto(),
+                  new PickerDateAutoDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuDatePreset) {
       //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuDatePreset)");
-      Ui.pushView(new PickerDatePreset(), new PickerDatePresetDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new PickerDatePreset(),
+                  new PickerDatePresetDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuTimeUTC) {
       //Sys.println("DEBUG: MenuSettingsDateTimeDelegate.onMenuItem(:menuTimeUTC)");
-      Ui.pushView(new PickerTimeUTC(), new PickerTimeUTCDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new PickerTimeUTC(),
+                  new PickerTimeUTCDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
   }
 

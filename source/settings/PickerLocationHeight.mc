@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
@@ -28,7 +29,10 @@ class PickerLocationHeight extends PickerGenericElevation {
   //
 
   function initialize() {
-    PickerGenericElevation.initialize(Ui.loadResource(Rez.Strings.titleLocationHeight), App.Properties.getValue("userLocationHeight"), null, false);
+    PickerGenericElevation.initialize(Ui.loadResource(Rez.Strings.titleLocationHeight) as String,
+                                      App.Properties.getValue("userLocationHeight") as Float,
+                                      null,
+                                      false);
   }
 
 }
@@ -45,13 +49,15 @@ class PickerLocationHeightDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userLocationHeight", PickerGenericElevation.getValue(_amValues, null));
+    App.Properties.setValue("userLocationHeight", PickerGenericElevation.getValue(_amValues, null) as App.PropertyValueType);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

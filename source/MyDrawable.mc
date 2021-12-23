@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
 
@@ -39,15 +40,15 @@ class MyDrawable extends Ui.Drawable {
   //
 
   // Resources
-  private var oRezDividerHorizontal;
-  private var oRezDividerVerticalTop;
-  private var oRezDividerVerticalBottom;
+  private var oRezDividerHorizontal as Ui.Drawable;
+  private var oRezDividerVerticalTop as Ui.Drawable;
+  private var oRezDividerVerticalBottom as Ui.Drawable;
 
   // Background color
-  private var iColorBackground;
+  private var iColorBackground as Number = Gfx.COLOR_BLACK;
 
   // Dividers
-  private var iDividers;
+  private var iDividers as Number = 0;
 
 
   //
@@ -55,18 +56,12 @@ class MyDrawable extends Ui.Drawable {
   //
 
   function initialize() {
-    Drawable.initialize({ :identifier => "MyDrawable" });
+    Drawable.initialize({:identifier => "MyDrawable"});
 
     // Resources
-    self.oRezDividerHorizontal = new Rez.Drawables.drawDividerHorizontal();
-    self.oRezDividerVerticalTop = new Rez.Drawables.drawDividerVerticalTop();
-    self.oRezDividerVerticalBottom = new Rez.Drawables.drawDividerVerticalBottom();
-
-    // Background color
-    self.iColorBackground = Gfx.COLOR_BLACK;
-
-    // Dividers
-    self.iDividers = 0;
+    oRezDividerHorizontal = new Rez.Drawables.drawDividerHorizontal();
+    oRezDividerVerticalTop = new Rez.Drawables.drawDividerVerticalTop();
+    oRezDividerVerticalBottom = new Rez.Drawables.drawDividerVerticalBottom();
   }
 
   function draw(_oDC) {
@@ -93,11 +88,11 @@ class MyDrawable extends Ui.Drawable {
   // FUNCTIONS: self
   //
 
-  function setColorBackground(_iColorBackground) {
+  function setColorBackground(_iColorBackground as Number) as Void {
     self.iColorBackground = _iColorBackground;
   }
 
-  function setDividers(_iDividers) {
+  function setDividers(_iDividers as Number) as Void {
     self.iDividers = _iDividers;
   }
 

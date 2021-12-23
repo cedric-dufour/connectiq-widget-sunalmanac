@@ -16,7 +16,9 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
+using Toybox.Position as Pos;
 using Toybox.WatchUi as Ui;
 
 // NOTE: Since Ui.Confirmation does not allow to pre-select "Yes" as an answer,
@@ -29,8 +31,8 @@ class MenuLocationEditFromGPS extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.titleConfirm));
-    Menu.addItem(Lang.format("$1$ ?", [Ui.loadResource(Rez.Strings.titleLocationFromGPS)]), :confirm);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleConfirm) as String);
+    Menu.addItem(format("$1$ ?", [Ui.loadResource(Rez.Strings.titleLocationFromGPS)]), :confirm);
   }
 
 }
@@ -48,15 +50,15 @@ class MenuLocationEditFromGPSDelegate extends Ui.MenuInputDelegate {
   function onMenuItem(item) {
     if (item == :confirm and $.oMyPositionLocation != null) {
       // Update location (dictionary) with current location
-      var adLocation = $.oMyPositionLocation.toDegrees();
-      var dictLocation = App.Storage.getValue("storLocPreset");
+      var adLocation = ($.oMyPositionLocation as Pos.Location).toDegrees();
+      var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
       if(dictLocation == null) {
-        dictLocation = { "name" => "----", "latitude" => 0.0f, "longitude" => 0.0f };
+        dictLocation = {"name" => "----", "latitude" => 0.0d, "longitude" => 0.0d};
       }
-      dictLocation["name"] = Ui.loadResource(Rez.Strings.valueLocationGPS);
+      dictLocation["name"] = Ui.loadResource(Rez.Strings.valueLocationGPS) as String;
       dictLocation["latitude"] = adLocation[0];
       dictLocation["longitude"] = adLocation[1];
-      App.Storage.setValue("storLocPreset", dictLocation);
+      App.Storage.setValue("storLocPreset", dictLocation as App.PropertyValueType);
     }
   }
 

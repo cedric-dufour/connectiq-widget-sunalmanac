@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
@@ -27,71 +28,63 @@ class MySettings {
   //
 
   // Settings
-  public var bLocationAuto;
-  public var fLocationHeight;
-  public var bDateAuto;
-  public var bTimeUTC;
-  public var iBackgroundColor;
+  public var bLocationAuto as Boolean = false;
+  public var fLocationHeight as Float = 0.0f;
+  public var bDateAuto as Boolean = true;
+  public var bTimeUTC as Boolean = false;
+  public var iBackgroundColor as Number = Gfx.COLOR_BLACK;
   // ... device
-  public var iUnitElevation;
+  public var iUnitElevation as Number = -1;
 
   // Units
-  public var sUnitTime;
+  public var sUnitTime as String = "LT";
   // ... device
-  public var sUnitElevation;
+  public var sUnitElevation as String = "m";
 
   // Units conversion constants
   // ... device
-  public var fUnitElevationConstant;
+  public var fUnitElevationConstant as Float = 1.0f;
 
 
   //
   // FUNCTIONS: self
   //
 
-  function load() {
+  function load() as Void {
     // Settings
-    self.setLocationAuto(App.Properties.getValue("userLocationAuto"));
-    self.setLocationHeight(App.Properties.getValue("userLocationHeight"));
-    self.setDateAuto(App.Properties.getValue("userDateAuto"));
-    self.setTimeUTC(App.Properties.getValue("userTimeUTC"));
-    self.setBackgroundColor(App.Properties.getValue("userBackgroundColor"));
+    self.setLocationAuto(App.Properties.getValue("userLocationAuto") as Boolean?);
+    self.setLocationHeight(App.Properties.getValue("userLocationHeight") as Float?);
+    self.setDateAuto(App.Properties.getValue("userDateAuto") as Boolean?);
+    self.setTimeUTC(App.Properties.getValue("userTimeUTC") as Boolean?);
+    self.setBackgroundColor(App.Properties.getValue("userBackgroundColor") as Number?);
     // ... device
     self.setUnitElevation();
   }
 
-  function setLocationAuto(_bLocationAuto) {
-    if(_bLocationAuto == null) {
-      _bLocationAuto = false;
-    }
-    self.bLocationAuto = _bLocationAuto;
+  function setLocationAuto(_bValue as Boolean?) as Void {
+    var bValue = _bValue != null ? _bValue : false;
+    self.bLocationAuto = bValue;
   }
 
-  function setLocationHeight(_fLocationHeight) {
-    if(_fLocationHeight == null) {
-      _fLocationHeight = 0.0f;
+  function setLocationHeight(_fValue as Float?) as Void {
+    var fValue = _fValue != null ? _fValue : 0.0f;
+    if(fValue > 9999.0f) {
+      fValue = 9999.0f;
     }
-    else if(_fLocationHeight > 9999.0f) {
-      _fLocationHeight = 9999.0f;
+    else if(fValue < 0.0f) {
+      fValue = 0.0f;
     }
-    else if(_fLocationHeight < 0.0f) {
-      _fLocationHeight = 0.0f;
-    }
-    self.fLocationHeight = _fLocationHeight;
+    self.fLocationHeight = fValue;
   }
 
-  function setDateAuto(_bDateAuto) {
-    if(_bDateAuto == null) {
-      _bDateAuto = true;
-    }
-    self.bDateAuto = _bDateAuto;
+  function setDateAuto(_bValue as Boolean?) as Void {
+    var bValue = _bValue != null ? _bValue : true;
+    self.bDateAuto = bValue;
   }
 
-  function setTimeUTC(_bTimeUTC) {
-    if(_bTimeUTC == null) {
-      _bTimeUTC = false;
-    }
-    if(_bTimeUTC) {
+  function setTimeUTC(_bValue as Boolean?) as Void {
+    var bValue = _bValue != null ? _bValue : false;
+    if(bValue) {
       self.bTimeUTC = true;
       self.sUnitTime = "Z";
     }
@@ -101,17 +94,15 @@ class MySettings {
     }
   }
 
-  function setBackgroundColor(_iBackgroundColor) {
-    if(_iBackgroundColor == null) {
-      _iBackgroundColor = Gfx.COLOR_BLACK;
-    }
-    self.iBackgroundColor = _iBackgroundColor;
+  function setBackgroundColor(_iValue as Number?) as Void {
+    var iValue = _iValue != null ? _iValue : Gfx.COLOR_BLACK;
+    self.iBackgroundColor = iValue;
   }
 
-  function setUnitElevation() {
+  function setUnitElevation() as Void {
     var oDeviceSettings = Sys.getDeviceSettings();
     if(oDeviceSettings has :elevationUnits and oDeviceSettings.elevationUnits != null) {
-      self.iUnitElevation = oDeviceSettings.elevationUnits;
+      self.iUnitElevation = oDeviceSettings.elevationUnits as Number;
     }
     else {
       self.iUnitElevation = Sys.UNIT_METRIC;

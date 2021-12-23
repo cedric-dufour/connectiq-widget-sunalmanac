@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -28,15 +29,21 @@ class PickerLocationAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bLocationAuto = App.Properties.getValue("userLocationAuto");
+    var bLocationAuto = App.Properties.getValue("userLocationAuto") as Boolean?;
 
     // Initialize picker
-    var oFactory = new PickerFactoryDictionary([true, false], [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)], null);
+    var oFactory = new PickerFactoryDictionary([true, false],
+                                               [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)],
+                                               null);
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationAuto), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oFactory ],
-      :defaults => [ oFactory.indexOfKey(bLocationAuto) ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleLocationAuto) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [oFactory],
+        :defaults => [oFactory.indexOfKey(bLocationAuto != null ? bLocationAuto : false)]});
   }
 
 }
@@ -59,13 +66,15 @@ class PickerLocationAutoDelegate extends Ui.PickerDelegate {
     }
 
     // Set property and exit
-    App.Properties.setValue("userLocationAuto", _amValues[0]);
+    App.Properties.setValue("userLocationAuto", _amValues[0] as App.PropertyValueType);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

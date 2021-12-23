@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -29,15 +30,15 @@ class PickerLocationDelete extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var aiMemoryKeys = new [$.MY_STORAGE_SLOTS];
-    var asMemoryValues = new [$.MY_STORAGE_SLOTS];
+    var aiMemoryKeys = new Array<Number>[$.MY_STORAGE_SLOTS];
+    var asMemoryValues = new Array<String>[$.MY_STORAGE_SLOTS];
     var iMemoryUsed = 0;
     for(var n=0; n<$.MY_STORAGE_SLOTS; n++) {
       var s = n.format("%02d");
-      var dictLocation = App.Storage.getValue("storLoc"+s);
+      var dictLocation = App.Storage.getValue("storLoc"+s) as Dictionary?;
       if(dictLocation != null) {
         aiMemoryKeys[iMemoryUsed] = n;
-        asMemoryValues[iMemoryUsed] = Lang.format("[$1$]\n$2$", [s, dictLocation["name"]]);
+        asMemoryValues[iMemoryUsed] = format("[$1$]\n$2$", [s, dictLocation["name"]]);
         iMemoryUsed++;
       }
     }
@@ -47,15 +48,19 @@ class PickerLocationDelete extends Ui.Picker {
     if(iMemoryUsed > 0) {
       aiMemoryKeys = aiMemoryKeys.slice(0, iMemoryUsed);
       asMemoryValues = asMemoryValues.slice(0, iMemoryUsed);
-      oPattern = new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, { :font => Gfx.FONT_TINY });
+      oPattern = new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, {:font => Gfx.FONT_TINY});
     }
     else {
-      oPattern = new PickerFactoryDictionary([null], ["-"], { :color => Gfx.COLOR_DK_GRAY });
+      oPattern = new PickerFactoryDictionary([null], ["-"], {:color => Gfx.COLOR_DK_GRAY});
     }
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationDelete), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oPattern ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleLocationDelete) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [oPattern]});
   }
 
 }
@@ -74,17 +79,19 @@ class PickerLocationDeleteDelegate extends Ui.PickerDelegate {
   function onAccept(_amValues) {
     // Delete property (location memory)
     if(_amValues[0] != null) {
-      var s = _amValues[0].format("%02d");
+      var s = (_amValues[0] as Number).format("%02d");
       App.Storage.deleteValue("storLoc"+s);
     }
 
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

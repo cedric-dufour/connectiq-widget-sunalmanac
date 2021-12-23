@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -28,15 +29,21 @@ class PickerDateAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bDateAuto = App.Properties.getValue("userDateAuto");
+    var bDateAuto = App.Properties.getValue("userDateAuto") as Boolean?;
 
     // Initialize picker
-    var oFactory = new PickerFactoryDictionary([true, false], [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)], null);
+    var oFactory = new PickerFactoryDictionary([true, false],
+                                               [Ui.loadResource(Rez.Strings.valueAuto), Ui.loadResource(Rez.Strings.valuePreset)],
+                                               null);
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleDateAuto), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oFactory ],
-      :defaults => [ oFactory.indexOfKey(bDateAuto) ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleDateAuto) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [oFactory],
+        :defaults => [oFactory.indexOfKey(bDateAuto != null ? bDateAuto : true)]});
   }
 
 }
@@ -53,13 +60,15 @@ class PickerDateAutoDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userDateAuto", _amValues[0]);
+    App.Properties.setValue("userDateAuto", _amValues[0] as App.PropertyValueType);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

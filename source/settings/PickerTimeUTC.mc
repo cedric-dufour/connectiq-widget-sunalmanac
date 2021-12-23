@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -28,15 +29,21 @@ class PickerTimeUTC extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bTimeUTC = App.Properties.getValue("userTimeUTC");
+    var bTimeUTC = App.Properties.getValue("userTimeUTC") as Boolean?;
 
     // Initialize picker
-    var oFactory = new PickerFactoryDictionary([false, true], [Ui.loadResource(Rez.Strings.valueTimeLT), Ui.loadResource(Rez.Strings.valueTimeUTC)], null);
+    var oFactory = new PickerFactoryDictionary([false, true],
+                                               [Ui.loadResource(Rez.Strings.valueTimeLT), Ui.loadResource(Rez.Strings.valueTimeUTC)],
+                                               null);
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleTimeUTC), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oFactory ],
-      :defaults => [ oFactory.indexOfKey(bTimeUTC) ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleTimeUTC) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [oFactory],
+        :defaults => [oFactory.indexOfKey(bTimeUTC != null ? bTimeUTC : false)]});
   }
 
 }
@@ -53,13 +60,15 @@ class PickerTimeUTCDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userTimeUTC", _amValues[0]);
+    App.Properties.setValue("userTimeUTC", _amValues[0] as App.PropertyValueType);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

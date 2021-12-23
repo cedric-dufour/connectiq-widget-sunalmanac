@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -29,17 +30,15 @@ class PickerLocationLoad extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var aiMemoryKeys = new [$.MY_STORAGE_SLOTS];
-    var asMemoryValues = new [$.MY_STORAGE_SLOTS];
-    var afMemoryDistances = new [$.MY_STORAGE_SLOTS];
+    var aiMemoryKeys = new Array<Number>[$.MY_STORAGE_SLOTS];
+    var asMemoryValues = new Array<String>[$.MY_STORAGE_SLOTS];
     var iMemoryUsed = 0;
     for(var n=0; n<$.MY_STORAGE_SLOTS; n++) {
       var s = n.format("%02d");
-      var dictLocation = App.Storage.getValue("storLoc"+s);
+      var dictLocation = App.Storage.getValue("storLoc"+s) as Dictionary?;
       if(dictLocation != null) {
         aiMemoryKeys[iMemoryUsed] = n;
-        asMemoryValues[iMemoryUsed] = Lang.format("[$1$]\n$2$", [s, dictLocation["name"]]);
-        afMemoryDistances[iMemoryUsed] = 0.0f;
+        asMemoryValues[iMemoryUsed] = format("[$1$]\n$2$", [s, dictLocation["name"]]);
         iMemoryUsed++;
       }
     }
@@ -49,15 +48,19 @@ class PickerLocationLoad extends Ui.Picker {
     if(iMemoryUsed > 0) {
       aiMemoryKeys = aiMemoryKeys.slice(0, iMemoryUsed);
       asMemoryValues = asMemoryValues.slice(0, iMemoryUsed);
-      oPattern = new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, { :font => Gfx.FONT_TINY });
+      oPattern = new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, {:font => Gfx.FONT_TINY});
     }
     else {
-      oPattern = new PickerFactoryDictionary([null], ["-"], { :color => Gfx.COLOR_DK_GRAY });
+      oPattern = new PickerFactoryDictionary([null], ["-"], {:color => Gfx.COLOR_DK_GRAY});
     }
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationLoad), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ oPattern ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleLocationLoad) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [oPattern]});
   }
 
 }
@@ -77,21 +80,25 @@ class PickerLocationLoadDelegate extends Ui.PickerDelegate {
     // Load location
     if(_amValues[0] != null) {
       // Get property (location memory)
-      var s = _amValues[0].format("%02d");
-      var dictLocation = App.Storage.getValue("storLoc"+s);
+      var s = (_amValues[0] as Number).format("%02d");
+      var dictLocation = App.Storage.getValue("storLoc"+s) as Dictionary?;
 
       // Set property
       // WARNING: We MUST store a new (different) dictionary instance (deep copy)!
-      App.Storage.setValue("storLocPreset", LangUtils.copy(dictLocation));
+      if(dictLocation != null) {
+        App.Storage.setValue("storLocPreset", LangUtils.copy(dictLocation) as App.PropertyValueType);
+      }
     }
 
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

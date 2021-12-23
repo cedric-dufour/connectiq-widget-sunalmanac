@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.System as Sys;
 using Toybox.WatchUi as Ui;
 
@@ -27,11 +28,11 @@ class MenuSettings extends Ui.Menu {
 
   function initialize() {
     Menu.initialize();
-    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettings));
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsLocation), :menuSettingsLocation);
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsDateTime), :menuSettingsDateTime);
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleBackgroundColor), :menuBackgroundColor);
-    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsAbout), :menuSettingsAbout);
+    Menu.setTitle(Ui.loadResource(Rez.Strings.titleSettings) as String);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsLocation) as String, :menuSettingsLocation);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsDateTime) as String, :menuSettingsDateTime);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleBackgroundColor) as String, :menuBackgroundColor);
+    Menu.addItem(Ui.loadResource(Rez.Strings.titleSettingsAbout) as String, :menuSettingsAbout);
   }
 
 }
@@ -49,19 +50,27 @@ class MenuSettingsDelegate extends Ui.MenuInputDelegate {
   function onMenuItem(item) {
     if (item == :menuSettingsLocation) {
       //Sys.println("DEBUG: MenuSettingsDelegate.onMenuItem(:menuSettingsLocation)");
-      Ui.pushView(new MenuSettingsLocation(), new MenuSettingsLocationDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuSettingsLocation(),
+                  new MenuSettingsLocationDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuSettingsDateTime) {
       //Sys.println("DEBUG: MenuSettingsDelegate.onMenuItem(:menuSettingsDateTime)");
-      Ui.pushView(new MenuSettingsDateTime(), new MenuSettingsDateTimeDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuSettingsDateTime(),
+                  new MenuSettingsDateTimeDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuBackgroundColor) {
       //Sys.println("DEBUG: MenuSettingsDelegate.onMenuItem(:menuBackgroundColor)");
-      Ui.pushView(new PickerBackgroundColor(), new PickerBackgroundColorDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new PickerBackgroundColor(),
+                  new PickerBackgroundColorDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
     else if (item == :menuSettingsAbout) {
       //Sys.println("DEBUG: MenuSettingsDelegate.onMenuItem(:menuSettingsAbout)");
-      Ui.pushView(new MenuSettingsAbout(), new MenuSettingsAboutDelegate(), Ui.SLIDE_IMMEDIATE);
+      Ui.pushView(new MenuSettingsAbout(),
+                  new MenuSettingsAboutDelegate(),
+                  Ui.SLIDE_IMMEDIATE);
     }
   }
 

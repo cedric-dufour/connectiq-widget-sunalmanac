@@ -79,6 +79,66 @@ module MyTests {
     return -1;
   }
 
+  function unitTest_CH_VFRGuide(_oLogger, _aaiAlmanac) {
+    // Table: year, month, dawn, sunrise, sunset, dusk (Local Time)
+
+    // Sun Almanac computation object
+    var oAlmanac = new MyAlmanac();
+    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
+
+    // Loop through reference data
+    var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
+    for(var i=0; i<_aaiAlmanac.size(); i++) {
+      var iReference_year = _aaiAlmanac[i][0];
+      var iReference_month = _aaiAlmanac[i][1];
+      var iReference_day = _aaiAlmanac[i][2];
+      var iReference_dawn = _aaiAlmanac[i][3];
+      var iReference_sunrise = _aaiAlmanac[i][4];
+      var iReference_sunset = _aaiAlmanac[i][5];
+      var iReference_dusk = _aaiAlmanac[i][6];
+
+      // Compute almanac data
+      var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
+      oAlmanac.compute(iEpochDate, null, true);
+
+      // Unit tests
+      var iDelta;
+      var iReference_hour;
+      var iReference_min;
+      // ... civil dawn
+      iReference_min = iReference_dawn % 100;
+      iReference_hour = (iReference_dawn - iReference_min)/100;
+      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      aiError[iDelta+1] += 1;
+      // ... sunrise
+      iReference_min = iReference_sunrise % 100;
+      iReference_hour = (iReference_sunrise - iReference_min)/100;
+      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      aiError[iDelta+1] += 1;
+      // ... sunset
+      iReference_min = iReference_sunset % 100;
+      iReference_hour = (iReference_sunset - iReference_min)/100;
+      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      aiError[iDelta+1] += 1;
+      // ... civil dusk
+      iReference_min = iReference_dusk % 100;
+      iReference_hour = (iReference_dusk - iReference_min)/100;
+      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
+      aiError[iDelta+1] += 1;
+    }
+
+    // Statistics
+    _oLogger.debug("STATISTICS");
+    for(var i=0; i<=5; i++) {
+      _oLogger.debug(Lang.format("Delta=$1$: $2$", [i, aiError[i+1]]));
+    }
+    if(aiError[0] > 0) {
+      _oLogger.error(Lang.format("Delta>5: $1$", [aiError[0]]));
+      return false;
+    }
+    return true;
+  }
+
   (:test)
     function unitTest_CH_VFRGuide_2017(_oLogger) {
     // Table: year, month, dawn, sunrise, sunset, dusk (Local Time)
@@ -450,61 +510,7 @@ module MyTests {
                          [ 2017, 12, 30, 740, 816, 1650, 1725 ],
                          [ 2017, 12, 31, 741, 816, 1651, 1726 ] ];
 
-    // Sun Almanac computation object
-    var oAlmanac = new MyAlmanac();
-    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
-
-    // Loop through reference data
-    var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
-    for(var i=0; i<ALMANAC_DATA.size(); i++) {
-      var iReference_year = ALMANAC_DATA[i][0];
-      var iReference_month = ALMANAC_DATA[i][1];
-      var iReference_day = ALMANAC_DATA[i][2];
-      var iReference_dawn = ALMANAC_DATA[i][3];
-      var iReference_sunrise = ALMANAC_DATA[i][4];
-      var iReference_sunset = ALMANAC_DATA[i][5];
-      var iReference_dusk = ALMANAC_DATA[i][6];
-
-      // Compute almanac data
-      var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oAlmanac.compute(iEpochDate, null, true);
-
-      // Unit tests
-      var iDelta;
-      var iReference_hour;
-      var iReference_min;
-      // ... civil dawn
-      iReference_min = iReference_dawn % 100;
-      iReference_hour = (iReference_dawn - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunrise
-      iReference_min = iReference_sunrise % 100;
-      iReference_hour = (iReference_sunrise - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunset
-      iReference_min = iReference_sunset % 100;
-      iReference_hour = (iReference_sunset - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... civil dusk
-      iReference_min = iReference_dusk % 100;
-      iReference_hour = (iReference_dusk - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-    }
-
-    // Statistics
-    _oLogger.debug("STATISTICS");
-    for(var i=0; i<=5; i++) {
-      _oLogger.debug(Lang.format("Delta=$1$: $2$", [i, aiError[i+1]]));
-    }
-    if(aiError[0] > 0) {
-      _oLogger.error(Lang.format("Delta>5: $1$", [aiError[0]]));
-      return false;
-    }
-    return true;
+    return MyTests.unitTest_CH_VFRGuide(_oLogger, ALMANAC_DATA);
   }
 
   (:test)
@@ -878,61 +884,7 @@ module MyTests {
                          [ 2018, 12, 30, 740, 816, 1650, 1725 ],
                          [ 2018, 12, 31, 741, 816, 1651, 1726 ] ];
 
-    // Sun Almanac computation object
-    var oAlmanac = new MyAlmanac();
-    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
-
-    // Loop through reference data
-    var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
-    for(var i=0; i<ALMANAC_DATA.size(); i++) {
-      var iReference_year = ALMANAC_DATA[i][0];
-      var iReference_month = ALMANAC_DATA[i][1];
-      var iReference_day = ALMANAC_DATA[i][2];
-      var iReference_dawn = ALMANAC_DATA[i][3];
-      var iReference_sunrise = ALMANAC_DATA[i][4];
-      var iReference_sunset = ALMANAC_DATA[i][5];
-      var iReference_dusk = ALMANAC_DATA[i][6];
-
-      // Compute almanac data
-      var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oAlmanac.compute(iEpochDate, null, true);
-
-      // Unit tests
-      var iDelta;
-      var iReference_hour;
-      var iReference_min;
-      // ... civil dawn
-      iReference_min = iReference_dawn % 100;
-      iReference_hour = (iReference_dawn - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunrise
-      iReference_min = iReference_sunrise % 100;
-      iReference_hour = (iReference_sunrise - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunset
-      iReference_min = iReference_sunset % 100;
-      iReference_hour = (iReference_sunset - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... civil dusk
-      iReference_min = iReference_dusk % 100;
-      iReference_hour = (iReference_dusk - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-    }
-
-    // Statistics
-    _oLogger.debug("STATISTICS");
-    for(var i=0; i<=5; i++) {
-      _oLogger.debug(Lang.format("Delta=$1$: $2$", [i, aiError[i+1]]));
-    }
-    if(aiError[0] > 0) {
-      _oLogger.error(Lang.format("Delta>5: $1$", [aiError[0]]));
-      return false;
-    }
-    return true;
+    return MyTests.unitTest_CH_VFRGuide(_oLogger, ALMANAC_DATA);
   }
 
   (:test)
@@ -1306,61 +1258,7 @@ module MyTests {
                          [ 2019, 12, 30, 740, 816, 1650, 1725 ],
                          [ 2019, 12, 31, 741, 816, 1650, 1726 ] ];
 
-    // Sun Almanac computation object
-    var oAlmanac = new MyAlmanac();
-    oAlmanac.setLocation("CH/Bern", 46.9524055555556d, 7.43958333333333d, 0.0f);
-
-    // Loop through reference data
-    var aiError = [0, 0, 0, 0, 0, 0, 0];  // Time difference: error, 0, 1, 2, 3, 4, 5 minutes
-    for(var i=0; i<ALMANAC_DATA.size(); i++) {
-      var iReference_year = ALMANAC_DATA[i][0];
-      var iReference_month = ALMANAC_DATA[i][1];
-      var iReference_day = ALMANAC_DATA[i][2];
-      var iReference_dawn = ALMANAC_DATA[i][3];
-      var iReference_sunrise = ALMANAC_DATA[i][4];
-      var iReference_sunset = ALMANAC_DATA[i][5];
-      var iReference_dusk = ALMANAC_DATA[i][6];
-
-      // Compute almanac data
-      var iEpochDate = Gregorian.moment({ :year => iReference_year, :month => iReference_month, :day => iReference_day }).value();
-      oAlmanac.compute(iEpochDate, null, true);
-
-      // Unit tests
-      var iDelta;
-      var iReference_hour;
-      var iReference_min;
-      // ... civil dawn
-      iReference_min = iReference_dawn % 100;
-      iReference_hour = (iReference_dawn - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDawn, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunrise
-      iReference_min = iReference_sunrise % 100;
-      iReference_hour = (iReference_sunrise - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunrise, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... sunset
-      iReference_min = iReference_sunset % 100;
-      iReference_hour = (iReference_sunset - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochSunset, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-      // ... civil dusk
-      iReference_min = iReference_dusk % 100;
-      iReference_hour = (iReference_dusk - iReference_min)/100;
-      iDelta = MyTests.verifyTimeLT(_oLogger, oAlmanac.iEpochCivilDusk, iReference_year, iReference_month, iReference_day, iReference_hour, iReference_min);
-      aiError[iDelta+1] += 1;
-    }
-
-    // Statistics
-    _oLogger.debug("STATISTICS");
-    for(var i=0; i<=5; i++) {
-      _oLogger.debug(Lang.format("Delta=$1$: $2$", [i, aiError[i+1]]));
-    }
-    if(aiError[0] > 0) {
-      _oLogger.error(Lang.format("Delta>5: $1$", [aiError[0]]));
-      return false;
-    }
-    return true;
+    return MyTests.unitTest_CH_VFRGuide(_oLogger, ALMANAC_DATA);
   }
 
 }

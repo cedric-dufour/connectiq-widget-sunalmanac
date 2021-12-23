@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -27,9 +28,9 @@ class PickerLocationEditLatitude extends PickerGenericLatitude {
   //
 
   function initialize() {
-    var dictLocation = App.Storage.getValue("storLocPreset");
-    var fLatitude = dictLocation != null ? dictLocation["latitude"] : 0.0f;
-    PickerGenericLatitude.initialize(Ui.loadResource(Rez.Strings.titleLocationLatitude), fLatitude);
+    var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
+    var dLatitude = dictLocation != null ? dictLocation["latitude"] as Double : 0.0d;
+    PickerGenericLatitude.initialize(Ui.loadResource(Rez.Strings.titleLocationLatitude) as String, dLatitude);
   }
 
 }
@@ -46,25 +47,27 @@ class PickerLocationEditLatitudeDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Assemble components
-    var fLatitude = PickerGenericLatitude.getValue(_amValues);
+    var dLatitude = PickerGenericLatitude.getValue(_amValues);
 
     // Update/create location (dictionary)
-    var dictLocation = App.Storage.getValue("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
     if(dictLocation != null) {
-      dictLocation["latitude"] = fLatitude;
+      dictLocation["latitude"] = dLatitude;
     }
     else {
-      dictLocation = { "name" => "----", "latitude" => fLatitude, "longitude" => 0.0f };
+      dictLocation = {"name" => "----", "latitude" => dLatitude, "longitude" => 0.0d};
     }
 
     // Set property and exit
-    App.Storage.setValue("storLocPreset", dictLocation);
+    App.Storage.setValue("storLocPreset", dictLocation as App.PropertyValueType);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }

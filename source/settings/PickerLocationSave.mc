@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0
 // License-Filename: LICENSE/GPL-3.0.txt
 
+import Toybox.Lang;
 using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.WatchUi as Ui;
@@ -29,25 +30,29 @@ class PickerLocationSave extends Ui.Picker {
 
   function initialize() {
     // Location memory
-    var aiMemoryKeys = new [$.MY_STORAGE_SLOTS];
-    var asMemoryValues = new [$.MY_STORAGE_SLOTS];
+    var aiMemoryKeys = new Array<Number>[$.MY_STORAGE_SLOTS];
+    var asMemoryValues = new Array<String>[$.MY_STORAGE_SLOTS];
     for(var n=0; n<$.MY_STORAGE_SLOTS; n++) {
       aiMemoryKeys[n] = n;
       var s = n.format("%02d");
-      var dictLocation = App.Storage.getValue("storLoc"+s);
+      var dictLocation = App.Storage.getValue("storLoc"+s) as Dictionary?;
       if(dictLocation != null) {
-        asMemoryValues[n] = Lang.format("[$1$]\n$2$", [s, dictLocation["name"]]);
+        asMemoryValues[n] = format("[$1$]\n$2$", [s, dictLocation["name"]]);
       }
       else {
-        asMemoryValues[n] = Lang.format("[$1$]\n----", [s]);
+        asMemoryValues[n] = format("[$1$]\n----", [s]);
       }
     }
 
     // Initialize picker
     Picker.initialize({
-      :title => new Ui.Text({ :text => Ui.loadResource(Rez.Strings.titleLocationSave), :font => Gfx.FONT_TINY, :locX=>Ui.LAYOUT_HALIGN_CENTER, :locY=>Ui.LAYOUT_VALIGN_BOTTOM, :color => Gfx.COLOR_BLUE }),
-      :pattern => [ new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, { :font => Gfx.FONT_TINY }) ]
-    });
+        :title => new Ui.Text({
+            :text => Ui.loadResource(Rez.Strings.titleLocationSave) as String,
+            :font => Gfx.FONT_TINY,
+            :locX=>Ui.LAYOUT_HALIGN_CENTER,
+            :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
+            :color => Gfx.COLOR_BLUE}),
+        :pattern => [new PickerFactoryDictionary(aiMemoryKeys, asMemoryValues, {:font => Gfx.FONT_TINY})]});
   }
 
 }
@@ -65,21 +70,23 @@ class PickerLocationSaveDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Save location
-    var dictLocation = App.Storage.getValue("storLocPreset");
+    var dictLocation = App.Storage.getValue("storLocPreset") as Dictionary?;
     if(dictLocation != null) {
       // Set property (location memory)
       // WARNING: We MUST store a new (different) dictionary instance (deep copy)!
-      var s = _amValues[0].format("%02d");
-      App.Storage.setValue("storLoc"+s, LangUtils.copy(dictLocation));
+      var s = (_amValues[0] as Number).format("%02d");
+      App.Storage.setValue("storLoc"+s, LangUtils.copy(dictLocation) as App.PropertyValueType);
     }
 
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
   function onCancel() {
     // Exit
     Ui.popView(Ui.SLIDE_IMMEDIATE);
+    return true;
   }
 
 }
