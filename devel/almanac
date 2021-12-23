@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+# -*- mode:python; tab-width:4; c-basic-offset:4; intent-tabs-mode:nil; -*-
+# ex: filetype=python tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent smartindent
+
+import argparse
+import time
+import sys
+
+import ephem
+
+
+## Usage/Arguments
+oArgumentParser = argparse.ArgumentParser(
+    usage="USAGE: %s [<options>]" % sys.argv[0].split("/")[-1],
+    description="""
+        Display sunrise, transit and sunset (UTC) time table for the given year.
+    """,
+)
+
+# Latitude
+oArgumentParser.add_argument(
+    "--latitude", "-a",
+    help="Latitude (degrees)",
+    type=float,
+    default=46.9524055555556,
+)
+
+# Longitude
+oArgumentParser.add_argument(
+    "--longitude", "-o",
+    help="Longitude (degrees)",
+    type=float,
+    default=7.43958333333333,
+)
+
+# Year
+oArgumentParser.add_argument(
+    "--year", "-y",
+    help="Year",
+    type=int,
+    default=time.localtime().tm_year,
+)
+
+
+## Main
+oArguments = oArgumentParser.parse_args()
+
+# Observer
+oObserver = ephem.Observer()
+oObserver.lat = str(oArguments.latitude)
+oObserver.lon = str(oArguments.longitude)
+
+# Loop
+oSun = ephem.Sun()
+dDate = ephem.Date(f"{oArguments.year}-01-01")
+while True:
+    # Time
+    oObserver.date = dDate
+    # (rising)
+    dDate_rising = oObserver.next_rising(oSun)
+    (iYear_rising, iMonth_rising, iDay_rising, iHour_rising, iMinute_rising, fSecond_rising) = dDate_rising.tuple()
+    # (transit)
+    dDate_transit = oObserver.next_transit(oSun)
+    (iYear_transit, iMonth_transit, iDay_transit, iHour_transit, iMinute_transit, fSecond_transit) = dDate_transit.tuple()
+    # (setting)
+    dDate_setting = oObserver.next_setting(oSun)
+    (iYear_setting, iMonth_setting, iDay_setting, iHour_setting, iMinute_setting, fSecond_setting) = dDate_setting.tuple()
+
+    # Entry
+    print(f"{iYear_rising}, {iMonth_rising}, {iDay_rising}, {iHour_rising}{iMinute_rising:02d}{fSecond_rising:02.0f}, {iHour_transit}{iMinute_transit:02d}{fSecond_transit:02.0f}, {iHour_setting}{iMinute_setting:02d}{fSecond_setting:02.0f}")
+
+    # Loop ?
+    if(iMonth_rising==12 and iDay_rising==31):
+      break
+
+    # Next day
+    dDate = ephem.date(dDate + 24*ephem.hour)
+

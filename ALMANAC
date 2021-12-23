@@ -1,0 +1,77 @@
+SunAlmanac (Garmin ConnectIQ) Widget
+====================================
+Almanac data and computations
+
+
+Earth path around the Sun and its rotation upon itself are affected by external
+parameters, such as the other planets position or the state of the inner core
+magma.
+
+Computing accurate sun events time requires to take those parameters into account,
+based on the observations from the likes of the International Earth Rotation and
+Reference Systems Service (IERS; https://www.iers.org), which are regularly updated.
+
+Delta-T (TT-UT1)
+----------------
+
+The first step is to obtain the difference between the Terrestrial Time (TT)
+and the Universal Time (UT1), as the value commonly referred to as Delta-T.
+
+REFs:
+ - https://en.wikipedia.org/wiki/Terrestrial_Time
+ - https://en.wikipedia.org/wiki/Universal_Time
+
+Historically, this value could be obtained from the The US Naval Observatory's
+Rapid Service/Prediction Center website (http://maia.usno.navy.mil), which is
+nowadays no longer available.
+
+REFs:
+ - https://www.usno.navy.mil/USNO/earth-orientation/eo-products
+ - http://maia.usno.navy.mil/ser7/deltat.preds
+
+As of today, this value and its predictions may be obtained from the US Naval
+Meteorology and Oceanography Command (https://www.cnmoc.usff.navy.mil).
+
+REFs:
+ - https://www.cnmoc.usff.navy.mil/Organization/United-States-Naval-Observatory/Earth-Orientation-Department/USNO-Earth-Orientation-Products/Long-term-Delta-T
+ - https://www.cnmoc.usff.navy.mil/Portals/49/deltat_data.txt   # example given
+ - https://www.cnmoc.usff.navy.mil/Portals/49/deltat_preds.txt  # example given
+
+
+DUT1 (UT1-UTC)
+--------------
+
+Then, the difference between the Universal Time (UT) and the Coordinated
+Universal Time (UTC), as the value commonly referred to as DUT1.
+
+REFs:
+ - https://en.wikipedia.org/wiki/Universal_Time
+ - https://en.wikipedia.org/wiki/Coordinated_Universal_Time
+
+Historically again, this value could be obtained from the The US Naval
+Observatory's Rapid Service/Prediction Center website
+(http://maia.usno.navy.mil).
+
+REFs:
+ - https://www.usno.navy.mil/USNO/earth-orientation/eo-products
+ - http://maia.usno.navy.mil/ser7/ser7.dat
+
+As of today, this value and its prediction formula may be obtained from the
+International Earth Rotation and Reference Systems Service
+(IERS; https://www.iers.org).
+
+REFs:
+ - https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html
+ - https://datacenter.iers.org/data/6/bulletina-xxxiv-049.txt  # example given
+
+
+Julian Date
+-----------
+
+Most of those data are given relative to the Julian Date (JD) or Modified Julian Date (MJD),
+which must be computed, relatively to the usual Gregorian calendar, by taking into account
+such things as leap years and the likes.
+
+REFs:
+ - https://quasar.as.utexas.edu/BillInfo/JulianDatesG.html
+ - https://core2.gsfc.nasa.gov/time/

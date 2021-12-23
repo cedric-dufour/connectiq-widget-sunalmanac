@@ -176,7 +176,7 @@ class MyAlmanac {
     self.resetCompute();
 
     // Date
-    var oTime = new Time.Moment(_iEpochDate);
+    var oTime = new Time.Moment(_iEpochDate + 43200);
     var oTimeInfo_UTC = Gregorian.utcInfo(oTime, Time.FORMAT_SHORT);
     var iDaySeconds_UTC = 3600*oTimeInfo_UTC.hour+60*oTimeInfo_UTC.min+oTimeInfo_UTC.sec;
     //Sys.println(format("DEBUG: UTC time = $1$:$2$:$3$ ($4$)", [oTimeInfo_UTC.hour, oTimeInfo_UTC.min, oTimeInfo_UTC.sec, iDaySeconds_UTC]));
@@ -201,26 +201,37 @@ class MyAlmanac {
     //Sys.println(format("DEBUG: local time offset = $1$", [iOffset_LT]));
 
     // Internals
-    // ... Delta-T (TT-UT1); http://maia.usno.navy.mil/ser7/deltat.data / http://asa.usno.navy.mil/SecK/DeltaT.html
-    self.dDeltaT = 69.2d;  // ALMANAC: 2018.12
+    // ... Delta-T (TT-UT1)
+    self.dDeltaT = 70.91d;  // ALMANAC: 2021.12.23 (#49)
     //Sys.println(format("DEBUG: Delta-T (TT-UT1) = $1$", [self.dDeltaT]));
-    // ... julian day number (n)
-    self.dJulianDayNumber = Math.round(((self.iEpochDate as Number)
-                                        + (self.dDeltaT as Double)) / 86400.0d
-                                       + 2440587.5d) as Double;
-    //Sys.println(format("DEBUG: julian day number (n) = $1$", [self.dJulianDayNumber]));
-    // ... DUT1 (UT1-UTC); http://maia.usno.navy.mil/ser7/ser7.dat
+    // ... julian day number (JD, n)
+    var iJD_year = oTimeInfo_UTC.year as Number;
+    var iJD_month = oTimeInfo_UTC.month as Number;
+    if(iJD_month <= 2) {
+      iJD_year -= 1;
+      iJD_month += 12;
+    }
+    var dJD_century = Math.floor(iJD_year/100.0d);
+    self.dJulianDayNumber =
+      - dJD_century
+      + Math.floor(dJD_century/4.0d)
+      + oTimeInfo_UTC.day
+      + Math.floor(365.25d * (iJD_year+4716))
+      + Math.floor(30.6001d * (iJD_month+1))
+      - 1522.0d;  // at noon
+    //Sys.println(format("DEBUG: julian day number (JD, n) = $1$", [self.dJulianDayNumber]));
+    // ... DUT1 (UT1-UTC)
     var dBesselianYear =
       1900.0d + ((self.dJulianDayNumber as Double) - 2415020.31352d) / 365.242198781d;
     var dDUT21 =
       0.022d * Math.sin(dBesselianYear * 6.28318530718d)
-      - 0.012d * Math.cos(dBesselianYear*6.28318530718d)
-      - 0.006d * Math.sin(dBesselianYear*12.5663706144d)
-      + 0.007d * Math.cos(dBesselianYear*12.5663706144d);  // ALMANAC: 2018.12
+      - 0.012d * Math.cos(dBesselianYear * 6.28318530718d)
+      - 0.006d * Math.sin(dBesselianYear * 12.5663706144d)
+      + 0.007d * Math.cos(dBesselianYear * 12.5663706144d);  // ALMANAC: 2021.12.23 (#50)
     self.dDUT1 =
-      -0.0379d
-      - 0.00066d * ((self.dJulianDayNumber as Double) - 2458382.5d)
-      - dDUT21;  // ALMANAC: 2018.12
+      -0.1173d
+      + 0.00021d * ((self.dJulianDayNumber as Double) - 2459572.5d)
+      - dDUT21;  // ALMANAC: 2021.12.23 (#50)
     //Sys.println(format("DEBUG: DUT1 (UT1-UTC) = $1$", [self.dDUT1]));
     // ... mean solar time (J*)
     self.dJ2kMeanTime =
