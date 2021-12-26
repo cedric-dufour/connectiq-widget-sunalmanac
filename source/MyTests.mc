@@ -21,7 +21,7 @@ using Toybox.Time;
 using Toybox.Time.Gregorian;
 
 (:test)
-  module MyTests {
+module MyTests {
 
   function verifyTimeUTC(_oLogger, _iEpochTimestamp, _iReference_year, _iReference_month, _iReference_day, _iReference_hour, _iReference_min, _iReference_sec) {
     // Components

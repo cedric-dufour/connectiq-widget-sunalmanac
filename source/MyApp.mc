@@ -54,6 +54,7 @@ const MY_STORAGE_SLOTS = 100;
 // CLASS
 //
 
+(:glance)
 class MyApp extends App.AppBase {
 
   //

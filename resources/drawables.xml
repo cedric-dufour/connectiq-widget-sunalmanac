@@ -1,17 +1,17 @@
 <!-- -*- mode:xml; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab: -->
 <drawables>
   <bitmap id="AppIcon" filename="../resources/drawables/launcher-40x40.png" />
-  <drawable-list id="drawContentBorders" x="0" y="29" width="fill" height="182" >
-    <shape type="rectangle" x="0" y="0" width="fill" height="2" color="Gfx.COLOR_BLUE" />
-    <shape type="rectangle" x="0" y="180" width="fill" height="2" color="Gfx.COLOR_BLUE" />
+  <drawable-list id="drawContentBorders" x="0" y="13%" width="fill" height="88%" >
+    <shape type="rectangle" x="0" y="top" width="fill" height="1%" color="Gfx.COLOR_BLUE" />
+    <shape type="rectangle" x="0" y="bottom" width="fill" height="1%" color="Gfx.COLOR_BLUE" />
   </drawable-list>
-  <drawable-list id="drawDividerHorizontal" x="0" y="119" width="fill" height="2" >
+  <drawable-list id="drawDividerHorizontal" x="0" y="center" width="fill" height="1%" >
     <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_BLUE" />
   </drawable-list>
-  <drawable-list id="drawDividerVerticalTop" x="119" y="60" width="2" height="50" >
+  <drawable-list id="drawDividerVerticalTop" x="center" y="25%" width="1%" height="21%" >
     <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_DK_GRAY" />
   </drawable-list>
-  <drawable-list id="drawDividerVerticalBottom" x="119" y="130" width="2" height="50" >
+  <drawable-list id="drawDividerVerticalBottom" x="center" y="55%" width="1%" height="21%" >
     <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_DK_GRAY" />
   </drawable-list>
 </drawables>

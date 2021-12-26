@@ -30,6 +30,7 @@ using Toybox.Time.Gregorian;
 // CLASS
 //
 
+(:glance)
 class MyAlmanac {
 
   //

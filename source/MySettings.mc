@@ -21,6 +21,7 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.System as Sys;
 
+(:glance)
 class MySettings {
 
   //
