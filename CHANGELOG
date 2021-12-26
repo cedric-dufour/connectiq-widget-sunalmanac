@@ -1,3 +1,7 @@
+* 1.1.20211226a:
+  - Added all currently supported models
+  - Updated IERS parameters as of December 2021
+
 * 1.1.20181215a:
   - MOD: Moved Noon/Zenith view into second position
   - Updated IERS parameters as of December 2018
