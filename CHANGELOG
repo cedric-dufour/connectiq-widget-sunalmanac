@@ -1,5 +1,5 @@
-* 1.1.20211226a:
-  - Added all currently supported models
+* 1.1.20211227a:
+  - Added all supported 240x240, 260x260 and 280x280 round devices
   - Updated IERS parameters as of December 2021
 
 * 1.1.20181215a:
