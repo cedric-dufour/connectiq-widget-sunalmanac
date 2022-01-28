@@ -1,3 +1,6 @@
+* 1.1.20220128a:
+  - Added support fro fenix 7 devices
+
 * 1.1.20211227a:
   - Added all supported 240x240, 260x260 and 280x280 round devices
   - Updated IERS parameters as of December 2021
