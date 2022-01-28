@@ -27,6 +27,14 @@ module LangUtils {
   // FUNCTIONS: data primitives
   //
 
+  // NaN
+  function isNaN(_nValue as Numeric?) as Boolean {
+    return _nValue == null or _nValue != _nValue;
+  }
+  function notNaN(_nValue as Numeric?) as Boolean {
+    return _nValue != null and _nValue == _nValue;
+  }
+
   // Deep-copy the given object
   function copy(_oObject as Object) as Object {
     var oCopy = null;

@@ -41,7 +41,7 @@ class PickerGenericElevation extends Ui.Picker {
       }
     }
     // ... value
-    var fValue = _fValue != null ? _fValue : 0.0f;
+    var fValue = (_fValue != null and LangUtils.notNaN(_fValue)) ? _fValue : 0.0f;
 
     // Use user-specified elevation unit (NB: metric units are always used internally)
     // PRECISION: 1

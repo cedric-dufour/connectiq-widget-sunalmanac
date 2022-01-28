@@ -27,10 +27,10 @@ class PickerGenericLatitude extends Ui.Picker {
   // FUNCTIONS: Ui.Picker (override/implement)
   //
 
-  function initialize(_sTitle as String, _dValue as Double?) {
+  function initialize(_sTitle as String, _dValue as Decimal?) {
     // Input validation
     // ... value
-    var dValue = _dValue != null ? _dValue : 0.0d;
+    var dValue = (_dValue != null and LangUtils.notNaN(_dValue)) ? _dValue : 0.0d;
 
     // Split components
     var iValue_qua = dValue < 0.0d ? -1 : 1;

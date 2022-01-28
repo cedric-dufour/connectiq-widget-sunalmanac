@@ -53,39 +53,63 @@ class MySettings {
 
   function load() as Void {
     // Settings
-    self.setLocationAuto(App.Properties.getValue("userLocationAuto") as Boolean?);
-    self.setLocationHeight(App.Properties.getValue("userLocationHeight") as Float?);
-    self.setDateAuto(App.Properties.getValue("userDateAuto") as Boolean?);
-    self.setTimeUTC(App.Properties.getValue("userTimeUTC") as Boolean?);
-    self.setBackgroundColor(App.Properties.getValue("userBackgroundColor") as Number?);
+    self.setLocationAuto(self.loadLocationAuto());
+    self.setLocationHeight(self.loadLocationHeight());
+    self.setDateAuto(self.loadDateAuto());
+    self.setTimeUTC(self.loadTimeUTC());
+    self.setBackgroundColor(self.loadBackgroundColor());
     // ... device
     self.setUnitElevation();
   }
 
-  function setLocationAuto(_bValue as Boolean?) as Void {
-    var bValue = _bValue != null ? _bValue : false;
-    self.bLocationAuto = bValue;
+  function loadLocationAuto() as Boolean {
+    var bValue = App.Properties.getValue("userLocationAuto") as Boolean?;
+    return bValue != null ? bValue : false;
+  }
+  function saveLocationAuto(_bValue as Boolean) as Void {
+    App.Properties.setValue("userLocationAuto", _bValue as App.PropertyValueType);
+  }
+  function setLocationAuto(_bValue as Boolean) as Void {
+    self.bLocationAuto = _bValue;
   }
 
-  function setLocationHeight(_fValue as Float?) as Void {
-    var fValue = _fValue != null ? _fValue : 0.0f;
-    if(fValue > 9999.0f) {
-      fValue = 9999.0f;
+  function loadLocationHeight() as Float {
+    var fValue = App.Properties.getValue("userLocationHeight") as Float?;
+    return fValue != null ? fValue : 0.0f;
+  }
+  function saveLocationHeight(_fValue as Float) as Void {
+    App.Properties.setValue("userLocationHeight", _fValue as App.PropertyValueType);
+  }
+  function setLocationHeight(_fValue as Float) as Void {
+    if(_fValue > 9999.0f) {
+      _fValue = 9999.0f;
     }
-    else if(fValue < 0.0f) {
-      fValue = 0.0f;
+    else if(_fValue < 0.0f) {
+      _fValue = 0.0f;
     }
-    self.fLocationHeight = fValue;
+    self.fLocationHeight = _fValue;
   }
 
-  function setDateAuto(_bValue as Boolean?) as Void {
-    var bValue = _bValue != null ? _bValue : true;
-    self.bDateAuto = bValue;
+  function loadDateAuto() as Boolean {
+    var bValue = App.Properties.getValue("userDateAuto") as Boolean?;
+    return bValue != null ? bValue : true;
+  }
+  function saveDateAuto(_bValue as Boolean) as Void {
+    App.Properties.setValue("userDateAuto", _bValue as App.PropertyValueType);
+  }
+  function setDateAuto(_bValue as Boolean) as Void {
+    self.bDateAuto = _bValue;
   }
 
-  function setTimeUTC(_bValue as Boolean?) as Void {
-    var bValue = _bValue != null ? _bValue : false;
-    if(bValue) {
+  function loadTimeUTC() as Boolean {
+    var bValue = App.Properties.getValue("userTimeUTC") as Boolean?;
+    return bValue != null ? bValue : false;
+  }
+  function saveTimeUTC(_bValue as Boolean) as Void {
+    App.Properties.setValue("userTimeUTC", _bValue as App.PropertyValueType);
+  }
+  function setTimeUTC(_bValue as Boolean) as Void {
+    if(_bValue) {
       self.bTimeUTC = true;
       self.sUnitTime = "Z";
     }
@@ -95,9 +119,15 @@ class MySettings {
     }
   }
 
-  function setBackgroundColor(_iValue as Number?) as Void {
-    var iValue = _iValue != null ? _iValue : Gfx.COLOR_BLACK;
-    self.iBackgroundColor = iValue;
+  function loadBackgroundColor() as Number {
+    var iValue = App.Properties.getValue("userBackgroundColor") as Number?;
+    return iValue != null ? iValue : Gfx.COLOR_BLACK;
+  }
+  function saveBackgroundColor(_iValue as Number) as Void {
+    App.Properties.setValue("userBackgroundColor", _iValue as App.PropertyValueType);
+  }
+  function setBackgroundColor(_iValue as Number) as Void {
+    self.iBackgroundColor = _iValue;
   }
 
   function setUnitElevation() as Void {

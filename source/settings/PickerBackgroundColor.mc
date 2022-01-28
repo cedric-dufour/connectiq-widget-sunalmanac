@@ -29,7 +29,7 @@ class PickerBackgroundColor extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var iColor = App.Properties.getValue("userBackgroundColor") as Number?;
+    var iColor = $.oMySettings.loadBackgroundColor();
 
     // Initialize picker
     var oFactory = new PickerFactoryDictionary([Gfx.COLOR_WHITE, Gfx.COLOR_BLACK],
@@ -43,7 +43,7 @@ class PickerBackgroundColor extends Ui.Picker {
             :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
             :color => Gfx.COLOR_BLUE}),
         :pattern => [oFactory],
-        :defaults => [oFactory.indexOfKey(iColor != null ? iColor : Gfx.COLOR_BLACK)]});
+        :defaults => [oFactory.indexOfKey(iColor)]});
   }
 
 }
@@ -60,7 +60,7 @@ class PickerBackgroundColorDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userBackgroundColor", _amValues[0] as App.PropertyValueType);
+    $.oMySettings.saveBackgroundColor(_amValues[0] as Number);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
     return true;
   }

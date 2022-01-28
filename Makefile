@@ -35,7 +35,7 @@ ${OUTPUT_TEST}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${
 	${CIQ_MONKEYC} -w \
 	  -o $@ \
 	  -d ${CIQ_DEVICE} \
-	  -s ${CIQ_API} \
+	  -c ${CIQ_API} \
 	  -y ${CIQ_DEVKEY} \
 	  -f ${MY_JUNGLES} \
 	  --unit-test

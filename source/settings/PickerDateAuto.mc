@@ -29,7 +29,7 @@ class PickerDateAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bDateAuto = App.Properties.getValue("userDateAuto") as Boolean?;
+    var bDateAuto = $.oMySettings.loadDateAuto();
 
     // Initialize picker
     var oFactory = new PickerFactoryDictionary([true, false],
@@ -43,7 +43,7 @@ class PickerDateAuto extends Ui.Picker {
             :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
             :color => Gfx.COLOR_BLUE}),
         :pattern => [oFactory],
-        :defaults => [oFactory.indexOfKey(bDateAuto != null ? bDateAuto : true)]});
+        :defaults => [oFactory.indexOfKey(bDateAuto)]});
   }
 
 }
@@ -60,7 +60,7 @@ class PickerDateAutoDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userDateAuto", _amValues[0] as App.PropertyValueType);
+    $.oMySettings.saveDateAuto(_amValues[0] as Boolean);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
     return true;
   }

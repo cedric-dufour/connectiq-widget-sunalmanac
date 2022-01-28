@@ -30,7 +30,7 @@ class PickerLocationHeight extends PickerGenericElevation {
 
   function initialize() {
     PickerGenericElevation.initialize(Ui.loadResource(Rez.Strings.titleLocationHeight) as String,
-                                      App.Properties.getValue("userLocationHeight") as Float,
+                                      $.oMySettings.loadLocationHeight(),
                                       null,
                                       false);
   }
@@ -49,7 +49,7 @@ class PickerLocationHeightDelegate extends Ui.PickerDelegate {
 
   function onAccept(_amValues) {
     // Set property and exit
-    App.Properties.setValue("userLocationHeight", PickerGenericElevation.getValue(_amValues, null) as App.PropertyValueType);
+    $.oMySettings.saveLocationHeight(PickerGenericElevation.getValue(_amValues, null));
     Ui.popView(Ui.SLIDE_IMMEDIATE);
     return true;
   }

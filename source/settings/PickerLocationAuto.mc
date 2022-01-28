@@ -29,7 +29,7 @@ class PickerLocationAuto extends Ui.Picker {
 
   function initialize() {
     // Get property
-    var bLocationAuto = App.Properties.getValue("userLocationAuto") as Boolean?;
+    var bLocationAuto = $.oMySettings.loadLocationAuto();
 
     // Initialize picker
     var oFactory = new PickerFactoryDictionary([true, false],
@@ -43,7 +43,7 @@ class PickerLocationAuto extends Ui.Picker {
             :locY=>Ui.LAYOUT_VALIGN_BOTTOM,
             :color => Gfx.COLOR_BLUE}),
         :pattern => [oFactory],
-        :defaults => [oFactory.indexOfKey(bLocationAuto != null ? bLocationAuto : false)]});
+        :defaults => [oFactory.indexOfKey(bLocationAuto)]});
   }
 
 }
@@ -66,7 +66,7 @@ class PickerLocationAutoDelegate extends Ui.PickerDelegate {
     }
 
     // Set property and exit
-    App.Properties.setValue("userLocationAuto", _amValues[0] as App.PropertyValueType);
+    $.oMySettings.saveLocationAuto(_amValues[0] as Boolean);
     Ui.popView(Ui.SLIDE_IMMEDIATE);
     return true;
   }

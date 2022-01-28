@@ -62,44 +62,44 @@ class MyAlmanac {
   //
 
   // Location
-  public var sLocationName as String?;  // degrees
-  public var dLocationLatitude as Double?;  // degrees
-  public var dLocationLongitude as Double?;  // degrees
-  public var fLocationHeight as Float?;  // meters
+  public var sLocationName as String = "";
+  public var dLocationLatitude as Decimal = NaN;  // degrees
+  public var dLocationLongitude as Decimal = NaN;  // degrees
+  public var fLocationHeight as Float = NaN;  // meters
 
   // Date
-  public var iEpochDate as Number?;
+  public var iEpochDate as Number = -1;
 
   // Transit
-  public var iEpochTransit as Number?;
-  public var fElevationTransit as Float?;  // degrees
-  public var fEclipticLongitude as Float?;  // degrees
-  public var fDeclination as Float?;  // degrees
+  public var iEpochTransit as Number = -1;
+  public var fElevationTransit as Float = NaN;  // degrees
+  public var fEclipticLongitude as Float = NaN;  // degrees
+  public var fDeclination as Float = NaN;  // degrees
 
   // Current
-  public var iEpochCurrent as Number?;
-  public var fElevationCurrent as Float?;  // degrees
-  public var fAzimuthCurrent as Float?;  // degrees
+  public var iEpochCurrent as Number = -1;
+  public var fElevationCurrent as Float = NaN;  // degrees
+  public var fAzimuthCurrent as Float = NaN;  // degrees
 
   // Sunrise
-  public var iEpochAstronomicalDawn as Number?;
-  public var iEpochNauticalDawn as Number?;
-  public var iEpochCivilDawn as Number?;
-  public var iEpochSunrise as Number?;
-  public var fAzimuthSunrise as Float?;  // degrees
+  public var iEpochAstronomicalDawn as Number = -1;
+  public var iEpochNauticalDawn as Number = -1;
+  public var iEpochCivilDawn as Number = -1;
+  public var iEpochSunrise as Number = -1;
+  public var fAzimuthSunrise as Float = NaN;  // degrees
 
   // Sunset
-  public var iEpochAstronomicalDusk as Number?;
-  public var iEpochNauticalDusk as Number?;
-  public var iEpochCivilDusk as Number?;
-  public var iEpochSunset as Number?;
-  public var fAzimuthSunset as Float?;  // degrees
+  public var iEpochAstronomicalDusk as Number = -1;
+  public var iEpochNauticalDusk as Number = -1;
+  public var iEpochCivilDusk as Number = -1;
+  public var iEpochSunset as Number = -1;
+  public var fAzimuthSunset as Float = NaN;  // degrees
 
   // Internals
-  private var dDeltaT as Double?;
-  private var dDUT1 as Double?;
-  private var dJulianDayNumber as Double?;
-  private var dJ2kMeanTime as Double?;
+  private var dDeltaT as Decimal = NaN;
+  private var dDUT1 as Decimal = NaN;
+  private var dJulianDayNumber as Decimal = NaN;
+  private var dJ2kMeanTime as Decimal = NaN;
 
 
   //
@@ -112,10 +112,10 @@ class MyAlmanac {
 
   function reset() as Void {
     // Location
-    self.sLocationName = null;
-    self.dLocationLatitude = null;
-    self.dLocationLongitude = null;
-    self.fLocationHeight = null;
+    self.sLocationName = "";
+    self.dLocationLatitude = NaN;
+    self.dLocationLongitude = NaN;
+    self.fLocationHeight = NaN;
 
     // Compute data
     self.resetCompute();
@@ -123,35 +123,35 @@ class MyAlmanac {
 
   function resetCompute() as Void {
     // Date
-    self.iEpochDate = null;
+    self.iEpochDate = -1;
 
     // Transit
-    self.iEpochTransit = null;
-    self.fElevationTransit = null;
-    self.fEclipticLongitude = null;
-    self.fDeclination = null;
+    self.iEpochTransit = -1;
+    self.fElevationTransit = NaN;
+    self.fEclipticLongitude = NaN;
+    self.fDeclination = NaN;
 
     // Current
-    self.iEpochCurrent = null;
-    self.fElevationCurrent = null;
-    self.fAzimuthCurrent = null;
+    self.iEpochCurrent = -1;
+    self.fElevationCurrent = NaN;
+    self.fAzimuthCurrent = NaN;
 
     // Sunrise
-    self.iEpochAstronomicalDawn = null;
-    self.iEpochNauticalDawn = null;
-    self.iEpochCivilDawn = null;
-    self.iEpochSunrise = null;
-    self.fAzimuthSunrise = null;
+    self.iEpochAstronomicalDawn = -1;
+    self.iEpochNauticalDawn = -1;
+    self.iEpochCivilDawn = -1;
+    self.iEpochSunrise = -1;
+    self.fAzimuthSunrise = NaN;
 
     // Sunset
-    self.iEpochAstronomicalDusk = null;
-    self.iEpochNauticalDusk = null;
-    self.iEpochCivilDusk = null;
-    self.iEpochSunset = null;
-    self.fAzimuthSunset = null;
+    self.iEpochAstronomicalDusk = -1;
+    self.iEpochNauticalDusk = -1;
+    self.iEpochCivilDusk = -1;
+    self.iEpochSunset = -1;
+    self.fAzimuthSunset = NaN;
   }
 
-  function setLocation(_sName as String, _dLatitude as Double, _dLongitude as Double, _fHeight as Float) as Void {
+  function setLocation(_sName as String, _dLatitude as Decimal, _dLongitude as Decimal, _fHeight as Float) as Void {
     //Sys.println(format("DEBUG: MyAlmanac.setLocation($1$, $2$, $3$, $4$)", [_sName, _dLatitude, _dLongitude, _fHeight]));
 
     self.sLocationName = _sName;
@@ -168,7 +168,7 @@ class MyAlmanac {
     // WARNING: _iEpochDate may be relative to locatime (LT) or UTC; we shall make sure we end up using the latter (UTC)!
 
     // Location set ?
-    if(self.dLocationLatitude == null or self.dLocationLongitude == null or self.fLocationHeight == null) {
+    if(LangUtils.isNaN(self.dLocationLatitude) or LangUtils.isNaN(self.dLocationLongitude) or LangUtils.isNaN(self.fLocationHeight)) {
       //Sys.println("DEBUG: location undefined!");
       return;
     }
@@ -223,7 +223,7 @@ class MyAlmanac {
     //Sys.println(format("DEBUG: julian day number (JD, n) = $1$", [self.dJulianDayNumber]));
     // ... DUT1 (UT1-UTC)
     var dBesselianYear =
-      1900.0d + ((self.dJulianDayNumber as Double) - 2415020.31352d) / 365.242198781d;
+      1900.0d + (self.dJulianDayNumber - 2415020.31352d) / 365.242198781d;
     var dDUT21 =
       0.022d * Math.sin(dBesselianYear * 6.28318530718d)
       - 0.012d * Math.cos(dBesselianYear * 6.28318530718d)
@@ -231,157 +231,135 @@ class MyAlmanac {
       + 0.007d * Math.cos(dBesselianYear * 12.5663706144d);  // ALMANAC: 2021.12.23 (#50)
     self.dDUT1 =
       -0.1173d
-      + 0.00021d * ((self.dJulianDayNumber as Double) - 2459572.5d)
+      + 0.00021d * (self.dJulianDayNumber - 2459572.5d)
       - dDUT21;  // ALMANAC: 2021.12.23 (#50)
     //Sys.println(format("DEBUG: DUT1 (UT1-UTC) = $1$", [self.dDUT1]));
     // ... mean solar time (J*)
     self.dJ2kMeanTime =
-      (self.dJulianDayNumber as Double)
+      self.dJulianDayNumber
       - 2451545.0d
-      + ((self.dDeltaT as Double)
-         + (self.dDUT1 as Double)) / 86400.0d
-      - (self.dLocationLongitude as Double) / 360.0d;
+      + (self.dDeltaT + self.dDUT1) / 86400.0d
+      - self.dLocationLongitude / 360.0d;
     //Sys.println(format("DEBUG: mean solar time (J*) = $1$", [self.dJ2kMeanTime]));
 
     // Data computation
-    var adData = [ null, null, null, null, null ] as Array<Double?>;
+    var adData = [ NaN, NaN, NaN, NaN, NaN ] as Array<Decimal>;
 
     // ... transit
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_TRANSIT, null, self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochTransit = (adData[0] as Double).toNumber();
-        self.fElevationTransit = (adData[1] as Double).toFloat();
-        self.fEclipticLongitude = (adData[3] as Double).toFloat();
-        self.fDeclination = (adData[4] as Double).toFloat();
+      adData = self.computeEvent(self.EVENT_TRANSIT, null, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochTransit = adData[0].toNumber();
+        self.fElevationTransit = adData[1].toFloat();
+        self.fEclipticLongitude = adData[3].toFloat();
+        self.fDeclination = adData[4].toFloat();
       }
     }
     //Sys.println(format("DEBUG: transit time = $1$", [self.iEpochTransit]));
     //Sys.println(format("DEBUG: transit elevation = $1$", [self.fElevationTransit]));
 
     // ... current
-    if(_bFullCompute and _iEpochTime != null and self.iEpochTransit != null) {
+    if(_bFullCompute and _iEpochTime != null and self.iEpochTransit >= 0) {
       self.iEpochCurrent = _iEpochTime;
       adData = self.computeIterative(self.EVENT_NOW,
                                      null,
-                                     ((self.iEpochCurrent as Number).toDouble()
-                                      + (self.dDeltaT as Double)
-                                      + (self.dDUT1 as Double)) / 86400.0d
-                                     - 10957.5d);
-      self.fElevationCurrent = (adData[1] as Double).toFloat();
-      self.fAzimuthCurrent = (adData[2] as Double).toFloat();
+                                     (self.iEpochCurrent.toDouble() + self.dDeltaT + self.dDUT1) / 86400.0d - 10957.5d);
+      self.fElevationCurrent = adData[1].toFloat();
+      self.fAzimuthCurrent = adData[2].toFloat();
     }
 
     // ... sunrise
-    adData = self.computeEvent(self.EVENT_SUNRISE,
-                               self.ANGLE_RISESET,
-                               self.dJ2kMeanTime as Double);
-    if(adData[0] != null) {
-      self.iEpochSunrise = (adData[0] as Double).toNumber();
-      self.fAzimuthSunrise = (adData[2] as Double).toFloat();
+    adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_RISESET, self.dJ2kMeanTime);
+    if(LangUtils.notNaN(adData[0])) {
+      self.iEpochSunrise = adData[0].toNumber();
+      self.fAzimuthSunrise = adData[2].toFloat();
     }
     //Sys.println(format("DEBUG: sunrise time = $1$", [self.iEpochSunrise]));
     //Sys.println(format("DEBUG: sunrise azimuth = $1$", [self.fAzimuthSunrise]));
 
     // ... civil dawn
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNRISE,
-                                 self.ANGLE_CIVIL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochCivilDawn = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_CIVIL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochCivilDawn = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: civil dawn time = $1$", [self.iEpochCivilDawn]));
 
     // ... nautical dawn
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNRISE,
-                                 self.ANGLE_NAUTICAL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochNauticalDawn = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_NAUTICAL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochNauticalDawn = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: nautical dawn time = $1$", [self.iEpochNauticalDawn]));
 
     // ... astronomical dawn
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNRISE,
-                                 self.ANGLE_ASTRONOMICAL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochAstronomicalDawn = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNRISE, self.ANGLE_ASTRONOMICAL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochAstronomicalDawn = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: astronomical dawn time = $1$", [self.iEpochAstronomicalDawn]));
 
     // ... sunset
-    adData = self.computeEvent(self.EVENT_SUNSET,
-                               self.ANGLE_RISESET,
-                               self.dJ2kMeanTime as Double);
-    if(adData[0] != null) {
-      self.iEpochSunset = (adData[0] as Double).toNumber();
-      self.fAzimuthSunset = (adData[2] as Double).toFloat();
+    adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_RISESET, self.dJ2kMeanTime);
+    if(LangUtils.notNaN(adData[0])) {
+      self.iEpochSunset = adData[0].toNumber();
+      self.fAzimuthSunset = adData[2].toFloat();
     }
     //Sys.println(format("DEBUG: sunset time = $1$", [self.iEpochSunset]));
     //Sys.println(format("DEBUG: sunset azimuth = $1$", [self.fAzimuthSunset]));
 
     // ... civil dusk
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNSET,
-                                 self.ANGLE_CIVIL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochCivilDusk = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_CIVIL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochCivilDusk = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: civil dusk time = $1$", [self.iEpochCivilDusk]));
 
     // ... nautical dusk
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNSET,
-                                 self.ANGLE_NAUTICAL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochNauticalDusk = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_NAUTICAL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochNauticalDusk = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: nautical dusk time = $1$", [self.iEpochNauticalDusk]));
 
     // ... astronomical dusk
     if(_bFullCompute) {
-      adData = self.computeEvent(self.EVENT_SUNSET,
-                                 self.ANGLE_ASTRONOMICAL,
-                                 self.dJ2kMeanTime as Double);
-      if(adData[0] != null) {
-        self.iEpochAstronomicalDusk = (adData[0] as Double).toNumber();
+      adData = self.computeEvent(self.EVENT_SUNSET, self.ANGLE_ASTRONOMICAL, self.dJ2kMeanTime);
+      if(LangUtils.notNaN(adData[0])) {
+        self.iEpochAstronomicalDusk = adData[0].toNumber();
       }
     }
     //Sys.println(format("DEBUG: astronomical dusk time = $1$", [self.iEpochAstronomicalDusk]));
   }
 
-  function computeEvent(_iEvent as Number, _dElevationAngle as Double?, _dJ2kCompute as Double) as Array<Double?> {
-    var adData = [ null, null, null, null, null ] as Array<Double?>;
-    for(var i=self.COMPUTE_ITERATIONS; i>0 and _dJ2kCompute!=null; i--) {
+  function computeEvent(_iEvent as Number, _dElevationAngle as Decimal?, _dJ2kCompute as Decimal) as Array<Decimal> {
+    var adData = [ NaN, NaN, NaN, NaN, NaN ] as Array<Decimal>;
+    for(var i=self.COMPUTE_ITERATIONS; i>0 and LangUtils.notNaN(_dJ2kCompute); i--) {
       adData = self.computeIterative(_iEvent, _dElevationAngle, _dJ2kCompute);
-      _dJ2kCompute = adData[0] as Double;
+      _dJ2kCompute = adData[0];
     }
-    if(adData[0] != null) {
-      adData[0] = Math.round(((adData[0] as Double) + 10957.5d) * 86400.0d
-                             - (self.dDeltaT as Double)
-                             - (self.dDUT1 as Double));
+    if(LangUtils.notNaN(adData[0])) {
+      adData[0] = Math.round((adData[0] + 10957.5d) * 86400.0d - self.dDeltaT - self.dDUT1);
     }
     return adData;
   }
 
-  function computeIterative(_iEvent as Number, _dElevationAngle as Double?, _dJ2kCompute as Double) as Array<Double?> {
+  function computeIterative(_iEvent as Number, _dElevationAngle as Decimal?, _dJ2kCompute as Decimal) as Array<Decimal> {
     //Sys.println(format("DEBUG: MyAlmanac.computeIterative($1$, $2$, $3$)", [_iEvent, _dElevationAngle, _dJ2kCompute]));
     var dJ2kCentury = _dJ2kCompute / 36524.2198781d;
 
     // Return values
     // [ time (J2k), elevation (degree), azimuth (degree), ecliptic longitude, declination ]
-    var adData = [ null, null, null, null, null ] as Array<Double?>;
+    var adData = [ NaN, NaN, NaN, NaN, NaN ] as Array<Decimal>;
 
     // Solar parameters
 
@@ -424,7 +402,7 @@ class MyAlmanac {
     //Sys.println(format("DEBUG: mean anomaly (M) = $1$", [dMeanAnomaly]));
 
     // ... center equation (C); https://en.wikipedia.org/wiki/Equation_of_the_center
-    var adOrbitalEccentricity_pow = [1.0d, 0.0d, 0.0d, 0.0d, 0.0d] as Array<Double>;
+    var adOrbitalEccentricity_pow = [1.0d, 0.0d, 0.0d, 0.0d, 0.0d] as Array<Decimal>;
     for(var p=1; p<=4; p++) {
       adOrbitalEccentricity_pow[p] = adOrbitalEccentricity_pow[p-1] * dOrbitalEccentricity;
     }
@@ -457,16 +435,16 @@ class MyAlmanac {
 
     // ... transit time <-> equation of time; https://en.wikipedia.org/wiki/Equation_of_time
     var dJ2kTransit =
-      (self.dJ2kMeanTime as Double)
+      self.dJ2kMeanTime
       + (2.0d * dOrbitalEccentricity * Math.sin(dMeanAnomaly_rad)
          - Math.pow(Math.tan(dEclipticObliquity_rad/2.0d), 2.0d) * Math.sin(2.0d*dEclipticLongitude_rad)) / 6.28318530718d;
     //Sys.println(format("DEBUG: transit time (J,transit) = $1$", [dJ2kTransit]));
 
     // Computation finalization
     var dLocationLatitude_rad =
-      (self.dLocationLatitude as Double) * self.CONVERT_DEG2RAD;
+      self.dLocationLatitude * self.CONVERT_DEG2RAD;
     var dHeightCorrection_rad =
-      Math.acos(6371008.8d / (6371008.8d + (self.fLocationHeight as Float)));
+      Math.acos(6371008.8d / (6371008.8d + self.fLocationHeight));
     var dHeightCorrection =
       dHeightCorrection_rad * self.CONVERT_RAD2DEG;
     var dHourAngle;
@@ -480,8 +458,7 @@ class MyAlmanac {
     // Transit
     if(_iEvent == self.EVENT_TRANSIT) {
       // ... elevation angle (alpha)
-      dElevationAngle =
-        90.0d - (self.dLocationLatitude as Double) + dDeclination;
+      dElevationAngle = 90.0d - self.dLocationLatitude + dDeclination;
       if(dElevationAngle > 90.0d) {
         dElevationAngle = 180.0d - dElevationAngle;
       }
@@ -489,8 +466,7 @@ class MyAlmanac {
       //Sys.println(format("DEBUG: elevation angle (alpha) = $1$", [dElevationAngle]));
 
       // ... azimuth angle (A)
-      dAzimuthAngle =
-        (self.dLocationLatitude as Double) > dDeclination ? 180.0d : 0.0d;
+      dAzimuthAngle = self.dLocationLatitude > dDeclination ? 180.0d : 0.0d;
       //Sys.println(format("DEBUG: azimuth angle (A) = $1$", [dAzimuthAngle]));
 
       adData[0] = dJ2kTransit;
@@ -507,7 +483,7 @@ class MyAlmanac {
 
       // ... hour angle (h)
       dHourAngle_rad =
-        ((self.iEpochCurrent as Number) - (self.iEpochTransit as Number)).toDouble() / 86400.0d * 6.28318530718d;
+        (self.iEpochCurrent - self.iEpochTransit).toDouble() / 86400.0d * 6.28318530718d;
       dHourAngle =
         dHourAngle_rad * self.CONVERT_RAD2DEG;
       //Sys.println(format("DEBUG: hour angle (h) = $1$", [dHourAngle]));
@@ -530,9 +506,9 @@ class MyAlmanac {
 
       // ... hour angle (H, omega,0)
       dHourAngle_rad = Math.acos((Math.sin(dElevationAngle_rad-dHeightCorrection_rad)-Math.sin(dLocationLatitude_rad)*Math.sin(dDeclination_rad))/(Math.cos(dLocationLatitude_rad)*Math.cos(dDeclination_rad)));  // always positive
-      if(!(dHourAngle_rad >= 0.0d and dHourAngle_rad <= Math.PI)) {  // == NaN does NOT work; BUG?
+      if(!(dHourAngle_rad >= 0.0d and dHourAngle_rad <= Math.PI)) {
         //Sys.println("DEBUG: no such solar event!");
-        return adData;  // null
+        return adData;  // NaN
       }
       if(_iEvent == self.EVENT_SUNRISE) {
         dHourAngle_rad = -dHourAngle_rad;
