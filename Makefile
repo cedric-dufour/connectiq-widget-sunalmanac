@@ -45,7 +45,7 @@ test: ${OUTPUT_TEST}
 OUTPUT_DEBUG := ./bin/${MY_PROJECT}.debug.prg
 ${OUTPUT_DEBUG}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
-	${CIQ_MONKEYC} -w -l 3 \
+	${CIQ_MONKEYC} -w -l 2 \
 	  -o $@ \
 	  -d ${CIQ_DEVICE} \
 	  -c ${CIQ_API} \
@@ -57,7 +57,7 @@ debug: ${OUTPUT_DEBUG}
 OUTPUT_RELEASE := ./bin/${MY_PROJECT}.prg
 ${OUTPUT_RELEASE}: ${MY_MANIFEST} ${MY_RESOURCES} ${MY_SOURCES} | ${CIQ_MONKEYC} ${CIQ_DEVKEY}
 	mkdir -p bin
-	${CIQ_MONKEYC} -w -l 3 -r \
+	${CIQ_MONKEYC} -w -l 2 -r \
 	  -o $@ \
 	  -d ${CIQ_DEVICE} \
 	  -c ${CIQ_API} \

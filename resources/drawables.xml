@@ -2,11 +2,11 @@
 <drawables>
   <bitmap id="AppIcon" filename="../resources/drawables/launcher-40x40.png" />
   <drawable-list id="drawContentBorders" x="0" y="13%" width="fill" height="87%" >
-    <shape type="rectangle" x="0" y="top" width="fill" height="1%" color="Gfx.COLOR_BLUE" />
-    <shape type="rectangle" x="0" y="bottom" width="fill" height="1%" color="Gfx.COLOR_BLUE" />
+    <shape type="rectangle" x="0" y="top" width="fill" height="1%" color="Gfx.COLOR_ORANGE" />
+    <shape type="rectangle" x="0" y="bottom" width="fill" height="1%" color="Gfx.COLOR_ORANGE" />
   </drawable-list>
   <drawable-list id="drawDividerHorizontal" x="0" y="center" width="fill" height="1%" >
-    <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_BLUE" />
+    <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_ORANGE" />
   </drawable-list>
   <drawable-list id="drawDividerVerticalTop" x="center" y="25%" width="1%" height="21%" >
     <shape type="rectangle" x="0" y="0" width="fill" height="fill" color="Gfx.COLOR_DK_GRAY" />

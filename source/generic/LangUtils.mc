@@ -22,6 +22,7 @@ using Toybox.Math;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
+(:glance)
 module LangUtils {
 
   //

@@ -4,22 +4,22 @@
     <drawable class="MyDrawable" />
     <drawable id="drawContentBorders" />
     <!-- Header -->
-    <label id="valueDate" x="center" y="1%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+    <label id="valueDate" x="center" y="1%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
     <!-- Label -->
-    <label id="labelTop" x="center" y="13%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+    <label id="labelTop" x="center" y="13%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
     <!-- Fields (2x2) -->
-    <label id="valueTopLeft" x="27%" y="27%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-    <label id="valueTopRight" x="73%" y="27%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-    <label id="valueBottomLeft" x="27%" y="56%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-    <label id="valueBottomRight" x="73%" y="56%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueTopLeft" x="27%" y="27%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueTopRight" x="73%" y="27%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueBottomLeft" x="27%" y="56%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueBottomRight" x="73%" y="56%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
     <!-- Fields (4x1) -->
-    <label id="valueTopHigh" x="center" y="23%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_MEDIUM" />
-    <label id="valueTopLow" x="center" y="36%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-    <label id="valueBottomHigh" x="center" y="49%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
-    <label id="valueBottomLow" x="center" y="62%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_MEDIUM" />
+    <label id="valueTopHigh" x="center" y="23%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_MEDIUM" />
+    <label id="valueTopLow" x="center" y="36%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueBottomHigh" x="center" y="49%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_LARGE" />
+    <label id="valueBottomLow" x="center" y="62%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_MEDIUM" />
     <!-- Label -->
-    <label id="labelBottom" x="center" y="74%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+    <label id="labelBottom" x="center" y="74%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
     <!-- Footer -->
-    <label id="valueTime" x="center" y="87%" color="Gfx.COLOR_BLUE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
+    <label id="valueTime" x="center" y="87%" color="Gfx.COLOR_ORANGE" justification="Gfx.TEXT_JUSTIFY_CENTER" font="Gfx.FONT_TINY" />
   </layout>
 </layouts>

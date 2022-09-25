@@ -29,16 +29,23 @@ using Toybox.WatchUi as Ui;
 //
 
 // Application settings
+(:glance)
 var oMySettings as MySettings = new MySettings();
 
 // (Last) position location
+(:glance)
 var oMyPositionLocation as Pos.Location?;
 
 // Almanac data
+(:glance)
 var oMyAlmanac_today as MyAlmanac = new MyAlmanac();
+(:glance)
 var oMyAlmanac_yesterday as MyAlmanac = new MyAlmanac();
 
 // Current view
+(:glance)
+var oMyGlanceView as MyGlanceView?;
+(:glance)
 var oMyView as MyView?;
 
 
@@ -95,6 +102,12 @@ class MyApp extends App.AppBase {
       (self.oUpdateTimer as Timer.Timer).stop();
       self.oUpdateTimer = null;
     }
+  }
+
+  function getGlanceView() {
+    //Sys.println("DEBUG: MyApp.getGlanceView()");
+
+    return [new MyGlanceView()] as Array<Ui.GlanceView>?;
   }
 
   function getInitialView() {
@@ -197,7 +210,7 @@ class MyApp extends App.AppBase {
     var iEpochToday = Time.today().value();
     var iEpochDate = $.oMySettings.bDateAuto ? iEpochToday : App.Storage.getValue("storDatePreset") as Number?;
     var iEpochTime = $.oMySettings.bDateAuto ? Time.now().value() : null;
-    self.computeAlmanac(Ui.loadResource(Rez.Strings.valueLocationGPS) as String,
+    self.computeAlmanac("GPS",
                         adLocation[0], adLocation[1],
                         fLocationHeight,
                         iEpochDate != null ? iEpochDate : iEpochToday,
@@ -223,7 +236,10 @@ class MyApp extends App.AppBase {
     //Sys.println("DEBUG: MyApp.updateUi()");
 
     // Update UI
-    if($.oMyView != null) {
+    if($.oMyGlanceView != null) {
+      ($.oMyGlanceView as MyGlanceView).updateUi();
+    }
+    else if($.oMyView != null) {
       ($.oMyView as MyView).updateUi();
     }
   }
