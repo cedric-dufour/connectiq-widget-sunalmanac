@@ -62,9 +62,12 @@ class MySettings {
     self.setUnitElevation();
   }
 
+  // WARNING: Make sure to cast the properties values to the expected type!
+  // REF: https://forums.garmin.com/developer/connect-iq/w/wiki/4/new-developer-faq#settings-crash
+  // ACKNOWLEDGMENT: Yannick Dutertre for the heads up and pointer
+
   function loadLocationAuto() as Boolean {
-    var bValue = App.Properties.getValue("userLocationAuto") as Boolean?;
-    return bValue != null ? bValue : false;
+    return LangUtils.asBoolean(App.Properties.getValue("userLocationAuto"), false);
   }
   function saveLocationAuto(_bValue as Boolean) as Void {
     App.Properties.setValue("userLocationAuto", _bValue as App.PropertyValueType);
@@ -74,8 +77,7 @@ class MySettings {
   }
 
   function loadLocationHeight() as Float {
-    var fValue = App.Properties.getValue("userLocationHeight") as Float?;
-    return fValue != null ? fValue : 0.0f;
+    return LangUtils.asFloat(App.Properties.getValue("userLocationHeight"), 0.0f);
   }
   function saveLocationHeight(_fValue as Float) as Void {
     App.Properties.setValue("userLocationHeight", _fValue as App.PropertyValueType);
@@ -91,8 +93,7 @@ class MySettings {
   }
 
   function loadDateAuto() as Boolean {
-    var bValue = App.Properties.getValue("userDateAuto") as Boolean?;
-    return bValue != null ? bValue : true;
+    return LangUtils.asBoolean(App.Properties.getValue("userDateAuto"), true);
   }
   function saveDateAuto(_bValue as Boolean) as Void {
     App.Properties.setValue("userDateAuto", _bValue as App.PropertyValueType);
@@ -102,8 +103,7 @@ class MySettings {
   }
 
   function loadTimeUTC() as Boolean {
-    var bValue = App.Properties.getValue("userTimeUTC") as Boolean?;
-    return bValue != null ? bValue : false;
+    return LangUtils.asBoolean(App.Properties.getValue("userTimeUTC"), false);
   }
   function saveTimeUTC(_bValue as Boolean) as Void {
     App.Properties.setValue("userTimeUTC", _bValue as App.PropertyValueType);
@@ -120,8 +120,7 @@ class MySettings {
   }
 
   function loadBackgroundColor() as Number {
-    var iValue = App.Properties.getValue("userBackgroundColor") as Number?;
-    return iValue != null ? iValue : Gfx.COLOR_BLACK;
+    return LangUtils.asNumber(App.Properties.getValue("userBackgroundColor"), Gfx.COLOR_BLACK);
   }
   function saveBackgroundColor(_iValue as Number) as Void {
     App.Properties.setValue("userBackgroundColor", _iValue as App.PropertyValueType);
