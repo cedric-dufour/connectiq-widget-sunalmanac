@@ -1,5 +1,10 @@
 SunAlmanac (Garmin ConnectIQ) Widget
 ====================================
+
+> THIS PROJECT HAS MOVED TO https://codeberg.org/cedric-dufour/connectiq-widget-sunalmanac
+>
+> (and may vanish from GitHub with no further notice; please update your upstream URL)
+
 Sunrise/Sunset data for Garmin ConnectIQ devices
 
 
